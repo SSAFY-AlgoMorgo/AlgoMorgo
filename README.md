@@ -43,7 +43,7 @@
 
 - db 전체
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db 전체.JPG)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db%20%EC%A0%84%EC%B2%B4.JPG)
 
 
 
