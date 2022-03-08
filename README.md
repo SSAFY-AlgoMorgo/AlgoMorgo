@@ -12,31 +12,31 @@
 
 - erd - 전체
 
-![](./image\erd.PNG)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/erd.PNG)
 
 
 
 - 사용자
 
-![](./image\user.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/user.png)
 
 
 
 - 문제
 
-![](./image\problem.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/problem.png)
 
 
 
 - 알고리즘 분류 + 가이드
 
-![](./image\algorithm-guide.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/algorithm-guide.png)
 
 
 
 - 보상
 
-![](./image\emblem.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/emblem.png)
 
 
 
@@ -44,25 +44,25 @@
 
 - db 전체
 
-![](./image\db 전체.JPG)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/db 전체.JPG)
 
 
 
 - 사용자 + 문제
 
-![](./image\db1.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/db1.jpg)
 
 
 
 - 알고리즘 + 가이드
 
-![](./image\db2.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/db2.jpg)
 
 
 
 - 보상
 
-![](./image\db3.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/blob/master/image/db3.jpg)
 
 
 
