@@ -18,26 +18,25 @@
 
 - 사용자
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/user.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/user.PNG)
 
 
 
 - 문제
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/problem.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/problem.PNG)
 
 
 
 - 알고리즘 분류 + 가이드
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/algorithm-guide.png)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/algorithm-guide.PNG)
 
 
 
 - 보상
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/emblem.png)
-
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/emblem.PNG)
 
 
 ### ERD - DB 설계
