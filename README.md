@@ -49,19 +49,19 @@
 
 - 사용자 + 문제
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db1.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db1.JPG)
 
 
 
 - 알고리즘 + 가이드
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db2.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db2.JPG)
 
 
 
 - 보상
 
-![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db3.jpg)
+![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/master/image/db3.JPG)
 
 
 
