@@ -52,6 +52,6 @@ public class Problem {
     @OneToMany(mappedBy = "algorithm", cascade = CascadeType.ALL)
     private List<Tag> problemHasAlgorithm = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<Log> userSolveProblem = new ArrayList<>();
 }
