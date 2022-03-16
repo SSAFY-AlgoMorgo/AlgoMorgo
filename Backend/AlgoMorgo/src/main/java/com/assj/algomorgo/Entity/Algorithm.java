@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +25,7 @@ public class Algorithm {
 
     @Column(name = "algorithm_eng")
     private String algorithmEng;
+
+    @OneToMany(mappedBy = "algorithm", cascade = CascadeType.ALL)
+    private List<Tag> tags = new ArrayList<>();
 }
