@@ -24,7 +24,7 @@ public class Mission {
     private LocalDateTime createDate;
 
     @Column(name = "success_date")
-    private Date successDate;
+    private LocalDateTime successDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
