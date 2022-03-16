@@ -49,9 +49,25 @@ public class Problem {
     @ColumnDefault("0")
     private Double problemAvg;
 
+//    @ManyToMany
+//    @JoinTable(name = "Tag",
+//        joinColumns = @JoinColumn(name = "problem_id"),
+//        inverseJoinColumns = @JoinColumn(name = "algotirhm_id")
+//    )
+//    private List<Algorithm> algorithms = new ArrayList<>();
+//
+//    @ManyToMany
+//    @JoinTable(name = "Mission",
+//            joinColumns = @JoinColumn(name = "problem_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private List<BaekjoonUser> baekjoonUsers = new ArrayList<>();
+
     @OneToMany(mappedBy = "algorithm", cascade = CascadeType.ALL)
     private List<Tag> problemHasAlgorithm = new ArrayList<>();
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
     private List<Log> userSolveProblem = new ArrayList<>();
+
+
 }
