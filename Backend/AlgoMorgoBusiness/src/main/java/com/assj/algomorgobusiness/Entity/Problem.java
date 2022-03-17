@@ -1,4 +1,4 @@
-package com.assj.algomorgo.Entity;
+package com.assj.algomorgobusiness.Entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +42,7 @@ public class Problem {
     //one person one problem one submit
 
     @Column(name = "problem_answer", columnDefinition = "char(8)")
-    @ColumnDefault("0.0%")
+    @ColumnDefault("\"0.0%\"")
     private String problemAnswer;
 
     @Column(name = "problem_avg")
@@ -52,7 +52,7 @@ public class Problem {
     @OneToMany(mappedBy = "algorithm", cascade = CascadeType.ALL)
     private List<Tag> problemHasAlgorithm = new ArrayList<>();
 
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "problemInLog", cascade = CascadeType.ALL)
     private List<Log> userSolveProblem = new ArrayList<>();
 
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)

@@ -1,4 +1,4 @@
-package com.assj.algomorgo.Entity;
+package com.assj.algomorgobusiness.Entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,20 +10,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "tag")
-public class Tag {
+@Table(name = "log")
+public class Log {
 
     @Id
-    @Column(name = "tag_id")
+    @Column(name = "log_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tagId;
+    private int logId;
 
     @ManyToOne
-    @JoinColumn(name = "algorithm_id")
-    private Algorithm algorithm;
+    @JoinColumn(name = "user_id")
+    private BaekjoonUser baekjoonUser;
 
     @ManyToOne
     @JoinColumn(name = "problem_id")
-    private Problem problem;
+    private Problem problemInLog;
 
 }
