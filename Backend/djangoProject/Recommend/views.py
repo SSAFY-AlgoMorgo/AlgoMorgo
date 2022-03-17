@@ -11,7 +11,7 @@ def recommendProblem(request, userId):
     response = {
         "data" : {
             "user_id" : userId,
-            "problem_id" : len(userId)
+            "problem_id" : "글자 수:"+str(len(userId))
         }
     }
     return Response(response, status = status.HTTP_200_OK);
