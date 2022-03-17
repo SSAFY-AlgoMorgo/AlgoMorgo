@@ -18,7 +18,7 @@ public class Problem {
 
     @Id
     @Column(name = "problem_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int problemId;
 
     @Column(name = "problem_num", nullable = false, unique = true)

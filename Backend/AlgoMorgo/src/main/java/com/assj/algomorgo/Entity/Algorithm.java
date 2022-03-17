@@ -16,7 +16,7 @@ import java.util.List;
 public class Algorithm {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "algorithm_id")
     private int algorithmId;
 

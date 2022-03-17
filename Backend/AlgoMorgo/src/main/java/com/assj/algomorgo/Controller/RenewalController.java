@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -20,8 +19,8 @@ public class RenewalController {
     private RenewalServiceImpl renewalService;
 
     @GetMapping("/renewal/{userId}")
-    public HttpResponse<String> renewalLog(@PathVariable("userId") String userId) throws IOException, InterruptedException {
-        HttpResponse<String> result = renewalService.renewalLog(userId);
+    public ResponseEntity<String> renewalLog(@PathVariable("userId") String userId) throws IOException, InterruptedException {
+        ResponseEntity<String> result = renewalService.renewalLog(userId);
         return result;
     }
 }

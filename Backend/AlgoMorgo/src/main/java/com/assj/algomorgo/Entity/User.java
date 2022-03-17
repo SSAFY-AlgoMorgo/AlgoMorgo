@@ -15,13 +15,12 @@ import java.util.List;
 @Table(name = "user")
 public class User {
 
-    @javax.persistence.Id
+    @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @Id
-    @Column(name = "user_id", length = 20)
+    @Column(name = "user_id", length = 20, unique = true)
     private String userId;
 
     @Column(name = "language", length = 10)

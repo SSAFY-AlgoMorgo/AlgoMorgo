@@ -17,7 +17,7 @@ public class Mission {
 
     @Id
     @Column(name = "mission_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long missionId;
 
     @Column(name = "create_date")
@@ -27,7 +27,7 @@ public class Mission {
     private LocalDateTime successDate;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id")
     private User user;
 
     @ManyToOne

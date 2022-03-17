@@ -15,7 +15,7 @@ public class Log {
 
     @Id
     @Column(name = "log_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int logId;
 
     @ManyToOne
