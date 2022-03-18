@@ -6,7 +6,11 @@ plugins {
 
 group = 'com.assj'
 version = '0.0.1-SNAPSHOT'
+<<<<<<< HEAD
+sourceCompatibility = '8'
+=======
 sourceCompatibility = '1.8'
+>>>>>>> 94b1257594e72f355a00dfb5fd925099a219b594
 
 configurations {
     compileOnly {
