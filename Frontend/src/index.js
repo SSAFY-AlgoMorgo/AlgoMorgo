@@ -28,6 +28,8 @@ import Landing from "views/examples/Landing.js";
 import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile.js";
 import Register from "views/examples/Register.js";
+import Mission from "views/mission/daily.js";
+import Mission2 from "views/mission/m-profile.js";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -48,6 +50,16 @@ ReactDOM.render(
         path="/register-page"
         exact
         render={props => <Register {...props} />}
+      />
+      <Route
+        path="/daily-mission-page"
+        exact
+        render={props => <Mission {...props} />}
+      />
+      <Route
+        path="/mission-profile-page"
+        exact
+        render={props => <Mission2 {...props} />}
       />
       <Redirect to="/" />
     </Switch>

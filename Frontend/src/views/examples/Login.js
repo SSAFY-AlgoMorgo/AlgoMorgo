@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Argon Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 
 // reactstrap components
@@ -35,7 +19,7 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar.js";
+import DemoNavbar from "components/Navbars/DemoNavbar copy 3.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
 class Login extends React.Component {
@@ -60,58 +44,29 @@ class Login extends React.Component {
               <span />
               <span />
             </div>
+            <div class="separator separator-bottom separator-skew">
+              <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+                <polygon class="fill-white" points="2560 0 2560 100 0 100">
+                </polygon>
+              </svg>
+            </div>
             <Container className="pt-lg-7">
               <Row className="justify-content-center">
                 <Col lg="5">
                   <Card className="bg-secondary shadow border-0">
-                    <CardHeader className="bg-white pb-5">
-                      <div className="text-muted text-center mb-3">
-                        <small>Sign in with</small>
-                      </div>
-                      <div className="btn-wrapper text-center">
-                        <Button
-                          className="btn-neutral btn-icon"
-                          color="default"
-                          href="#pablo"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                              alt="..."
-                              src={require("assets/img/icons/common/github.svg")}
-                            />
-                          </span>
-                          <span className="btn-inner--text">Github</span>
-                        </Button>
-                        <Button
-                          className="btn-neutral btn-icon ml-1"
-                          color="default"
-                          href="#pablo"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <span className="btn-inner--icon mr-1">
-                            <img
-                              alt="..."
-                              src={require("assets/img/icons/common/google.svg")}
-                            />
-                          </span>
-                          <span className="btn-inner--text">Google</span>
-                        </Button>
-                      </div>
-                    </CardHeader>
                     <CardBody className="px-lg-5 py-lg-5">
                       <div className="text-center text-muted mb-4">
-                        <small>Or sign in with credentials</small>
+                        <h3>로그인</h3>
                       </div>
                       <Form role="form">
                         <FormGroup className="mb-3">
                           <InputGroup className="input-group-alternative">
                             <InputGroupAddon addonType="prepend">
                               <InputGroupText>
-                                <i className="ni ni-email-83" />
+                                <i className="ni ni-circle-08" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="Email" type="email" />
+                            <Input placeholder="아이디" type="email" />
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -122,7 +77,7 @@ class Login extends React.Component {
                               </InputGroupText>
                             </InputGroupAddon>
                             <Input
-                              placeholder="Password"
+                              placeholder="비밀번호"
                               type="password"
                               autoComplete="off"
                             />
@@ -138,47 +93,31 @@ class Login extends React.Component {
                             className="custom-control-label"
                             htmlFor=" customCheckLogin"
                           >
-                            <span>Remember me</span>
+                            <span>아이디 저장</span>
                           </label>
                         </div>
-                        <div className="text-center">
+                        <br />
+                        <div>
                           <Button
-                            className="my-4"
-                            color="primary"
-                            type="button"
+                           block
+                           className="btn-round"
+                           color="default"
+                           size="lg"
+                           type="button"
                           >
-                            Sign in
+                          로그인
                           </Button>
                         </div>
                       </Form>
                     </CardBody>
                   </Card>
-                  <Row className="mt-3">
-                    <Col xs="6">
-                      <a
-                        className="text-light"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <small>Forgot password?</small>
-                      </a>
-                    </Col>
-                    <Col className="text-right" xs="6">
-                      <a
-                        className="text-light"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                      >
-                        <small>Create new account</small>
-                      </a>
-                    </Col>
-                  </Row>
+                  
                 </Col>
               </Row>
             </Container>
           </section>
         </main>
-        <SimpleFooter />
+        {/* <SimpleFooter /> */}
       </>
     );
   }
