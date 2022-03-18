@@ -24,6 +24,6 @@ public class Log {
 
     @ManyToOne
     @JoinColumn(name = "problem_id")
-    private Problem problem;
+    private Problem problemInLog;
 
 }

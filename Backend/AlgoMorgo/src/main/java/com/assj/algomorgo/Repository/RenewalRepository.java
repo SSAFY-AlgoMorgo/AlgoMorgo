@@ -11,6 +11,6 @@ public interface RenewalRepository extends JpaRepository<Log,Integer> {
     String findBaekjoonId(@Param(value = "userId") String userId);
 
     @Query(value = "SELECT id FROM user WHERE user_id = :userId",nativeQuery = true)
-    String findId(@Param(value = "userId") String userId);
+    int findId(@Param(value = "userId") String userId);
 
 }
