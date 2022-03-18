@@ -1,6 +1,6 @@
 package com.assj.algomorgobusiness.repository;
 
-import com.assj.algomorgobusiness.Entity.Log;
+import com.assj.algomorgobusiness.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

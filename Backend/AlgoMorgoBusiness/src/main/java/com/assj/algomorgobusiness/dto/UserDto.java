@@ -3,7 +3,7 @@ package com.assj.algomorgobusiness.dto;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDto {
 
     private int id;
 
