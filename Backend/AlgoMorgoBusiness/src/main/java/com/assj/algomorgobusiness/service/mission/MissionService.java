@@ -1,4 +1,4 @@
-package com.assj.algomorgobusiness.service.user.mission;
+package com.assj.algomorgobusiness.service.mission;
 
 public interface MissionService {
 }
