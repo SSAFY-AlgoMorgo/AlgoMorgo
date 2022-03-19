@@ -64,20 +64,20 @@ public class RenewalServiceImpl implements RenewalService{
         //userId 이용해서 Misson 목록 중 success_date가 null인 리스트 가져오기
         List<Mission> unsolvedList = missionRepo.getMisson(userId);
         //unsolvedList와 logResponse를 비교하며 클리어한 미션이 있는지 확인
-        for(int i=0; i< unsolvedList.size(); i++){
-            for(int j=0; j< logs.size(); j++){
-                if(unsolvedList.get(i).getProblem().getProblemId().equals(logs.get(j))){
-                    //있다면 그 미션의 create_date와 현재 시간 비교해서 오늘 푼건지 확인
-                    LocalDateTime curTime = null;
-                    if(unsolvedList.get(i).getCreateDate() == curTime){
-                        //오늘 풀었다면 그 row의 success_date를 현재시간으로 갱신
-                        missionRepo.updateMisson(unsolvedList.get(i).getMissionId(),curTime);
-                        //성공 메세지 전달? 혹은 방금 푼 문제의 번호 전달?
-                    }
-
-                }
-            }
-        }
+//        for(int i=0; i< unsolvedList.size(); i++){
+//            for(int j=0; j< logs.size(); j++){
+//                if(unsolvedList.get(i).getProblem().getProblemId().equals(logs.get(j))){
+//                    //있다면 그 미션의 create_date와 현재 시간 비교해서 오늘 푼건지 확인
+//                    LocalDateTime curTime = null;
+//                    if(unsolvedList.get(i).getCreateDate() == curTime){
+//                        //오늘 풀었다면 그 row의 success_date를 현재시간으로 갱신
+//                        missionRepo.updateMisson(unsolvedList.get(i).getMissionId(),curTime);
+//                        //성공 메세지 전달? 혹은 방금 푼 문제의 번호 전달?
+//                    }
+//
+//                }
+//            }
+//        }
 
 
 

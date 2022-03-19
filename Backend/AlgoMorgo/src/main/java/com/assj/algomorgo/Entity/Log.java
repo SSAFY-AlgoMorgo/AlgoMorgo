@@ -1,5 +1,6 @@
 package com.assj.algomorgo.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,13 +11,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "log")
 public class Log {
 
     @Id
     @Column(name = "log_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int logId;
+    private Integer logId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

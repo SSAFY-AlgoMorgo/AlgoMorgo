@@ -19,7 +19,7 @@ public class Problem {
     @Id
     @Column(name = "problem_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int problemId;
+    private Integer problemId;
 
     @Column(name = "problem_num", nullable = false, unique = true)
     private int problemNum;
