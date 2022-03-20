@@ -75,6 +75,10 @@ class DemoNavbar extends React.Component {
               <NavbarBrand className="mr-lg-2" to="/" tag={Link}>
                 <img
                   alt="..."
+                  src={require("assets/img/brand/favicon.png")}
+                />
+                <img
+                  alt="..."
                   src={require("assets/img/brand/algomorgo-title.png")}
                 />
               </NavbarBrand>
