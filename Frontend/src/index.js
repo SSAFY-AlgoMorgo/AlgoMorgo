@@ -24,12 +24,17 @@ import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss?v1.1.0";
 
 import Index from "views/Index.js";
+import Guide from "views/Guide.js";
+import Algorithm from "views/Algorithm.js";
 import Landing from "views/examples/Landing.js";
 import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile.js";
 import Register from "views/examples/Register.js";
 import Mission from "views/mission/daily.js";
 import Mission2 from "views/mission/m-profile.js";
+import WeeklyCalendar from "views/calendar/WeeklyCalendar.js";
+import MonthlyCalendar from "views/calendar/MonthlyCalendar.js";
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -60,6 +65,26 @@ ReactDOM.render(
         path="/mission-profile-page"
         exact
         render={props => <Mission2 {...props} />}
+      />
+      <Route
+        path="/weeklycalendar-page"
+        exact
+        render={props => <WeeklyCalendar {...props} />}
+      />
+      <Route
+        path="/monthlycalendar-page"
+        exact
+        render={props => <MonthlyCalendar {...props} />}
+      />
+      <Route
+        path="/guide-page"
+        exact
+        render={props => <Guide {...props} />}
+      />
+      <Route
+        path="/algorithm-page"
+        exact
+        render={props => <Algorithm {...props} />}
       />
       <Redirect to="/" />
     </Switch>

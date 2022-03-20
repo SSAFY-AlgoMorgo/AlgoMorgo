@@ -20,7 +20,7 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar copy 3.js";
+import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import CardsFooter from "components/Footers/CardsFooter.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
