@@ -28,71 +28,31 @@ class Hero extends React.Component {
           {/* Hero for FREE version */}
           <section className="section section-hero section-shaped">
             {/* Background circles */}
-            <div className="shape shape-style-1 shape-default">
-              <span className="span-150" />
-              <span className="span-50" />
-              <span className="span-50" />
-              <span className="span-75" />
-              <span className="span-100" />
-              <span className="span-75" />
-              <span className="span-50" />
-              <span className="span-100" />
-              <span className="span-50" />
-              <span className="span-100" />
+            <div className="shape shape-style-0 shape-default">
+              
             </div>
             <Container className="shape-container d-flex align-items-center py-lg">
               <div className="col px-0">
                 <Row className="align-items-center justify-content-center">
-                  <Col className="text-center" lg="6">
-                    <img
-                      alt="..."
-                      className="img-fluid"
-                      src={require("assets/img/brand/argon-react-white.png")}
-                      style={{ width: "200px" }}
-                    />
-                    <p className="lead text-white">
-                      A beautiful Design System for Bootstrap 4. It's Free and
-                      Open Source.
-                    </p>
-                    <div className="btn-wrapper mt-5">
-                      <Button
-                        className="btn-white btn-icon mb-3 mb-sm-0"
-                        color="default"
-                        href="https://www.creative-tim.com/product/argon-design-system-react?ref=adsr-landing-page"
-                        size="lg"
-                      >
-                        <span className="btn-inner--icon mr-1">
-                          <i className="ni ni-cloud-download-95" />
-                        </span>
-                        <span className="btn-inner--text">Download React</span>
-                      </Button>{" "}
-                      <Button
-                        className="btn-icon mb-3 mb-sm-0"
-                        color="github"
-                        href="https://github.com/creativetimofficial/argon-design-system-react"
-                        size="lg"
-                        target="_blank"
-                      >
-                        <span className="btn-inner--icon mr-1">
-                          <i className="fa fa-github" />
-                        </span>
-                        <span className="btn-inner--text">
-                          <span className="text-warning mr-1">Star us</span>
-                          on Github
-                        </span>
-                      </Button>
-                    </div>
-                    <div className="mt-5">
-                      <small className="text-white font-weight-bold mb-0 mr-2">
-                        *proudly coded by
-                      </small>
-                      <img
-                        alt="..."
-                        className="ml-1"
-                        style={{ height: "28px" }}
-                        src={require("assets/img/brand/creativetim-white-slim.png")}
-                      />
-                    </div>
+                  <Col className="text-left" lg="7">
+                    <h2 className="text-white font-weight-bold py-3">
+                      맞춤 알고리즘 문제 추천이 필요하다면?
+                    </h2>
+
+                    <h5 className="text-white font-weight-bold py-1">
+                      내게 부족한 알고리즘 역량은 무엇일까?
+                    </h5>
+                    <h5 className="text-white font-weight-bold py-1">
+                      실력에 딱 맞는 문제 추천이 필요하다면?
+                    </h5>
+                    <button type="button" class="btn btn-primary">
+                      Button
+                    </button>
+                  </Col>
+                  <Col className="text-left" lg="4">
+                    <h2 className="text-white">
+                      맞춤 알고리즘 문제 추천이 필요하다면?
+                    </h2>
                   </Col>
                 </Row>
               </div>
