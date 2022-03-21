@@ -81,9 +81,7 @@ class Landing extends React.Component {
                           <h6 className="text-primary text-uppercase mt-3">
                             10158. 개미
                           </h6>
-                        
                           <div>
-
                           <Row className="align-items-center">
                             <Col sm="8">
                             <p className="description mt-3">
@@ -100,16 +98,7 @@ class Landing extends React.Component {
                               <i className="ni ni-curved-next"></i>
                             </Button>
                             </Col>
-                                
-                   
                           </Row>
-
-
-
-
-
-                            
-                            
                           </div>
                         </CardBody>
                       </Card>
@@ -124,21 +113,27 @@ class Landing extends React.Component {
                             alt="..."
                              src={require("assets/img/algo/math.jpg")}
                           />
-                          <h6 className="text-primary text-uppercase">
+                          <h6 className="text-primary text-uppercase mt-3">
                             10158. 개미
                           </h6>
-                          <p className="description mt-3">
-                            수학, 사칙연산, 애드 혹
-                          </p>
                           <div>
+                          <Row className="align-items-center">
+                            <Col sm="8">
+                            <p className="description mt-3">
+                              수학, 사칙연산, 애드 혹
+                            </p>
+                            </Col>
+                            <Col sm="4">
                             <Button
                             className="mt-4"
                             color="primary"
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                           >
-                            <i className="ni ni-curved-next"></i>
-                          </Button>
+                              <i className="ni ni-curved-next"></i>
+                            </Button>
+                            </Col>
+                          </Row>
                           </div>
                         </CardBody>
                       </Card>
@@ -153,26 +148,31 @@ class Landing extends React.Component {
                             alt="..."
                              src={require("assets/img/algo/math.jpg")}
                           />
-                          <h6 className="text-primary text-uppercase">
+                          <h6 className="text-primary text-uppercase mt-3">
                             10158. 개미
                           </h6>
-                          <p className="description mt-3">
-                            수학, 사칙연산, 애드 혹
-                          </p>
                           <div>
+                          <Row className="align-items-center">
+                            <Col sm="8">
+                            <p className="description mt-3">
+                              수학, 사칙연산, 애드 혹
+                            </p>
+                            </Col>
+                            <Col sm="4">
                             <Button
                             className="mt-4"
                             color="primary"
                             href="#pablo"
                             onClick={e => e.preventDefault()}
                           >
-                            <i className="ni ni-curved-next"></i>
-                          </Button>
+                              <i className="ni ni-curved-next"></i>
+                            </Button>
+                            </Col>
+                          </Row>
                           </div>
                         </CardBody>
                       </Card>
                     </Col>
-                    
                   </Row>
                 </Col>
               </Row>

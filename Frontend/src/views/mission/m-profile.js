@@ -60,7 +60,8 @@ class Landing extends React.Component {
                 </div>
               </Container>
             </section>
-              <Container className="py-lg-md d-flex">
+
+              <Container className="py-lg-md d-flex mt-5">
                 <div className="col px-0">
                   <Row className="py-3 align-items-center">
                     <Col sm="3">
@@ -68,10 +69,10 @@ class Landing extends React.Component {
                         가입한 날
                       </h6>
                     </Col>
-                    <Col sm="3">
+                    <Col sm="9">
                     <div>
-                      <h6>
-                      2021.03.17      
+                      <h6 className="text-right">
+                      2021.03.17
                       </h6>
                     </div>
                     </Col>
@@ -108,8 +109,8 @@ class Landing extends React.Component {
                     </Col>
                     <Col sm="9">
                     <div>
-                      <h6>
-                      2021.03.17      
+                      <h6 className="text-right">
+                      2021.03.17
                       </h6>
                     </div>
                     </Col>
@@ -127,8 +128,8 @@ class Landing extends React.Component {
                     </Col>
                     <Col sm="9">
                     <div>
-                      <h6>
-                      2021.03.17      
+                      <h6 className="text-right">
+                      2021.03.17
                       </h6>
                     </div>
                     </Col>
@@ -140,15 +141,14 @@ class Landing extends React.Component {
                 <div className="col px-0">
                   <Row className="py-3 align-items-center">
                     <Col sm="3">
-                    
                       <h6 className="text-uppercase font-weight-bold">
-                      <i className="ni ni-circle-08 fs-50"></i> 가입한 날
+                      가입한 날
                       </h6>
                     </Col>
                     <Col sm="9">
                     <div>
-                      <h6>
-                      2021.03.17      
+                      <h6 className="text-right">
+                      2021.03.17
                       </h6>
                     </div>
                     </Col>
