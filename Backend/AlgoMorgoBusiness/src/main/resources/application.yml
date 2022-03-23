@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://j6c204.p.ssafy.io:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    username: C204
+    password: ssafyC204
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+#        show_sql: true
+        format_sql: true
+
+jwt:
+  header: Authorization
+  secret: 4oCYc3ByaW5nLWJvb3Qtand0LXNlY3JldC1zc2FmeS1DMjA0LWJhZWtqb29uLWFsZ29yaXRobS1yZWNvbW1lbmQtd2ViLWFwcGxpY2F0aW9u4oCZCg==
+  token-validity-in-seconds: 86400
+

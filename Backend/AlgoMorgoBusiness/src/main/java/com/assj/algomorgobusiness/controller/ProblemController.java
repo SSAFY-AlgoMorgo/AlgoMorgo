@@ -1,6 +1,7 @@
 package com.assj.algomorgobusiness.controller;
 
 import com.assj.algomorgobusiness.dto.ProblemDto;
+import com.assj.algomorgobusiness.service.problem.ProblemService;
 import com.assj.algomorgobusiness.service.problem.ProblemServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.List;
 public class ProblemController {
 
     @Autowired
-    ProblemServiceImpl problemService;
+    private ProblemService problemService;
 
     @GetMapping
     public ResponseEntity<List<ProblemDto>> fetchProblem(){

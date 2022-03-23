@@ -1,6 +1,7 @@
 package com.assj.algomorgobusiness.controller;
 
 import com.assj.algomorgobusiness.dto.MissionDto;
+import com.assj.algomorgobusiness.service.mission.MissionService;
 import com.assj.algomorgobusiness.service.mission.MissionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.List;
 public class MissonController {
 
     @Autowired
-    MissionServiceImpl missionService;
+    private MissionService missionService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<List<MissionDto>> fetchMission(@PathVariable("userId") String userId){
