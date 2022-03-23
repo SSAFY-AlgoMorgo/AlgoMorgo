@@ -1,0 +1,210 @@
+/*!
+
+=========================================================
+* Argon Design System React - v1.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-design-system-react
+* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+import React from "react";
+import { Link } from "react-router-dom";
+
+
+// reactstrap components
+import {
+  Badge,
+  Button,
+  Card,
+  CardHeader,
+  CardBody,
+  CardImg,
+  FormGroup,
+  Form,
+  Input,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
+  Container,
+  Row,
+  Col
+} from "reactstrap";
+
+class ProfileTag extends React.Component {
+  render() {
+    return (
+      <>
+          <Container>
+            <Card className="card-profile bg-secondary mt-0">
+              <div>
+                <p className="h7 mt-3 ml-4 font-weight-bold"><i class="ni ni-tag"></i> 태그 분포</p>
+              </div>
+              <Row className="py-3 align-items-center">
+                <Col sm="5">
+                  <img
+                    className="ml-5"
+                    alt="..."
+                    src={require("assets/img/algo/tag.jpg")}
+                  />
+                </Col>
+                <Col sm="7">
+                <div className="ml-5">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>태그</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>문제</h7>
+                    </Col>
+                  </Row>
+                </div>
+                <hr width="90%" />
+
+                <div className="ml-5">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>그래프 이론</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>12</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>그래프 탐색</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>11</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>브루트포스 알고리즘</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>9</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>구현</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>8</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>너비 우선 탐색</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>7</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>깊이 우선 탐색</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>7</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>시물레이션</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>6</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>그리디 알고리즘</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>4</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>백트래킹</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>3</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>수학</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>3</h7>
+                    </Col>
+                  </Row>
+                </div>
+
+                <div className="ml-5 mt-3">
+                  <Row>
+                    <Col className="font-weight-bold ml-3">
+                    <h7>재귀</h7>
+                    </Col>
+                    <Col className="font-weight-bold text-right mr-6">
+                    <h7>2</h7>
+                    </Col>
+                  </Row>
+                </div>
+                  
+                <div className="mt-3">
+                  <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 태그 분포</p>
+                </div>
+
+                </Col>
+              </Row>
+            
+            <br />
+
+
+            </Card>
+          </Container>
+
+      </>
+    );
+  }
+}
+
+export default ProfileTag;

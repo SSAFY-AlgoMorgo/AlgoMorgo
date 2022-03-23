@@ -19,7 +19,7 @@ import {
 } from "reactstrap";
 
 // core components
-import DemoNavbar from "components/Navbars/DemoNavbar copy 3.js";
+import DemoNavbar from "components/Navbars/DemoNavbar.js";
 import SimpleFooter from "components/Footers/SimpleFooter.js";
 
 class Register extends React.Component {
@@ -33,8 +33,10 @@ class Register extends React.Component {
       <>
         <DemoNavbar />
         <main ref="main">
-          <section className="section section-shaped section-lg">
-            <div className="shape shape-style-1 bg-gradient-default">
+        <div className="position-relative">
+            {/* shape Hero */}
+            <section className="section section-lg section-shaped pb-100">
+              <div className="shape shape-style-1 shape-default">
               <span />
               <span />
               <span />
@@ -169,6 +171,7 @@ class Register extends React.Component {
               </Row>
             </Container>
           </section>
+          </div>
         </main>
         {/* <SimpleFooter /> */}
       </>
