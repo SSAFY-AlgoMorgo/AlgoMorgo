@@ -27,7 +27,7 @@ import SimpleFooter from "components/Footers/SimpleFooter.js";
 // index page sections
 import Download from "../IndexSections/Download.js";
 
-class Landing extends React.Component {
+class DailyMission extends React.Component {
   state = {};
   componentDidMount() {
     document.documentElement.scrollTop = 0;
@@ -38,7 +38,7 @@ class Landing extends React.Component {
     return (
       <>
         <DemoNavbar />
-        <main className="daily-mission-page" ref="main">
+        <main className="dailymission-page" ref="main">
           <div className="position-relative">
             {/* shape Hero */}
             <section className="section section-lg section-shaped pb-250">
@@ -68,6 +68,7 @@ class Landing extends React.Component {
               <Row className="justify-content-center">
                 <Col lg="12">
                   <Row className="row-grid">
+                    
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
                         <CardBody className="py-5">
@@ -78,19 +79,19 @@ class Landing extends React.Component {
                             alt="..."
                              src={require("assets/img/algo/math.jpg")}
                           />
-                          <h6 className="text-primary text-uppercase mt-3">
+                          <h5 className="text-primary text-uppercase mt-3">
                             10158. 개미
-                          </h6>
+                          </h5>
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="description mt-3">
+                            <p className="mt-2">
                               수학, 사칙연산, 애드 혹
                             </p>
                             </Col>
                             <Col sm="4">
                             <Button
-                            className="mt-4"
+                            className="mt--2"
                             color="primary"
                             href="#pablo"
                             onClick={e => e.preventDefault()}
@@ -103,6 +104,7 @@ class Landing extends React.Component {
                         </CardBody>
                       </Card>
                     </Col>
+
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
                         <CardBody className="py-5">
@@ -113,19 +115,19 @@ class Landing extends React.Component {
                             alt="..."
                              src={require("assets/img/algo/math.jpg")}
                           />
-                          <h6 className="text-primary text-uppercase mt-3">
+                          <h5 className="text-primary text-uppercase mt-3">
                             10158. 개미
-                          </h6>
+                          </h5>
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="description mt-3">
+                            <p className="mt-2">
                               수학, 사칙연산, 애드 혹
                             </p>
                             </Col>
                             <Col sm="4">
                             <Button
-                            className="mt-4"
+                            className="mt--2"
                             color="primary"
                             href="#pablo"
                             onClick={e => e.preventDefault()}
@@ -138,6 +140,7 @@ class Landing extends React.Component {
                         </CardBody>
                       </Card>
                     </Col>
+
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
                         <CardBody className="py-5">
@@ -148,19 +151,19 @@ class Landing extends React.Component {
                             alt="..."
                              src={require("assets/img/algo/math.jpg")}
                           />
-                          <h6 className="text-primary text-uppercase mt-3">
+                          <h5 className="text-primary text-uppercase mt-3">
                             10158. 개미
-                          </h6>
+                          </h5>
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="description mt-3">
+                            <p className="mt-2">
                               수학, 사칙연산, 애드 혹
                             </p>
                             </Col>
                             <Col sm="4">
                             <Button
-                            className="mt-4"
+                            className="mt--2"
                             color="primary"
                             href="#pablo"
                             onClick={e => e.preventDefault()}
@@ -173,6 +176,9 @@ class Landing extends React.Component {
                         </CardBody>
                       </Card>
                     </Col>
+
+                    
+
                   </Row>
                 </Col>
               </Row>
@@ -218,4 +224,4 @@ class Landing extends React.Component {
   }
 }
 
-export default Landing;
+export default DailyMission;

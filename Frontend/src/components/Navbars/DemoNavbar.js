@@ -85,6 +85,9 @@ class DemoNavbar extends React.Component {
                       <DropdownItem to="/profile-page" tag={Link}>
                         Profile
                       </DropdownItem>
+                      <DropdownItem to="/profileedit-page" tag={Link}>
+                        Profile Edit
+                      </DropdownItem>
                       <DropdownItem to="/login-page" tag={Link}>
                         Login
                       </DropdownItem>
@@ -101,10 +104,10 @@ class DemoNavbar extends React.Component {
                       <span className="nav-link-inner--text">미션</span>
                     </DropdownToggle>
                     <DropdownMenu>
-                      <DropdownItem to="/mission-profile-page" tag={Link}>
+                      <DropdownItem to="/missionprofile-page" tag={Link}>
                         미션 프로필
                       </DropdownItem>
-                      <DropdownItem to="/daily-mission-page" tag={Link}>
+                      <DropdownItem to="/dailymission-page" tag={Link}>
                         데일리 미션
                       </DropdownItem>
                     </DropdownMenu>

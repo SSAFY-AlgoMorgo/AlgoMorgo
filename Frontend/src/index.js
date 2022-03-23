@@ -29,9 +29,10 @@ import Algorithm from "views/Algorithm.js";
 import Landing from "views/examples/Landing.js";
 import Login from "views/examples/Login.js";
 import Profile from "views/examples/Profile.js";
+import ProfileEdit from 'views/examples/ProfileEdit';
 import Register from "views/examples/Register.js";
-import Mission from "views/mission/daily.js";
-import Mission2 from "views/mission/m-profile.js";
+import DailyMission from "views/mission/DailyMission.js";
+import MissionProfile from "views/mission/MissionProfile.js";
 import WeeklyCalendar from "views/calendar/WeeklyCalendar.js";
 import MonthlyCalendar from "views/calendar/MonthlyCalendar.js";
 
@@ -52,19 +53,24 @@ ReactDOM.render(
         render={props => <Profile {...props} />}
       />
       <Route
+        path="/profileedit-page"
+        exact
+        render={props => <ProfileEdit {...props} />}
+      />
+      <Route
         path="/register-page"
         exact
         render={props => <Register {...props} />}
       />
       <Route
-        path="/daily-mission-page"
+        path="/dailymission-page"
         exact
-        render={props => <Mission {...props} />}
+        render={props => <DailyMission {...props} />}
       />
       <Route
-        path="/mission-profile-page"
+        path="/missionprofile-page"
         exact
-        render={props => <Mission2 {...props} />}
+        render={props => <MissionProfile {...props} />}
       />
       <Route
         path="/weeklycalendar-page"
