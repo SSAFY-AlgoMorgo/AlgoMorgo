@@ -1,8 +1,16 @@
 package com.assj.algomorgobusiness.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
 
     private int id;
@@ -16,5 +24,6 @@ public class UserDto {
     private String baekjoonId;
 
     private String password;
+
 
 }
