@@ -16,6 +16,9 @@ public class LogController {
     @PostMapping("/user/detail")
     public ResponseEntity<?> renewalUserDetail() {
         logService.renewalUserDetail();
+
+
+
         return new ResponseEntity<>("Success insert userDetailData ", HttpStatus.OK);
     }
 

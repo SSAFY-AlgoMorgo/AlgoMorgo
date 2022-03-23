@@ -1,4 +1,4 @@
-package com.assj.algomorgobusiness.Entity;
+package com.assj.algomorgobusiness.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

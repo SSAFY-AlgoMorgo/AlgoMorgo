@@ -2,16 +2,21 @@ package com.assj.algomorgo.Repository;
 
 import com.assj.algomorgo.Entity.Mission;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface MissionRepository extends JpaRepository<Mission,Integer> {
 
-    @Query(value = "SELECT * FROM mission WHERE user_id = :userId AND success_date IS NULL",nativeQuery = true)
-    List<Mission> getMisson(@Param("userId") String userId);
+    @Query(value = "SELECT * FROM mission WHERE id = :id AND success_date IS NULL",nativeQuery = true)
+    List<Mission> getMisson(@Param("id") int id);
 
-    @Query(value = "UPDATE misson SET success_date = :curTime WHERE misson_id = :missonId",nativeQuery = true)
-    void updateMisson(@Param("missonId")int missonId, @Param("curTime") String curTime);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE mission SET success_date = :curTime WHERE mission_id = :missionId",nativeQuery = true)
+    int updateMission(@Param("missionId")long missionId, @Param("curTime") Timestamp curTime);
 }

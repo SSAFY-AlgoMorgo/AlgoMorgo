@@ -1,9 +1,9 @@
 package com.assj.algomorgobusiness.repository;
 
-import com.assj.algomorgobusiness.entity.User;
+import com.assj.algomorgobusiness.entity.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface LogRepository extends JpaRepository<Log, Integer> {
 }

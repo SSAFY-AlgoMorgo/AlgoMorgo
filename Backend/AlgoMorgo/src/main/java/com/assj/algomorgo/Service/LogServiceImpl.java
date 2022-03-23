@@ -12,6 +12,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -37,9 +38,10 @@ public class LogServiceImpl implements LogService{
         List<BaekjoonUser> list = baekjoonUserRepository.findAll();
 
         int size = list.size();
+        List<Log> logs = new ArrayList<>();
         try {
-
             for(int i=0; i<size; i++) {
+
                 String userName = list.get(i).getUserName();
                 int pageCnt;
                 String obj;
@@ -65,7 +67,8 @@ public class LogServiceImpl implements LogService{
                     Problem problem = problemRepository.findByProblemNum(solvedList[j]);
 
                     // 저장한 BaekjoonUser와 Problem을 이용하여 Log Entity를 생성하고 DB에 Insert
-                    logRepository.save(new Log(null, baekjoonUser, problem));
+//                    logRepository.save(new Log(null, baekjoonUser, problem));
+                    logs.add(new Log(null, baekjoonUser, problem));
                 }
 
                 if(pageCnt > 1) {
@@ -86,71 +89,27 @@ public class LogServiceImpl implements LogService{
                             Problem problem = problemRepository.findByProblemNum(solvedList[j]);
 
                             // 저장한 BaekjoonUser와 Problem을 이용하여 Log Entity를 생성하고 DB에 Insert
-                            logRepository.save(new Log(null, baekjoonUser, problem));
+//                            logRepository.save(new Log(null, baekjoonUser, problem));
+                            logs.add(new Log(null, baekjoonUser, problem));
+
+                            if(logs.size() >= 300) {
+                                logRepository.saveAll(logs);
+                                logs.clear();
+                                Thread.sleep(12500);
+                            }
                         }
                     }
                 }
 
-//                if(cnt > 0) {
-//                    // 백준 아이디 하나당 api 호출
-//                    URL url = new URL("https://solved.ac/api/v3/search/problem?query=solved_by%3A" + list.get(i).getUserName());
-//                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//
-//                    conn.setRequestMethod("GET"); // http 메서드
-//                    //                conn.setRequestProperty("Content-Type", "application/json"); // header Content-Type 정보
-//                    //                conn.setDoOutput(true); // 서버로부터 받는 값이 있다면 true
-//
-//                    // 서버로부터 데이터 읽어오기
-//                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-//                    StringBuffer sb = new StringBuffer();
-//                    String line;
-//
-//                    while ((line = br.readLine()) != null) { // 읽을 수 있을 때 까지 반복
-//                        sb.append(line);
-//                    }
-//
-//                    //                JSONObject obj = new JSONObject(sb.toString()); // json으로 변경 (역직렬화)
-//                    //                JSONArray arr = obj.getJSONArray("items");
-//                    ObjectMapper mapper = new ObjectMapper();
-//                    JsonNode jsonNode;
-//                    jsonNode = mapper.readTree(sb.toString()).get("items");
-//                    System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-//                    System.out.println(jsonNode);
-//                    System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
-//
-//                    //                System.out.println("arr : " + arr.length());
-//                    // 문제번호를 solvedList 배열에 따로 입력
-//                    //                solvedList = new int[arr.length()];
-//                    //                for(int j=0; j<arr.length(); j++){
-//                    //                    solvedList[j] = arr.getJSONObject(j).getInt("problemId");
-//                    //                }
-//                    int jsonSize = jsonNode.size();
-//                    System.out.println("jsonSize : " + jsonSize);
-//
-//                    solvedList = new int[jsonSize];
-//                    for (int j = 0; j < jsonSize; j++) {
-//
-//                        solvedList[j] = Integer.parseInt(jsonNode.get(j).get("problemId").toString());
-//                    }
-//
-//                    System.out.println(solvedList.length);
-//                    System.out.println(list.get(i).getUserName());
-//                    // 현재 호출된 api에 해당하는 BaekjoonUser 엔터티 하나를 저장
-//                    BaekjoonUser baekjoonUser = list.get(i);
-//
-//                    for (int j = 0; j < solvedList.length; j++) {
-//                        // solvedList 배열에 있는 모든 문제를 번호로 찾아서 Problem Entity로 저장
-//                        System.out.println(solvedList[j]);
-//                        Problem problem = problemRepository.findByProblemNum(solvedList[j]);
-//                        // 저장한 BaekjoonUser와 Problem을 이용하여 Log Entity를 생성하고 DB에 Insert
-//                        //                    logRepository.save(new Log(null, baekjoonUser, problem));
-//                    }
-//                }
+
+                Thread.sleep(10000);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        logRepository.saveAll(logs);
 
     }
 

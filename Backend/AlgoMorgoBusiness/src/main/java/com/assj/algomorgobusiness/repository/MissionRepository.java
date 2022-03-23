@@ -1,6 +1,9 @@
 package com.assj.algomorgobusiness.repository;
 
+import com.assj.algomorgobusiness.entity.Mission;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MissionRepository extends JpaRepository {
+@Repository
+public interface MissionRepository extends JpaRepository<Mission,Long> {
 }
