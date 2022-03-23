@@ -3,6 +3,7 @@ package com.assj.algomorgobusiness.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "problem")
 public class Problem {
@@ -26,10 +28,6 @@ public class Problem {
 
     @Column(name = "problem_name", nullable = false, length = 300)
     private String problemName;
-
-    @Column(name = "problem_point")
-    @ColumnDefault("100")
-    private int problemPoint;
 
     @Column(name = "problem_solved")
     @ColumnDefault("0")

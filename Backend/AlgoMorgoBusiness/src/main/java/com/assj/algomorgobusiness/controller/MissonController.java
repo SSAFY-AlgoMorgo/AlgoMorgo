@@ -3,6 +3,7 @@ package com.assj.algomorgobusiness.controller;
 import com.assj.algomorgobusiness.dto.MissionDto;
 import com.assj.algomorgobusiness.service.mission.MissionService;
 import com.assj.algomorgobusiness.service.mission.MissionServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/v1/mission")
 public class MissonController {
@@ -21,27 +23,19 @@ public class MissonController {
     @Autowired
     private MissionService missionService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<MissionDto>> fetchMission(@PathVariable("userId") String userId){
-        List<MissionDto> result = missionService.fetchMission(userId);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @GetMapping("/{userId}/{year}/{month}")
     public ResponseEntity<List<MissionDto>> getMission(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month){
         List<MissionDto> result = missionService.getMission(userId,year,month);
+        //하루 단위를 필요로 하면 이걸로 요청하고
+        //T를 기준으로 파싱하거나 정규표현식 아니면 java LocalDateTime -> js로 바꿀 수 있는 걸로
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/week/{userId}")
     public ResponseEntity<List<MissionDto>> getMissionByWeek(@PathVariable("userId") String userId){
         List<MissionDto> result = missionService.getMissionByWeek(userId);
+        log.info(result.toString());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}/{createDate}")
-    public ResponseEntity<List<MissionDto>> getMissionByCreateDate(@PathVariable("userId") String userId, @PathVariable("createDate")LocalDateTime createDate){
-        List<MissionDto> result = missionService.getMissionByCreateDate(userId,createDate);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
 }
