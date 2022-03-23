@@ -1,16 +1,18 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://j6c204.p.ssafy.io:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://j6c204.p.ssafy.io:3306/test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: C204
     password: ssafyC204
 
   jpa:
     hibernate:
       ddl-auto: update
+      jdbc:
+        time_zone: Asia/Seoul
     properties:
       hibernate:
-#        show_sql: true
+        show_sql: true
         format_sql: true
 
 jwt:
