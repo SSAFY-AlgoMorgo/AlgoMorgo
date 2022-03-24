@@ -6,6 +6,7 @@
 - node-sass 4.14.1버전을 사용했습니다.
 
 ```
+npm install
 npm uninstall node-sass
 npm install node-sass@4.14.1
 ```

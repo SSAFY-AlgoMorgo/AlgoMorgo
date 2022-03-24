@@ -59,6 +59,27 @@ class Algorithm extends React.Component {
                 </div>
               </Container>
             </section>
+
+            <section className="my-5">
+              <Container>
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    알고리즘을 선택하세요
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+                  <img
+                    alt="..."
+                    className="img-fluid rounded shadow my-4"
+                    src={require("assets/img/theme/Heroimage.png")}
+                    style={{ width: "100%" }}
+                  />
+                </div>
+              </Container>
+            </section>
           </div>
           
 

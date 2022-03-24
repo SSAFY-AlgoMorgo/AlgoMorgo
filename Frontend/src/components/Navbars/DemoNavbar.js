@@ -140,7 +140,7 @@ class DemoNavbar extends React.Component {
                 </Nav>
                 <Nav className="ml-lg-auto" navbar>
                   <NavItem>
-                    <NavLink href="#pablo" onClick={e => e.preventDefault()}>
+                    <NavLink to="/login-page" tag={Link}>
                       로그인 <span className="sr-only">(current)</span>
                     </NavLink>
                   </NavItem>
