@@ -72,8 +72,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity deleteUser(@PathVariable("userId") String userId){
-        if(userService.deleteUser(userId))
+    public ResponseEntity deleteUser(@PathVariable("userId") String userId, @RequestBody Map<String, String> map){
+        String password = map.getOrDefault("password", null);
+        if(userService.deleteUser(userId, password))
             return new ResponseEntity(HttpStatus.OK);
         else
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,15 +82,15 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Map<String,Object>> getUser(@PathVariable("userId") String userId){
-        Map<String, Object> result = new HashMap<>();
-        UserDto userDto = userService.getUser(userId);
-        return new ResponseEntity<Map<String,Object>>(result,HttpStatus.OK);
+        Map<String, Object> result = userService.getUser(userId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
     @GetMapping("/duplicate/check/{userId}")
     public ResponseEntity duplicate(@PathVariable("userId") String userId){
         if(userService.duplicate(userId))
             return new ResponseEntity(HttpStatus.OK);
+            //true일 때 사용가능한 아이디
         else
             return new ResponseEntity((HttpStatus.INTERNAL_SERVER_ERROR));
     }
