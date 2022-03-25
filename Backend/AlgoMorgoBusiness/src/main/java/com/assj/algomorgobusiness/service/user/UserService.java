@@ -11,9 +11,9 @@ public interface UserService {
     List<UserDto> fetchUser();//없어도 될 기능
     boolean updateUser(UserDto userDto);
     boolean updateUser(UserDto userDto, String password);//비밀번호도 변경할 때
-    UserDto getUser(String userId);
+    Map<String, Object> getUser(String userId);
     boolean duplicate(String userId);
-    boolean deleteUser(String userId);
+    boolean deleteUser(String userId, String password);
     Map<String, String> login(String userId, String password);
 
 }

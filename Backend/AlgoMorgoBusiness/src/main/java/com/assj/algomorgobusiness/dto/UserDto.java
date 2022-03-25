@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
