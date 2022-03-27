@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -36,6 +37,12 @@ public class MissonController {
         List<MissionDto> result = missionService.getMissionByWeek(userId);
         log.info(result.toString());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Map<String,Integer>> getMissionInfo(@PathVariable("userId") String userId){
+        Map<String, Integer> result = missionService.getMission(userId);
+        return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
 }

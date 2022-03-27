@@ -15,6 +15,12 @@ spring:
         show_sql: true
         format_sql: true
 
+  cache:
+    type: redis
+    redis:
+      host: "127.0.0.1"
+      port: 8180
+
 jwt:
   header: Authorization
   secret: 4oCYc3ByaW5nLWJvb3Qtand0LXNlY3JldC1zc2FmeS1DMjA0LWJhZWtqb29uLWFsZ29yaXRobS1yZWNvbW1lbmQtd2ViLWFwcGxpY2F0aW9u4oCZCg==
