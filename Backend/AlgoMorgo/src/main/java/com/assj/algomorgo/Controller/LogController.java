@@ -24,7 +24,7 @@ public class LogController {
 
     @GetMapping("/hi")
     public ResponseEntity<?> getHelloWorld(){
-        return new ResponseEntity<>("Hello World", HttpStatus.OK);
+        return new ResponseEntity<>("Hello World cicd test", HttpStatus.OK);
     }
 
 }
