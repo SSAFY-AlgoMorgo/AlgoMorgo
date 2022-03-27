@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -77,6 +80,48 @@ public class MissionServiceImpl implements MissionService{
         now = now.plusDays(1);
 
         return getMissionDtos(start, user, now);
+    }
+
+    @Override
+    public Map<String, Integer> getMission(String userId) {
+
+        User user = userRepository.findByUserId(userId).get();
+
+        List<Mission> successMissions = missionRepository.findAllByUserAndSuccessDateIsNotNullOrderByCreateDate(user);
+        int successCnt = successMissions.size();
+        int totalSuccess = 1;
+        Mission start = successMissions.get(0);
+
+        int maxSuccess = 0;
+        int cnt=1;
+
+        for(int i=1; i<successCnt; i++){
+            Mission mission = successMissions.get(i);
+            LocalDateTime pre = LocalDateTime.now().withYear(start.getSuccessDate().getYear()).withMonth(start.getSuccessDate().getMonthValue()).withDayOfMonth(start.getSuccessDate().getDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
+            LocalDateTime now = LocalDateTime.now().withYear(mission.getSuccessDate().getYear()).withMonth(mission.getSuccessDate().getMonthValue()).withDayOfMonth(mission.getSuccessDate().getDayOfMonth()).withHour(0).withMinute(0).withSecond(0);
+
+            if (ChronoUnit.DAYS.between(pre, now) < 1){
+                start = mission;
+                continue;
+            }
+            if (ChronoUnit.DAYS.between(pre, now) == 1){
+                cnt++;
+                totalSuccess++;
+                start = mission;
+                maxSuccess = Math.max(maxSuccess,cnt);
+                continue;
+            }
+            cnt = 1;
+            totalSuccess++;
+            start = mission;
+        }
+        Map<String, Integer> result = new HashMap<>();
+
+        result.put("successCnt",successCnt);
+        result.put("maxSuccess", maxSuccess);
+        result.put("totalSuccess",totalSuccess);
+
+        return result;
     }
 
 }

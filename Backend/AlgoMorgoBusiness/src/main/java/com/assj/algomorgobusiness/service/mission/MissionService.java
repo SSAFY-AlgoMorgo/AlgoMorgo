@@ -4,6 +4,7 @@ import com.assj.algomorgobusiness.dto.MissionDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface MissionService {
 
@@ -11,4 +12,5 @@ public interface MissionService {
 
     List<MissionDto> getMissionByWeek(String userId);
 
+    Map<String, Integer> getMission(String userId);
 }
