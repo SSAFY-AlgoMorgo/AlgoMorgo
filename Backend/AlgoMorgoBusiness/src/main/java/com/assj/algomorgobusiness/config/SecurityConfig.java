@@ -39,7 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         "v1/user/login",
-                        "v1/user/signup"
+                        "v1/user/signup",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/v2/api-docs",
+                        "/webjars/**"
                 );
     }
 
@@ -61,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/v1/user/login").permitAll()
                 .antMatchers("/v1/user/signup").permitAll()
+                .antMatchers("/swagger-ui/*").permitAll()
                 .antMatchers("/v1/user/duplicate/check/{userId}").permitAll()
                 .anyRequest().authenticated()
 

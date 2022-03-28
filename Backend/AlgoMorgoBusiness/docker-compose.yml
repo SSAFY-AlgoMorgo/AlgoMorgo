@@ -1,0 +1,13 @@
+version: '3.2'
+services:
+  algomorgo-redis:
+    image: redis
+    container_name: algomorgo-redis-server
+    ports:
+      - "6380:6379"
+
+  algomorgo-business-server:
+    image: '/algomorgo-business-server'
+    container_name: algomorgo-business-server
+    ports:
+      - "8080:8080"
