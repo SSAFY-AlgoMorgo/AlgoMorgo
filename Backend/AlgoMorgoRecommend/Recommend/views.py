@@ -202,16 +202,18 @@ def cos_sim(a, b):
 
 @api_view(['GET'])
 def recommendProblem(request,userId):
+    # mysql 연결
     conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',charset='utf8')
-
+    # 유저별로 [{푼 문제의 번호: 그 문제의 티어 값}]
     with open('probPerUser.pickle','rb') as fr:
         probPerUser = pickle.load(fr)
-
+    # 문제 별로 { 문제 번호 : [티어, (있다면) 태그 1, 태그 2 ...]}
     with open('problemWithTag.pickle','rb') as fr:
         problemWithTag = pickle.load(fr)
-
+    # {문제 번호 : 문제 id(sql pk 값)}
     with open('probById.pickle','rb') as fr:
         probById = pickle.load(fr)
+
     df = pd.read_csv('sample.csv')
     # [0] : 0번 유저 값 = 모두 다 0 , [num][0] : 해당 row의 userId 값 = num , [num][1] ~ [num][끝] : num인 유저의 각 태그 별 푼 갯수
     dfToArray = df.values
@@ -224,7 +226,11 @@ def recommendProblem(request,userId):
     result = []
     for user in users:
         baekjoonId = user[4]
-        userId = user[5]
+        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
+        cur.execute(sql,baekjoonId)
+        userTier = cur.fetchone()[0]
+        print(userTier)
+        id = user[0]
         url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
         response = requests.get(url)
         userSolvedNums = []
@@ -257,10 +263,6 @@ def recommendProblem(request,userId):
                                 for i in range(0, len(algoList)):
                                     if (tag == algoList[i]):
                                         userSolvedTagNums[i] += 1
-        tmpTier = 0
-        for num in userSolvedNums:
-            tmpTier += problemWithTag[num][0]
-        userTier = int(tmpTier/len(userSolvedNums))
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
@@ -290,40 +292,49 @@ def recommendProblem(request,userId):
             if(lowCnt <7):
                 candidate = []
                 lowId = int(sortedCs[i]['userId'])
-                logs = probPerUser[lowId]
-                for key in logs.keys():
-                    if not(key in userSolvedNums):
-                        candidate.append(key)
-                for prob in candidate:
-                    if lowCnt == 7:
-                        break
-                    probTier = problemWithTag[prob][0]
-                    if probTier >= userTier-2 and probTier <= userTier+1:
-                        missionNum.append(prob)
-                        lowCnt += 1
+                sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
+                cur.execute(sql, str(lowId))
+                oppTier = cur.fetchone()[0]
+                if oppTier <= userTier+1 and oppTier >= userTier-1:
+                    logs = probPerUser[lowId]
+                    for key in logs.keys():
+                        if not(key in userSolvedNums):
+                            candidate.append(key)
+                    for prob in candidate:
+                        if lowCnt == 7:
+                            break
+                        probTier = problemWithTag[prob][0]
+                        if probTier >= userTier-2 and probTier <= userTier+1:
+                            missionNum.append(prob)
+                            lowCnt += 1
             if(highCnt <3):
                 candidate = []
                 highId = int(sortedCs[len(sortedCs)-1-i]['userId'])
-                logs = probPerUser[highId]
-                for key in logs.keys():
-                    if not (key in userSolvedNums):
-                        candidate.append(key)
-                for prob in candidate:
-                    if highCnt == 3:
-                        break
-                    probTier = problemWithTag[prob][0]
-                    if probTier >= userTier - 2 and probTier <= userTier + 1:
-                        missionNum.append(prob)
-                        highCnt += 1
+                sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
+                cur.execute(sql, str(highId))
+                oppTier = cur.fetchone()[0]
+                if oppTier <= userTier + 1 and oppTier >= userTier - 1:
+                    logs = probPerUser[highId]
+                    for key in logs.keys():
+                        if not (key in userSolvedNums):
+                            candidate.append(key)
+                    for prob in candidate:
+                        if highCnt == 3:
+                            break
+                        probTier = problemWithTag[prob][0]
+                        if probTier >= userTier - 2 and probTier <= userTier + 1:
+                            missionNum.append(prob)
+                            highCnt += 1
             if(len(missionNum) == 10):
                 break
         missionId = []
         for m in missionNum:
             missionId.append(probById[m])
         missionPerUser = {
-            'user_id' : userId,
+            'user_id' : id,
             'missions' : missionId
         }
+        # insertRedis(id,missionId)
         result.append(missionPerUser)
 
 
