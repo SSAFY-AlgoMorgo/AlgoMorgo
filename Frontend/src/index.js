@@ -27,14 +27,15 @@ import Index from "views/Index.js";
 import Guide from "views/Guide.js";
 import Algorithm from "views/Algorithm.js";
 import Landing from "views/examples/Landing.js";
-import Login from "views/examples/Login.js";
-import Profile from "views/examples/Profile.js";
-import ProfileEdit from 'views/examples/ProfileEdit';
-import Register from "views/examples/Register.js";
+import Login from "views/user/Login.js";
+import Profile from "views/user/Profile.js";
+import ProfileEdit from 'views/user/ProfileEdit';
+import Register from "views/user/Register.js";
 import DailyMission from "views/mission/DailyMission.js";
 import MissionProfile from "views/mission/MissionProfile.js";
 import WeeklyCalendar from "views/calendar/WeeklyCalendar.js";
 import MonthlyCalendar from "views/calendar/MonthlyCalendar.js";
+import PasswordEdit from "views/user/PasswordEdit.js"
 
 
 ReactDOM.render(
@@ -56,6 +57,11 @@ ReactDOM.render(
         path="/profileedit-page"
         exact
         render={props => <ProfileEdit {...props} />}
+      />
+      <Route
+        path="/passwordedit-page"
+        exact
+        render={props => <PasswordEdit {...props} />}
       />
       <Route
         path="/register-page"

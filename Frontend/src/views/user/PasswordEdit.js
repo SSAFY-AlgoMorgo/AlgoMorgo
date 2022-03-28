@@ -21,11 +21,10 @@ import {
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
-import SimpleFooter from "components/Footers/SimpleFooter.js";
 import ProfileEditCard from 'views/IndexSections/ProfileEditCard';
-import ProfileEditBody from 'views/IndexSections/ProfileEditBody';
+import PasswordEditBody from 'views/IndexSections/PasswordEditBody';
 
-class ProfileEdit extends React.Component {
+class PasswordEdit extends React.Component {
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -35,7 +34,7 @@ class ProfileEdit extends React.Component {
     return (
       <>
         <DemoNavbar />
-        <main className="profileedit-page" ref="main">
+        <main className="passwordedit-page" ref="main">
         <div className="position-relative">
             <section className="section section-lg section-shaped pb-0">
               <div className="shape shape-style-1 shape-default">
@@ -53,12 +52,11 @@ class ProfileEdit extends React.Component {
           </div>
 
           <ProfileEditCard />
-          <ProfileEditBody />
+          <PasswordEditBody />
         </main>
-        {/* <SimpleFooter /> */}
       </>
     );
   }
 }
 
-export default ProfileEdit;
+export default PasswordEdit;
