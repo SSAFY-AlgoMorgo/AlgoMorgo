@@ -1,27 +1,17 @@
-import React from "react";
+import React from 'react';
 
 // reactstrap components
 import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
-  Row,
-  Col
+  
 } from "reactstrap";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
+import MyCalendar from 'views/IndexSections/MyCalendar';
+import MyMonthMission from 'views/IndexSections/MyMonthMission';
 
 // index page sections
-import Download from "../IndexSections/Download.js";
 
 class MonthlyCalendar extends React.Component {
   state = {};
@@ -57,6 +47,13 @@ class MonthlyCalendar extends React.Component {
                       <p>날짜를 클릭하면 해당 날짜의 미션을 확인할 수 있습니다.</p>
                     </center>
                 </div>
+              </Container>
+            </section>
+
+            <section>
+              <Container>
+                <MyMonthMission />
+                <MyCalendar />
               </Container>
             </section>
           </div>

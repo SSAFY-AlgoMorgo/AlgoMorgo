@@ -12,6 +12,10 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
   Container,
   Row,
   Col
@@ -63,14 +67,22 @@ class Algorithm extends React.Component {
             <section className="my-5">
               <Container>
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                    알고리즘을 선택하세요
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div>
+                  <UncontrolledDropdown>
+                    <DropdownToggle caret color="secondary">
+                      알고리즘을 선택하세요
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                        완전 검색
+                      </DropdownItem>
+                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                        탐욕 알고리즘
+                      </DropdownItem>
+                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                        분할 정복
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
                   <img
                     alt="..."
                     className="img-fluid rounded shadow my-4"
