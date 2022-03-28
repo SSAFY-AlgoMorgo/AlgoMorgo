@@ -201,16 +201,21 @@ def cos_sim(a, b):
     return dot(a, b)/(norm(a)*norm(b))
 
 @api_view(['GET'])
-def recommendProblem(request):
+def recommendProblem(request,userId):
+    conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',charset='utf8')
+
     with open('probPerUser.pickle','rb') as fr:
         probPerUser = pickle.load(fr)
 
     with open('problemWithTag.pickle','rb') as fr:
         problemWithTag = pickle.load(fr)
+
+    with open('probById.pickle','rb') as fr:
+        probById = pickle.load(fr)
     df = pd.read_csv('sample.csv')
     # [0] : 0번 유저 값 = 모두 다 0 , [num][0] : 해당 row의 userId 값 = num , [num][1] ~ [num][끝] : num인 유저의 각 태그 별 푼 갯수
     dfToArray = df.values
-    conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest', charset='utf8')
+
     cur = conn.cursor()
     sql = 'SELECT * FROM user'
     cur.execute(sql)
@@ -239,7 +244,6 @@ def recommendProblem(request):
                             userSolvedTagNums[i] += 1
             if(count >= 1):
                 for i in range(count):
-                    print("22222222222222222222")
                     url2 = url + "&page="+str(i+2)
                     response2 = requests.get(url2)
                     if response2.status_code == 200:
@@ -257,7 +261,6 @@ def recommendProblem(request):
         for num in userSolvedNums:
             tmpTier += problemWithTag[num][0]
         userTier = int(tmpTier/len(userSolvedNums))
-        print("userTier: "+str(userTier))
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
@@ -278,18 +281,16 @@ def recommendProblem(request):
             csWithAllUser.append(item)
         # 코사인 유사도 기준으로 sorting
         sortedCs = sorted(csWithAllUser, key=(lambda x:x['cs']))
-        mission = []
+        missionNum = []
         lowCnt = 0
         highCnt = 0
         for i in range(0,len(sortedCs)):
-            print(i)
             if i> len(sortedCs)/2:
                 break
             if(lowCnt <7):
                 candidate = []
                 lowId = int(sortedCs[i]['userId'])
                 logs = probPerUser[lowId]
-                print("lowId : "+str(lowId))
                 for key in logs.keys():
                     if not(key in userSolvedNums):
                         candidate.append(key)
@@ -298,13 +299,12 @@ def recommendProblem(request):
                         break
                     probTier = problemWithTag[prob][0]
                     if probTier >= userTier-2 and probTier <= userTier+1:
-                        mission.append(prob)
+                        missionNum.append(prob)
                         lowCnt += 1
             if(highCnt <3):
                 candidate = []
                 highId = int(sortedCs[len(sortedCs)-1-i]['userId'])
                 logs = probPerUser[highId]
-                print("highId : " + str(highId))
                 for key in logs.keys():
                     if not (key in userSolvedNums):
                         candidate.append(key)
@@ -313,14 +313,16 @@ def recommendProblem(request):
                         break
                     probTier = problemWithTag[prob][0]
                     if probTier >= userTier - 2 and probTier <= userTier + 1:
-                        mission.append(prob)
+                        missionNum.append(prob)
                         highCnt += 1
-            if(len(mission) == 10):
+            if(len(missionNum) == 10):
                 break
-
+        missionId = []
+        for m in missionNum:
+            missionId.append(probById[m])
         missionPerUser = {
             'user_id' : userId,
-            'missions' : mission
+            'missions' : missionId
         }
         result.append(missionPerUser)
 
@@ -333,9 +335,12 @@ def createFromLog(problemWithTag):
     conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',
                            charset='utf8')
     cur = conn.cursor()
-    sql = 'SELECT problem_num FROM problem order by problem_id'
+    sql = 'SELECT problem_num,problem_id FROM problem order by problem_id'
     cur.execute(sql)
     probs = cur.fetchall()
+    probById = {}
+    for i in range(0,len(probs)):
+        probById[probs[i][0]] = probs[i][1]
     sql2 = 'SELECT * FROM log'
     cur.execute(sql2)
     logs = cur.fetchall()
@@ -359,6 +364,9 @@ def createFromLog(problemWithTag):
     df.to_csv('sample.csv', sep=',')
     with open('probPerUser.pickle', 'wb') as fw:
         pickle.dump(probPerUser,fw)
+
+    with open('probById.pickle', 'wb') as fw:
+        pickle.dump(probById,fw)
 
 def createProblemWithTag():
     problemWithTag = {}
