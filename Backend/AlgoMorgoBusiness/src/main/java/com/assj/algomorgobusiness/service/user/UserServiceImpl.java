@@ -6,6 +6,7 @@ import com.assj.algomorgobusiness.dto.AlgorithmDto;
 import com.assj.algomorgobusiness.dto.UserDto;
 import com.assj.algomorgobusiness.entity.Status;
 import com.assj.algomorgobusiness.entity.User;
+import com.assj.algomorgobusiness.repository.BaekjoonUserRepository;
 import com.assj.algomorgobusiness.repository.UserRepository;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Autowired
+    private BaekjoonUserRepository baekjoonUserRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -48,6 +52,12 @@ public class UserServiceImpl implements UserService{
     public boolean registUser(UserDto userDto) {
         if(userRepository.findByUserId(userDto.getUserId()).orElse(null) != null){
             throw new RuntimeException("이미 가입한 유저입니다.");
+        }
+        if(userRepository.findByNickName(userDto.getNickName()).orElse(null) != null){
+            throw new RuntimeException("이미 사용 중인 닉네임입니다.");
+        }
+        if(baekjoonUserRepository.findByUserName(userDto.getBaekjoonId()).orElse(null) == null){
+            throw new RuntimeException("서비스 제공이 불가능한 사용자입니다. solved.ac 연동을 확인해주시고, 다이아 1이상이거나 브론즈 1이하인지 확인해주세요.");
         }
         User user = new User();
         user.setUserId(userDto.getUserId());
