@@ -11,6 +11,6 @@ public class LogDto {
 
     private int userId;
 
-    private List<ProblemDto> problemDtoList;
+    private int problem_id;
 
 }
