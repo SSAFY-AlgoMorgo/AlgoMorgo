@@ -24,7 +24,7 @@ public class BaekjoonUser {
     private String userName;
 
     @Column(name = "user_tier")
-    private String userTier;
+    private int userTier;
 
     @OneToMany(mappedBy = "baekjoonUser", cascade = CascadeType.ALL)
     private List<Log> logs = new ArrayList<>();
