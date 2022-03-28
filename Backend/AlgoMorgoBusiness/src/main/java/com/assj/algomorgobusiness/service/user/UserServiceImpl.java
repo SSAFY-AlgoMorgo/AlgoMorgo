@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean registUser(UserDto userDto) {
-        if(userRepository.findByUserId(userDto.getUserId()).orElse(null) != null){
+        if(userRepository.findByUserId(userDto.getUserId()).orElse(null) !=  null){
             throw new RuntimeException("이미 가입한 유저입니다.");
         }
         if(userRepository.findByNickName(userDto.getNickName()).orElse(null) != null){
