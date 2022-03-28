@@ -1,8 +1,9 @@
 import json
 
-from django.core.cache import cache
+from django.core.cache.backends import redis
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
+# from django.utils import timezone
+from django_redis import cache
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -15,6 +16,9 @@ from numpy import dot
 from numpy.linalg import norm
 import math
 import pickle
+import datetime
+import pytz
+import redis
 
 algoList = ['lis',
         'math',
@@ -405,27 +409,23 @@ def createProblemWithTag():
 
 
 def insertRedis(userId, problems):
-    # print("userid: " + str(userId))
     data = []
-    for problem in problems:
-        # print(problem)
-        # print(timezone.localtime())
-        # print(None)
+    for i, problem in enumerate(problems):
+        creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
+        creatDate = creatDate.strftime('%Y-%m-%d')
+        flag = False
+        if i < 3:
+            flag = True
         problemData = {
-            "create_date" : 1,
-            "success_date" : 0,
+            "create_date" : str(creatDate),
+            "success_date" : None,
             "problem_id" : problem,
-            "selected" : True
+            "selected" : flag
         }
-        # print(problemData)
-        data.append(problemData)
-    print(data)
-    # redis.save(userId, data)
 
-    # userId : [{
-    #             "create_date" : timezone.localtime(),
-    #             "success_date" : None,
-    #             "problem_id" : problem,
-    #             "selected" : True
-    #             }]
-    cache.set(str(userId), data)
+        data.append(problemData)
+
+    jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
+    rs = redis.StrictRedis(host="localhost", port=6379, db=0)
+    rs.set(str(userId), jsonDataDict)
+
