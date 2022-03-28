@@ -85,9 +85,6 @@ class DemoNavbar extends React.Component {
                       <DropdownItem to="/profile-page" tag={Link}>
                         Profile
                       </DropdownItem>
-                      <DropdownItem to="/profileedit-page" tag={Link}>
-                        Profile Edit
-                      </DropdownItem>
                       <DropdownItem to="/login-page" tag={Link}>
                         Login
                       </DropdownItem>

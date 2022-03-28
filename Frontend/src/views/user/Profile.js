@@ -1,15 +1,15 @@
 import React from "react";
-// nodejs library that concatenates classes
-import classnames from "classnames";
 
 // reactstrap components
 import {
   Badge,
   Button,
   Card,
+  CardHeader,
   CardBody,
   CardImg,
   FormGroup,
+  Form,
   Input,
   InputGroupAddon,
   InputGroupText,
@@ -21,13 +21,11 @@ import {
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
+import ProfileCard from 'views/IndexSections/ProfileCard';
+import ProfileBody from 'views/IndexSections/ProfileBody';
+import ProfileTag from 'views/IndexSections/ProfileTag';
 
-// index page sections
-import MissionInfo from 'views/IndexSections/MissionInfo.js';
-import MissionBadge from 'views/IndexSections/MissionBadge.js';
-
-class MissionProfile extends React.Component {
-  state = {};
+class Profile extends React.Component {
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
@@ -37,10 +35,9 @@ class MissionProfile extends React.Component {
     return (
       <>
         <DemoNavbar />
-        <main className="missionprofile-page" ref="main">
-          <div className="position-relative">
-            {/* shape Hero */}
-            <section className="section section-lg section-shaped pb-5">
+        <main className="profile-page" ref="main">
+        <div className="position-relative">
+            <section className="section section-lg section-shaped pb-0">
               <div className="shape shape-style-1 shape-default">
                 <span />
                 <span />
@@ -52,23 +49,16 @@ class MissionProfile extends React.Component {
                 <span />
                 <span />
               </div>
-              <Container className="py-lg-md d-flex">
-                <div className="col px-0">
-                    <center>
-                      <p className="h3 text-white"><i class="ni ni-paper-diploma mr-2"></i>미션 프로필</p>
-                    </center>
-                </div>
-              </Container>
             </section>
-
-            <MissionInfo />
-            <MissionBadge />
- 
           </div>
+
+          <ProfileCard />
+          <ProfileBody />
+          <ProfileTag />
         </main>
       </>
     );
   }
 }
 
-export default MissionProfile;
+export default Profile;

@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Argon Design System React - v1.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-design-system-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-design-system-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -190,8 +174,35 @@ class ProfileTag extends React.Component {
                 </div>
                   
                 <div className="mt-3">
-                  <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 태그 분포</p>
+                  <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 더보기</p>
                 </div>
+
+                
+
+                {/* <details className="my-4">
+                  <summary>
+                    <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 더보기</p>
+                  </summary>
+                    
+                  <div className="my-4">
+
+                    <div className="ml-5 mt-3">
+                      <Row>
+                        <Col className="font-weight-bold ml-3">
+                        <h7>백트래킹</h7>
+                        </Col>
+                        <Col className="font-weight-bold text-right mr-6">
+                        <h7>3</h7>
+                        </Col>
+                      </Row>
+                    </div>
+
+                  </div>
+                </details> */}
+
+                
+
+
 
                 </Col>
               </Row>
