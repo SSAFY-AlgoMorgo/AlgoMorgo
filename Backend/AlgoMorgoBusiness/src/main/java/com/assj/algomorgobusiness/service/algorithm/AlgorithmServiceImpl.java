@@ -1,9 +1,7 @@
 package com.assj.algomorgobusiness.service.algorithm;
 
-import com.assj.algomorgobusiness.Entity.Algorithm;
-import com.assj.algomorgobusiness.Entity.Problem;
+import com.assj.algomorgobusiness.entity.Algorithm;
 import com.assj.algomorgobusiness.dto.AlgorithmDto;
-import com.assj.algomorgobusiness.dto.ProblemDto;
 import com.assj.algomorgobusiness.repository.AlgorithmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

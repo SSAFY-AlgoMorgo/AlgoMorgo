@@ -1,6 +1,6 @@
 package com.assj.algomorgobusiness.service.baekJoonuser;
 
-import com.assj.algomorgobusiness.Entity.BaekjoonUser;
+import com.assj.algomorgobusiness.entity.BaekjoonUser;
 import com.assj.algomorgobusiness.dto.BaekjoonUserDto;
 import com.assj.algomorgobusiness.dto.ProblemDto;
 import com.assj.algomorgobusiness.repository.BaekjoonUserRepository;

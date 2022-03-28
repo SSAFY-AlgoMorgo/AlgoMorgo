@@ -1,7 +1,7 @@
 package com.assj.algomorgobusiness.service.problem;
 
-import com.assj.algomorgobusiness.Entity.Problem;
-import com.assj.algomorgobusiness.Entity.Tag;
+import com.assj.algomorgobusiness.entity.Problem;
+import com.assj.algomorgobusiness.entity.Tag;
 import com.assj.algomorgobusiness.dto.ProblemDto;
 import com.assj.algomorgobusiness.repository.ProblemRepository;
 import com.assj.algomorgobusiness.repository.TagRepository;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
