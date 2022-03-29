@@ -1,6 +1,7 @@
 package com.assj.algomorgobusiness.service.mission;
 
 import com.assj.algomorgobusiness.dto.MissionDto;
+import com.assj.algomorgobusiness.dto.MissionStatusDto;
 import com.assj.algomorgobusiness.dto.ProblemDto;
 import com.assj.algomorgobusiness.entity.Mission;
 import com.assj.algomorgobusiness.entity.Problem;
@@ -49,6 +50,7 @@ public class MissionServiceImpl implements MissionService{
                     MissionDto missionDto = new MissionDto();
                     missionDto.setCreateDate(mission.getCreateDate());
                     missionDto.setSuccessDate(mission.getSuccessDate());
+                    log.info(missionDto.toString());
                     Problem problem = mission.getProblem();
                     ProblemDto problemDto = new ProblemDto(
                             problem.getProblemId(),
@@ -83,7 +85,7 @@ public class MissionServiceImpl implements MissionService{
     }
 
     @Override
-    public Map<String, Integer> getMission(String userId) {
+    public MissionStatusDto getMission(String userId) {
 
         User user = userRepository.findByUserId(userId).get();
 
@@ -115,13 +117,13 @@ public class MissionServiceImpl implements MissionService{
             totalSuccess++;
             start = mission;
         }
-        Map<String, Integer> result = new HashMap<>();
 
-        result.put("successCnt",successCnt);
-        result.put("maxSuccess", maxSuccess);
-        result.put("totalSuccess",totalSuccess);
+        MissionStatusDto missionStatusDto = new MissionStatusDto().builder().
+                                                            successCnt(successCnt).
+                                                            maxSuccess(maxSuccess).
+                                                            totalSuccess(totalSuccess).build();
 
-        return result;
+        return missionStatusDto;
     }
 
 }

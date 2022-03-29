@@ -1,9 +1,16 @@
 package com.assj.algomorgobusiness.controller;
 
+import com.assj.algomorgobusiness.dto.UpdateRequestDto;
 import com.assj.algomorgobusiness.dto.UserDto;
+import com.assj.algomorgobusiness.exception.BadBaekJoonId;
+import com.assj.algomorgobusiness.exception.BadNickName;
+import com.assj.algomorgobusiness.exception.BadUserId;
 import com.assj.algomorgobusiness.filter.JwtFilter;
 import com.assj.algomorgobusiness.service.user.UserService;
 import com.assj.algomorgobusiness.service.user.UserServiceImpl;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,12 +31,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "signUp", description = "회원가입 API입니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "signUp success"),
+            @ApiResponse(code = 418, message = "baekjoonId Not Found"),
+            @ApiResponse(code = 400, message = "duplicate userId"),
+            @ApiResponse(code = 403, message = "duplicate nickName")
+    })
     @PostMapping("/signup")
     public ResponseEntity registUser(@RequestBody UserDto userDto){
-        if(userService.registUser(userDto))
-            return  new ResponseEntity(HttpStatus.OK);
-        else
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        try{
+            if(userService.registUser(userDto))
+                return  new ResponseEntity(HttpStatus.OK);
+            else
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (BadUserId e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }catch (BadNickName e){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }catch (BadBaekJoonId e){
+            return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
+        }
+
     }
 
     @GetMapping
@@ -38,37 +62,50 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @Operation(summary = "login", description = "로그인 API입니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "login success header에서 토큰을 확인"),
+            @ApiResponse(code = 400, message = "아이디 혹은 비밀번호가 맞지 않습니다."),
+    })
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> map){
+    public ResponseEntity<UserDto> login(@RequestBody UserDto requestUserDto){
 
-        String userId = map.getOrDefault("userId",null);
-        String password = map.getOrDefault("password",null);
+        String userId = requestUserDto.getUserId();
+        String password = requestUserDto.getPassword();
         log.info(userId);
         log.info(password);
         Map<String, String> result = userService.login(userId, password);
         if(result.size() == 0)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         HttpHeaders headers = new HttpHeaders();
-        log.warn(result.get("jwt"));
+        log.debug(result.get("jwt"));
+        UserDto responseUserDto = new UserDto().builder().
+                nickName(result.get("nickName")).
+                baekjoonId(result.get("baekjoonId")).
+                language(result.get("language")).build();
         headers.add(JwtFilter.AUTHORIZATION_HEADER,"Bearer "+  result.get("jwt"));
-        result.remove("jwt");
-        return new ResponseEntity<>(result, headers, HttpStatus.OK);
+        return new ResponseEntity<>(responseUserDto, headers, HttpStatus.OK);
     }
 
+    @Operation(summary = "update", description = "회원정보 수정 API입니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "회원정보가 변경됨. JWT삭제 후 로그아웃 시켜주세요."),
+            @ApiResponse(code = 400, message = "아이디 혹은 비밀번호가 맞지 않거나, 닉네임 중복체크가 안 됨"),
+    })
     @PutMapping
-    public ResponseEntity updateUser(@RequestBody Map<String, Object> map){
-        String changePassword = (String) map.getOrDefault("changePassword",null);
-        UserDto userDto = new UserDto();
-        userDto.setId((Integer) map.get("id"));//변경 불가
-        userDto.setUserId((String) map.get("userId"));//변경 불가
-        userDto.setNickName((String) map.get("nickName"));//변경 가능
-        userDto.setBaekjoonId((String) map.get("baekjoonId"));//변경 불가
-        userDto.setLanguage((String) map.get("language"));//변경 가능
-        userDto.setPassword((String) map.get("password"));//변경 가능 - 회원 정보를 수정할 때 비밀번호가 필요하다.
-        if(userService.updateUser(userDto))
-            return new ResponseEntity(HttpStatus.OK);
-        else
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity updateUser(@RequestBody UpdateRequestDto updateRequestDto){
+        String changePassword = updateRequestDto.getChangePassword();
+        UserDto requestDto = updateRequestDto.getUserDto();
+        try {
+
+            if(changePassword == null){
+                return userService.updateUser(requestDto) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }else{
+                return userService.updateUser(requestDto, changePassword) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }catch (BadNickName e){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{userId}")
@@ -80,6 +117,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Operation(summary = "사용자 알고리즘 기록", description = "사용자의 알고리즘 별 풀이 개수 API입니다. 노션을 확인해주세요..")
     @GetMapping("/{userId}")
     public ResponseEntity<Map<String,Object>> getUser(@PathVariable("userId") String userId){
         Map<String, Object> result = userService.getUser(userId);

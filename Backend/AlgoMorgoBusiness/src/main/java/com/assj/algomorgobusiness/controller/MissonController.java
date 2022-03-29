@@ -1,6 +1,7 @@
 package com.assj.algomorgobusiness.controller;
 
 import com.assj.algomorgobusiness.dto.MissionDto;
+import com.assj.algomorgobusiness.dto.MissionStatusDto;
 import com.assj.algomorgobusiness.service.mission.MissionService;
 import com.assj.algomorgobusiness.service.mission.MissionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,8 @@ public class MissonController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Map<String,Integer>> getMissionInfo(@PathVariable("userId") String userId){
-        Map<String, Integer> result = missionService.getMission(userId);
+    public ResponseEntity<MissionStatusDto> getMissionInfo(@PathVariable("userId") String userId){
+        MissionStatusDto result = missionService.getMission(userId);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 
