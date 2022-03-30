@@ -565,24 +565,44 @@ def createProblemWithTag():
         pickle.dump(problemWithTag,fw)
 
 
+# def insertRedis(userId, problems):
+#     data = []
+#     for i, problem in enumerate(problems):
+#         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
+#         creatDate = creatDate.strftime('%Y-%m-%d')
+#         flag = False
+#         if i < 3:
+#             flag = True
+#         problemData = {
+#             "create_date" : str(creatDate),
+#             "success_date" : None,
+#             "problem_id" : problem,
+#             "selected" : flag
+#         }
+#
+#         data.append(problemData)
+#
+#     jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
+#     rs = redis.StrictRedis(host="localhost", port=8180, db=0)
+#     rs.set(str(userId), jsonDataDict)
+
 def insertRedis(userId, problems):
-    data = []
+
+    rs = redis.StrictRedis(host="localhost", port=8180, db=0)
+    rs.hset("userId:" + str(userId), "_class", "com.assj.algomorgobusiness.dto.RedisDto")
+
     for i, problem in enumerate(problems):
         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
         creatDate = creatDate.strftime('%Y-%m-%d')
         flag = False
         if i < 3:
             flag = True
-        problemData = {
-            "create_date" : str(creatDate),
-            "success_date" : None,
-            "problem_id" : problem,
-            "selected" : flag
-        }
+        flagStr = 0
+        if flag:
+            flagStr = 1
 
-        data.append(problemData)
-
-    jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
-    rs = redis.StrictRedis(host="localhost", port=8180, db=0)
-    rs.set(str(userId), jsonDataDict)
-
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].createDate", str(creatDate))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].successDate", "null")
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].problemId", str(problem))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].selected", str(flagStr))
+    rs.hset("userId:" + str(userId), "userId", userId)
