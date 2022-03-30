@@ -565,52 +565,24 @@ def createProblemWithTag():
         pickle.dump(problemWithTag,fw)
 
 
-# def insertRedis(userId, problems):
-#     data = []
-#     for i, problem in enumerate(problems):
-#         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
-#         creatDate = creatDate.strftime('%Y-%m-%d')
-#         flag = False
-#         if i < 3:
-#             flag = True
-#         problemData = {
-#             "create_date" : str(creatDate),
-#             "success_date" : None,
-#             "problem_id" : problem,
-#             "selected" : flag
-#         }
-#
-#         data.append(problemData)
-#
-#     map = {"userId": userId,
-#            "infoList": data
-#
-#            }
-#
-#     print(map)
-#
-#     jsonDataDict = json.dumps(map, ensure_ascii=False).encode('utf-8')
-#     rs = redis.StrictRedis(host="localhost", port=6379, db=0)
-#     rs.set("userId:" + str(userId), jsonDataDict)
-
 def insertRedis(userId, problems):
-
-    rs = redis.StrictRedis(host="localhost", port=8180, db=0)
-    rs.hset("userId:" + str(userId), "_class", "com.assj.algomorgobusiness.dto.RedisDto")
-
+    data = []
     for i, problem in enumerate(problems):
         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
         creatDate = creatDate.strftime('%Y-%m-%d')
         flag = False
         if i < 3:
             flag = True
-        flagStr = 0
-        if flag:
-            flagStr = 1
+        problemData = {
+            "create_date" : str(creatDate),
+            "success_date" : None,
+            "problem_id" : problem,
+            "selected" : flag
+        }
 
-        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].createDate", str(creatDate))
-        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].successDate", "null")
-        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].problemId", str(problem))
-        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].selected", str(flagStr))
-    rs.hset("userId:" + str(userId), "userId", userId)
+        data.append(problemData)
+
+    jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
+    rs = redis.StrictRedis(host="localhost", port=8180, db=0)
+    rs.set(str(userId), jsonDataDict)
 
