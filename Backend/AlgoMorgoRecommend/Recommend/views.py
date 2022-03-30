@@ -588,7 +588,7 @@ def createProblemWithTag():
 
 def insertRedis(userId, problems):
 
-    rs = redis.StrictRedis(host="localhost", port=8180, db=0)
+    rs = redis.StrictRedis(host="j6c204.p.ssafy.io", port=8180, db=0)
     rs.hset("userId:" + str(userId), "_class", "com.assj.algomorgobusiness.dto.RedisDto")
 
     for i, problem in enumerate(problems):
