@@ -45,7 +45,7 @@ function MyMonthMission() {
             <Col sm="6">
               <h6 className='font-weight-bold'>참여일 수: 4일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
-              <table className='table-bordered'>
+              <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th>문제</th>
@@ -97,7 +97,7 @@ function MyMonthMission() {
             <Col sm="6">
             <h6 className='font-weight-bold'>정답 비율: 60%</h6>
               <h6 className='mt-3 font-weight-bold'>해결한 미션</h6>
-              <table className='table-bordered'>
+              <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th>문제</th>

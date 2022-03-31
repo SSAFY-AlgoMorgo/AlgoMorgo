@@ -22,29 +22,9 @@ import { Container, Row } from "reactstrap";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
-import CardsFooter from "components/Footers/CardsFooter.js";
 
 // index page sections
 import Hero from "./IndexSections/Hero.js";
-import Buttons from "./IndexSections/Buttons.js";
-import Inputs from "./IndexSections/Inputs.js";
-import CustomControls from "./IndexSections/CustomControls.js";
-import Menus from "./IndexSections/Menus.js";
-import Navbars from "./IndexSections/Navbars.js";
-import Tabs from "./IndexSections/Tabs.js";
-import Progress from "./IndexSections/Progress.js";
-import Pagination from "./IndexSections/Pagination.js";
-import Pills from "./IndexSections/Pills.js";
-import Labels from "./IndexSections/Labels.js";
-import Alerts from "./IndexSections/Alerts.js";
-import Typography from "./IndexSections/Typography.js";
-import Modals from "./IndexSections/Modals.js";
-import Datepicker from "./IndexSections/Datepicker.js";
-import TooltipPopover from "./IndexSections/TooltipPopover.js";
-import Carousel from "./IndexSections/Carousel.js";
-import Icons from "./IndexSections/Icons.js";
-import Login from "./IndexSections/Login.js";
-import Download from "./IndexSections/Download.js";
 
 class Index extends React.Component {
   componentDidMount() {
@@ -58,39 +38,43 @@ class Index extends React.Component {
         <DemoNavbar />
         <main ref="main">
           <Hero />
-          <Buttons />
-          <Inputs />
-          <section className="section">
+          <section className="section my-5">
             <Container>
-              <CustomControls />
-              <Menus />
+              <h3 className="font-weight-bold">부족한 알고리즘 역량을 체크!</h3>
+              <h3 className="font-weight-bold">알고리즘, 난이도 기반으로 맞춤 문제를 제공합니다.</h3>
+              <img
+                alt="..."
+                className="img-fluid rounded shadow my-4"
+                src={require("assets/img/guide/mission_image.jpg")}
+                style={{ width: "100%" }}
+              />
             </Container>
           </section>
-          <Navbars />
-          <section className="section section-components">
+          <section className="section my-5">
             <Container>
-              <Tabs />
-              <Row className="row-grid justify-content-between align-items-center mt-lg">
-                <Progress />
-                <Pagination />
-              </Row>
-              <Row className="row-grid justify-content-between">
-                <Pills />
-                <Labels />
-              </Row>
-              <Alerts />
-              <Typography />
-              <Modals />
-              <Datepicker />
-              <TooltipPopover />
+              <h3 className="font-weight-bold">확실한 목표 수립으로 코딩 열정 충전!</h3>
+              <h3 className="font-weight-bold">일일 미션 문제 풀고 실력 Up! 명예 보상까지</h3>
+              <img
+                alt="..."
+                className="img-fluid rounded shadow my-4"
+                src={require("assets/img/guide/mission_profile_image.jpg")}
+                style={{ width: "100%" }}
+              />
             </Container>
           </section>
-          <Carousel />
-          <Icons />
-          <Login />
-          <Download />
+          <section className="section my-5">
+            <Container>
+              <h3 className="font-weight-bold">내가 푼 문제들을 살펴보며 자가 진단 Check</h3>
+              <h3 className="font-weight-bold">월간, 주간 기록표를 살펴보며 계획 세우고 의욕 충전~</h3>
+              <img
+                alt="..."
+                className="img-fluid rounded shadow my-4"
+                src={require("assets/img/guide/calendar_image.jpg")}
+                style={{ width: "100%" }}
+              />
+            </Container>
+          </section>
         </main>
-        <CardsFooter />
       </>
     );
   }

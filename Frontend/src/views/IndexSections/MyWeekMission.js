@@ -6,7 +6,6 @@ import {
   Row,
   Col,
   Progress,
-  FormGroup
 } from "reactstrap";
 
 function MyWeekMission() {
@@ -46,7 +45,7 @@ function MyWeekMission() {
             <Col sm="6">
               <h6 className='font-weight-bold'>참여일 수: 5일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
-              <table className='table-bordered'>
+              <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th>문제</th>
@@ -98,7 +97,7 @@ function MyWeekMission() {
             <Col sm="6">
             <h6 className='font-weight-bold'>정답 비율: 100%</h6>
               <h6 className='mt-3 font-weight-bold'>해결한 미션</h6>
-              <table className='table-bordered'>
+              <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
                   <tr>
                     <th>문제</th>
@@ -111,14 +110,18 @@ function MyWeekMission() {
                   <tr>
                     <td>13460</td>
                     <td>구슬 탈출 2</td>
-                    <td><FormGroup className="has-success" />
+                    <td><Badge className="text-uppercase ml-1" color="success" pill>
+                      O
+                    </Badge>
                     </td>
                     <td>26.584%</td>
                   </tr>
                   <tr>
                     <td>13460</td>
                     <td>구슬 탈출 2</td>
-                    <td><FormGroup className="has-danger" />
+                    <td><Badge className="text-uppercase ml-1" color="danger" pill>
+                      x
+                    </Badge>
                     </td>
                     <td>26.584%</td>
                   </tr>
