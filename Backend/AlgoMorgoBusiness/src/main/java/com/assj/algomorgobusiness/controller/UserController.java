@@ -6,6 +6,7 @@ import com.assj.algomorgobusiness.exception.BadBaekJoonId;
 import com.assj.algomorgobusiness.exception.BadNickName;
 import com.assj.algomorgobusiness.exception.BadUserId;
 import com.assj.algomorgobusiness.filter.JwtFilter;
+import com.assj.algomorgobusiness.service.recommend.RecommendService;
 import com.assj.algomorgobusiness.service.user.UserService;
 import com.assj.algomorgobusiness.service.user.UserServiceImpl;
 import io.swagger.annotations.ApiResponse;
@@ -31,6 +32,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RecommendService recommendService;
+
     @Operation(summary = "signUp", description = "회원가입 API입니다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "signUp success"),
@@ -42,9 +46,10 @@ public class UserController {
     public ResponseEntity registUser(@RequestBody UserDto userDto){
 
         try{
-            if(userService.registUser(userDto))
-                return  new ResponseEntity(HttpStatus.OK);
-            else
+            if(userService.registUser(userDto)) {
+                recommendService.recommendAfterSignup(userDto.getUserId());
+                return new ResponseEntity(HttpStatus.OK);
+            } else
                 return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }catch (BadUserId e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -53,6 +58,7 @@ public class UserController {
         }catch (BadBaekJoonId e){
             return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
         }
+
 
     }
 
