@@ -53,6 +53,7 @@ public class UserController {
         }catch (BadBaekJoonId e){
             return new ResponseEntity(HttpStatus.I_AM_A_TEAPOT);
         }
+        
 
     }
 
