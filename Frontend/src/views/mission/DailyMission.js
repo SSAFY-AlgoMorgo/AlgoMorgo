@@ -4,19 +4,7 @@ import classnames from "classnames";
 
 // reactstrap components
 import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
-  Row,
-  Col
 } from "reactstrap";
 
 // core components

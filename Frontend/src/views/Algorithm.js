@@ -2,23 +2,11 @@ import React from "react";
 
 // reactstrap components
 import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   Container,
-  Row,
-  Col
 } from "reactstrap";
 
 // core components

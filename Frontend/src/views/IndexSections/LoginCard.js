@@ -2,15 +2,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
   CardBody,
-  CardImg,
   FormGroup,
   Form,
   Input,
@@ -82,6 +78,19 @@ class LoginCard extends React.Component {
                            type="button"
                           >
                           로그인
+                          </Button>
+                        </div>
+                        <div className="mt-3">
+                          <Button
+                           block
+                           className="btn-round"
+                           color="primary"
+                           size="lg"
+                           type="button"
+                           to="/register-page" 
+                           tag={Link}
+                          >
+                          회원가입
                           </Button>
                         </div>
                       </Form>
