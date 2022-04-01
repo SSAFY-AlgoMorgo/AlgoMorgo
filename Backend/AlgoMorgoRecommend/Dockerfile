@@ -1,6 +1,7 @@
 FROM python:3.8.10
 
 ENV PYTHONUNBUFFERED 1 
+ENV TZ=Asia/Seoul
 
 RUN apt-get -y update
 RUN mkdir /srv/docker-server
