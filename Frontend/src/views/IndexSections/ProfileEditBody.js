@@ -5,25 +5,16 @@ import { Link } from "react-router-dom";
 
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardImg,
   FormGroup,
-  Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
 } from "reactstrap";
 
-class ProfileEditBody extends React.Component {
-  render() {
+function ProfileEditBody() {
     return (
       <>
         
@@ -153,11 +144,6 @@ class ProfileEditBody extends React.Component {
                 <button type="button" class="btn-1 btn btn-primary">정보 수정</button>
                 <button type="button" class="btn-1 btn btn-danger">회원 탈퇴</button>
               </div>
-          
-              
-              
-
-
 
 
               </Card>
@@ -167,6 +153,5 @@ class ProfileEditBody extends React.Component {
       </>
     );
   }
-}
 
 export default ProfileEditBody;

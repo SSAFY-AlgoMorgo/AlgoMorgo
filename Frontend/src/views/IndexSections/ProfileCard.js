@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 // reactstrap components
 import { Button, Container, Row, Col, Card } from "reactstrap";
 
-class ProfileCard extends React.Component {
-  render() {
+function ProfileCard() {
     return (
       <>
         <Container>
@@ -50,6 +49,5 @@ class ProfileCard extends React.Component {
       </>
     );
   }
-}
 
 export default ProfileCard;

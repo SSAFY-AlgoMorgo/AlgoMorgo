@@ -11,8 +11,7 @@ import {
   Col
 } from "reactstrap";
 
-class MissionBadge extends React.Component {
-  render() {
+function MissionBadge() {
     return (
       <>
         <section className="section">
@@ -93,6 +92,5 @@ class MissionBadge extends React.Component {
       </>
     );
   }
-}
 
 export default MissionBadge;

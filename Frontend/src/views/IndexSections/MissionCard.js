@@ -12,8 +12,7 @@ import {
   Col
 } from "reactstrap";
 
-class MissionCard extends React.Component {
-  render() {
+function MissionCard() {
     return (
       <>
         <section className="section section-lg pt-lg-0 mt--200">
@@ -138,6 +137,5 @@ class MissionCard extends React.Component {
       </>
     );
   }
-}
 
 export default MissionCard;

@@ -1,29 +1,16 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import {
-  Badge,
-  Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
 } from "reactstrap";
 
-class ProfileTag extends React.Component {
-  render() {
+function ProfileTag() {
     return (
       <>
           <Container>
@@ -216,6 +203,5 @@ class ProfileTag extends React.Component {
       </>
     );
   }
-}
 
 export default ProfileTag;

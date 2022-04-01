@@ -22,8 +22,7 @@ import { Link } from "react-router-dom";
 // reactstrap components
 import { Button, Container, Row, Col } from "reactstrap";
 
-class Hero extends React.Component {
-  render() {
+function Hero() {
     return (
       <>
         <div className="position-relative">
@@ -75,6 +74,5 @@ class Hero extends React.Component {
       </>
     );
   }
-}
 
 export default Hero;

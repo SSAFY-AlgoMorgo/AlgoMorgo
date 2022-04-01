@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import Badge from 'reactstrap/lib/Badge';
+
 import {
   Card,
   CardBody,
   Row,
   Col,
-  Progress
 } from "reactstrap";
 
 function MyMonthMission() {

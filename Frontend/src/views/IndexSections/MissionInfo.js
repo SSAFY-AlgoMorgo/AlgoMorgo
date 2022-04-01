@@ -9,8 +9,7 @@ import {
   Col
 } from "reactstrap";
 
-class MissionInfo extends React.Component {
-  render() {
+function MissionInfo() {
     return (
       <>
             <Container className="py-lg-md d-flex mt-5">
@@ -110,6 +109,5 @@ class MissionInfo extends React.Component {
       </>
     );
   }
-}
 
 export default MissionInfo;
