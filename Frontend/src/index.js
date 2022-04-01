@@ -35,7 +35,6 @@ import DailyMission from "views/mission/DailyMission.js";
 import MissionProfile from "views/mission/MissionProfile.js";
 import WeeklyCalendar from "views/calendar/WeeklyCalendar.js";
 import MonthlyCalendar from "views/calendar/MonthlyCalendar.js";
-import PasswordEdit from "views/user/PasswordEdit.js"
 
 
 ReactDOM.render(
@@ -57,11 +56,6 @@ ReactDOM.render(
         path="/profileedit-page"
         exact
         render={props => <ProfileEdit {...props} />}
-      />
-      <Route
-        path="/passwordedit-page"
-        exact
-        render={props => <PasswordEdit {...props} />}
       />
       <Route
         path="/register-page"
