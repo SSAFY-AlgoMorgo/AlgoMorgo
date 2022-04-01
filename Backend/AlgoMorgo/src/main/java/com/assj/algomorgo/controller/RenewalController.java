@@ -11,6 +11,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/batch")
+@CrossOrigin("*")
 public class RenewalController {
 
     @Autowired
