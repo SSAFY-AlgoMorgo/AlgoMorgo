@@ -18,8 +18,7 @@ import {
   Col
 } from "reactstrap";
 
-class LoginCard extends React.Component {
-  render() {
+function LoginCard() {
     return (
       <>
             <Container className="pt-lg-7">
@@ -76,6 +75,8 @@ class LoginCard extends React.Component {
                            color="default"
                            size="lg"
                            type="button"
+                           to="/profile-page" 
+                           tag={Link}
                           >
                           로그인
                           </Button>
@@ -103,6 +104,5 @@ class LoginCard extends React.Component {
       </>
     );
   }
-}
 
 export default LoginCard;

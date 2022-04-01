@@ -1,29 +1,17 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
 } from "reactstrap";
 
-class ProfileBody extends React.Component {
-  render() {
+function ProfileBody() {
     return (
       <>
         
@@ -151,6 +139,5 @@ class ProfileBody extends React.Component {
       </>
     );
   }
-}
 
 export default ProfileBody;

@@ -1,16 +1,12 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
   CardBody,
-  CardImg,
   FormGroup,
   Form,
   Input,
@@ -22,8 +18,7 @@ import {
   Col
 } from "reactstrap";
 
-class RegisterCard extends React.Component {
-  render() {
+function RegisterCard() {
     return (
       <>
             <Container className="pt-lg-7">
@@ -148,6 +143,5 @@ class RegisterCard extends React.Component {
       </>
     );
   }
-}
 
 export default RegisterCard;

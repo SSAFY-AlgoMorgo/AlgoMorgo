@@ -1,23 +1,7 @@
 import React from "react";
 
 // reactstrap components
-import {
-  Badge,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
+
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";

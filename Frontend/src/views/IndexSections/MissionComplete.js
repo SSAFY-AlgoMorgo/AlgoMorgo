@@ -11,8 +11,7 @@ import {
   Col
 } from "reactstrap";
 
-class MissionComplete extends React.Component {
-  render() {
+function MissionComplete() {
     return (
       <>
         <section className="section section-lg pt-0">
@@ -48,6 +47,5 @@ class MissionComplete extends React.Component {
       </>
     );
   }
-}
 
 export default MissionComplete;

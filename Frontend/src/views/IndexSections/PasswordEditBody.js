@@ -1,29 +1,19 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import {
-  Badge,
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardImg,
   FormGroup,
-  Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
   Row,
   Col
 } from "reactstrap";
 
-class PasswordEditBody extends React.Component {
-  render() {
+function PasswordEditBody() {
     return (
       <>
         
@@ -151,12 +141,6 @@ class PasswordEditBody extends React.Component {
                 </Button>
               </div>
           
-              
-              
-
-
-
-
               </Card>
             </Container>
           </section>
@@ -164,6 +148,5 @@ class PasswordEditBody extends React.Component {
       </>
     );
   }
-}
 
 export default PasswordEditBody;

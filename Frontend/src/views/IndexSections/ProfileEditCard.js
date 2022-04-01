@@ -1,13 +1,11 @@
 
 import React from "react";
-import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import { Button, Container, Row, Col, Card } from "reactstrap";
 
-class ProfileEditCard extends React.Component {
-  render() {
+function ProfileEditCard() {
     return (
       <>
         <Container>
@@ -43,6 +41,5 @@ class ProfileEditCard extends React.Component {
       </>
     );
   }
-}
 
 export default ProfileEditCard;
