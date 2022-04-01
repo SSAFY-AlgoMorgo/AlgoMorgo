@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/batch")
+@CrossOrigin("*")
 public class LogController {
 
     @Autowired
