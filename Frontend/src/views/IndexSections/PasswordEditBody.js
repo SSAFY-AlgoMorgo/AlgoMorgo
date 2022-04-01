@@ -16,7 +16,6 @@ import {
 function PasswordEditBody() {
     return (
       <>
-        
         <section className="section">
           <Container>
             <Card className="card-profile bg-secondary mt-0">
