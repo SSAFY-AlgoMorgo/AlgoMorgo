@@ -1,24 +1,23 @@
 package com.assj.algomorgobusiness.controller;
 
+import com.assj.algomorgobusiness.dto.MissionDto;
 import com.assj.algomorgobusiness.dto.RedisDto;
 import com.assj.algomorgobusiness.repository.RedisRepository;
 import com.assj.algomorgobusiness.service.redis.RedisService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @Slf4j
+@CrossOrigin("*")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/redis")
 public class RedisController {
 
-    @Autowired
-    private RedisService redisService;
-
-    @Autowired
-    private RedisRepository redisRepository;
+    private final RedisService redisService;
 
     @PostMapping("/add")
     public RedisDto add(@RequestBody RedisDto redisDto){
@@ -27,10 +26,16 @@ public class RedisController {
         return redisService.save(redisDto);
     }
 
-    @GetMapping("/today/{userId}")
-    public RedisDto getUserMission(@PathVariable("userId") String userId) {
+    @GetMapping("/today/{Id}")
+    public List<MissionDto> getUserMission(@PathVariable("Id") String Id) {
 
-        return redisService.getUserMission(userId);
+        return redisService.getUserMission(Id);
+    }
+
+    @GetMapping("/refresh/{Id}")
+    public List<MissionDto> getRefreshMission(@PathVariable("Id") String Id) {
+
+        return redisService.getRefreshMission(Id);
     }
 
 }
