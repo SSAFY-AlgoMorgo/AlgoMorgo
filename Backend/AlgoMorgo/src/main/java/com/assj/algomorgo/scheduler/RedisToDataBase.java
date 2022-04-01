@@ -23,7 +23,7 @@ public class RedisToDataBase {
     @Autowired
     private RedisRepository redisRepository;
 
-    @Scheduled(cron = "59 41 11 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "59 46 11 * * *", zone = "Asia/Seoul")
     public void updateMission(){
         renewalService.redisToDataBase();
 
