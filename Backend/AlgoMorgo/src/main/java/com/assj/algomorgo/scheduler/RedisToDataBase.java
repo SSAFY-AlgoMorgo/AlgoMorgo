@@ -23,13 +23,13 @@ public class RedisToDataBase {
     @Autowired
     private RedisRepository redisRepository;
 
-    @Scheduled(cron = "59 05 12 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "59 29 23 * * *", zone = "Asia/Seoul")
     public void saveMission(){
         renewalService.redisToDataBase();
 
     }
 
-    @Scheduled(cron = "59 10 12 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void updateMission(){
         redisRepository.deleteAll();
 
