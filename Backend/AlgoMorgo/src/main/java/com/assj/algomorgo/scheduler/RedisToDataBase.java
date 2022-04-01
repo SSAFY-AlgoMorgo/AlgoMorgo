@@ -23,10 +23,14 @@ public class RedisToDataBase {
     @Autowired
     private RedisRepository redisRepository;
 
-    @Scheduled(cron = "59 46 11 * * *", zone = "Asia/Seoul")
-    public void updateMission(){
+    @Scheduled(cron = "59 05 12 * * *", zone = "Asia/Seoul")
+    public void saveMission(){
         renewalService.redisToDataBase();
 
+    }
+
+    @Scheduled(cron = "59 10 12 * * *", zone = "Asia/Seoul")
+    public void updateMission(){
         redisRepository.deleteAll();
 
         RestTemplate restTemplate = new RestTemplate();
@@ -37,7 +41,6 @@ public class RedisToDataBase {
         ResponseEntity<Object> response = restTemplate.exchange(url, HttpMethod.GET, entity, Object.class);
         if(response.getStatusCode() != HttpStatus.OK)
             log.info("추천서버에 문제가 생겼습니다.");
-
     }
 
 }
