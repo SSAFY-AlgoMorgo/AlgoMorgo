@@ -129,7 +129,8 @@ public class RenewalServiceImpl implements RenewalService{
                     mission.setCreateDate(LocalDateTime.now().
                             withYear(Integer.parseInt(st.nextToken())).
                             withMonth(Integer.parseInt(st.nextToken())).
-                            withDayOfMonth(Integer.parseInt(st.nextToken())));
+                            withDayOfMonth(Integer.parseInt(st.nextToken())).
+                            withHour(0).withMinute(0).withSecond(0));
                     if(infoDto.getSuccessDate().equals("null") || infoDto.getSuccessDate().equals(null))
                         mission.setSuccessDate(null);
                     else {
@@ -137,7 +138,8 @@ public class RenewalServiceImpl implements RenewalService{
                         mission.setSuccessDate(LocalDateTime.now().
                                 withYear(Integer.parseInt(st.nextToken())).
                                 withMonth(Integer.parseInt(st.nextToken())).
-                                withDayOfMonth(Integer.parseInt(st.nextToken())));
+                                withDayOfMonth(Integer.parseInt(st.nextToken())).
+                                withHour(0).withMinute(0).withSecond(0));
                     }
                     missionRepo.save(mission);
                 }
