@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 // JavaScript plugin that hides or shows a component based on your scroll
 import Headroom from "headroom.js";
 // reactstrap components
@@ -42,6 +43,13 @@ class DemoNavbar extends React.Component {
   };
 
   render() {
+    // const history = useHistory()
+    const nickName = localStorage.getItem("nickName")
+    const logout = (e) =>{
+      localStorage.clear()
+      // history.replace("/login-page")
+      window.location.replace("/login-page")
+    }
     return (
       <>
         <header className="header-global">
@@ -110,12 +118,38 @@ class DemoNavbar extends React.Component {
                       가이드 <span className="sr-only">(current)</span>
                     </NavLink>
                   </NavItem>
+                  <NavItem>
+                    {
+                     nickName == null ?
+                     <div></div>
+                     :
+                     <NavLink to="/profile-page" tag={Link}>
+                      마이페이지<span className="sr-only">(current)</span>
+                    </NavLink>  
+                    }
+                  </NavItem>
                 </Nav>
                 <Nav className="ml-lg-auto" navbar>
                   <NavItem>
+                    {
+                     nickName == null ?
+                     <div></div>
+                     :
+                     <NavLink to="/profile-page" tag={Link}>
+                      {nickName}님 환영합니다. <span className="sr-only">(current)</span>
+                    </NavLink>  
+                    }
+                  </NavItem>
+                  <NavItem>
+                    {nickName == null ? 
                     <NavLink to="/login-page" tag={Link}>
                       로그인 <span className="sr-only">(current)</span>
                     </NavLink>
+                    :
+                    <NavLink onClick={logout}>
+                      로그아웃 <span className="sr-only">(current)</span>
+                    </NavLink>
+                    }
                   </NavItem>
                 </Nav>
               </UncontrolledCollapse>
