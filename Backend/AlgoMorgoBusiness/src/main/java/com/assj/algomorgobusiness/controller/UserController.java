@@ -146,7 +146,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.OK);
             //true일 때 사용가능한 아이디
         else
-            return new ResponseEntity((HttpStatus.INTERNAL_SERVER_ERROR));
+            return new ResponseEntity((HttpStatus.BAD_REQUEST));
     }
 
 
