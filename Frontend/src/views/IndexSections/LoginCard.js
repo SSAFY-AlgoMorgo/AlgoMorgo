@@ -1,7 +1,9 @@
 
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
 import useSWR from "swr";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -18,8 +20,75 @@ import {
   Row,
   Col
 } from "reactstrap";
+import { setTextRange } from "typescript";
 
-function LoginCard() {
+
+function LoginCard(props) {
+  
+  const history = useHistory()
+
+  const [inputs, setInputs] = useState({  
+    userId: localStorage.getItem("userId"),
+    password: '',
+  })
+  const { userId, password } = inputs   
+
+  const onChange = (e) => {
+    const { name, value } = e.target   
+
+    const nextInputs = {            
+      ...inputs,  
+      [name]: value,
+    }
+    setInputs(nextInputs)       
+
+  }
+  const onReset = () => {
+    const resetInputs = {       
+      userId: '',
+      password: '',
+    }
+    setInputs(resetInputs)      
+  }
+  const login = useCallback(async (e) =>{
+    try{
+      const {data: resonse,
+            headers : headers} = await axios({
+        method:"post",
+        url:"http://j6c204.p.ssafy.io:8081/v1/user/login",
+        headers: {
+          "Accept":"application/json;charset=UTF-8",
+          "Content-Type":"application/json;charset=UTF-8"
+        },
+        data:{
+          "userId" : userId,
+          "password" : password
+        }
+      })
+      // console.log(headers)
+      // console.log(resonse)
+      const userInfo = {
+        "userId" : userId,
+        "language": resonse["language"],
+        "nickName": resonse["nickName"],
+        "baekjoonId": resonse["baekjoonId"]
+      }
+      // console.log(userInfo)
+      localStorage.setItem("userId",userId)
+      localStorage.setItem("language",resonse["language"])
+      localStorage.setItem("nickName",resonse["nickName"])
+      localStorage.setItem("baekjoonId",resonse["baekjoonId"])
+      localStorage.setItem("userInfo",JSON.stringify(userInfo))
+      let jwt = headers["authorization"]
+      jwt = jwt.substr(8)
+      // console.log(jwt)
+      localStorage.setItem("Authorization",jwt);
+      history.replace("/dailymission-page")
+    }catch(error){
+      alert("로그인에 실패했습니다.")
+      onReset()
+    }
+  }) 
     return (
       <>
             <Container className="pt-lg-7">
@@ -38,7 +107,7 @@ function LoginCard() {
                                 <i className="ni ni-circle-08" />
                               </InputGroupText>
                             </InputGroupAddon>
-                            <Input placeholder="아이디" type="email" />
+                            <Input placeholder="아이디" name="userId" type="text" onChange={onChange} value={userId}/>
                           </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -50,12 +119,15 @@ function LoginCard() {
                             </InputGroupAddon>
                             <Input
                               placeholder="비밀번호"
+                              name="password"
                               type="password"
                               autoComplete="off"
+                              onChange={onChange}
+                              value={password}
                             />
                           </InputGroup>
                         </FormGroup>
-                        <div className="custom-control custom-control-alternative custom-checkbox">
+                        {/* <div className="custom-control custom-control-alternative custom-checkbox">
                           <input
                             className="custom-control-input"
                             id=" customCheckLogin"
@@ -67,7 +139,7 @@ function LoginCard() {
                           >
                             <span>아이디 저장</span>
                           </label>
-                        </div>
+                        </div> */}
                         <br />
                         <div>
                           <Button
@@ -76,8 +148,9 @@ function LoginCard() {
                            color="default"
                            size="lg"
                            type="button"
-                           to="/profile-page" 
-                           tag={Link}
+                           to="/dailymission-page" 
+                          //  tag={Link}
+                            onClick={login}
                           >
                           로그인
                           </Button>
