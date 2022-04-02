@@ -234,6 +234,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean duplicateNickName(String nickName) {
+        return userRepository.findByNickName(nickName).orElse(null) == null ? true : false;
+    }
+
+    @Override
     public boolean deleteUser(String userId,String password) {
         User user = userRepository.findByUserId(userId).get();
         if(user == null)
