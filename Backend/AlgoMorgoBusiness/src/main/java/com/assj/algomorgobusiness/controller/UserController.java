@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1/user")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     @Autowired
