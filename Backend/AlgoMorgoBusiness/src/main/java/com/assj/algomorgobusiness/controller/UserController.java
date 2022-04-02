@@ -140,5 +140,14 @@ public class UserController {
             return new ResponseEntity((HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
+    @GetMapping("/duplicate/check/{nickName}")
+    public ResponseEntity duplicateNickName(@PathVariable("nickName") String nickName){
+        if(userService.duplicateNickName(nickName))
+            return new ResponseEntity(HttpStatus.OK);
+            //true일 때 사용가능한 아이디
+        else
+            return new ResponseEntity((HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
 
 }
