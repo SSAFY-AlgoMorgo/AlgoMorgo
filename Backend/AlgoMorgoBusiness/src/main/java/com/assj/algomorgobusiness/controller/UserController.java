@@ -27,7 +27,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/v1/user")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*",exposedHeaders = JwtFilter.AUTHORIZATION_HEADER)
 public class UserController {
 
     @Autowired
