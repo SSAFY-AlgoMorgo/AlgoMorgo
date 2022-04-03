@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Badge from 'reactstrap/lib/Badge';
 import {
   Card,
@@ -10,7 +10,12 @@ import {
 
 function MyWeekMission() {
   const [value, onChange] = useState(new Date());
-
+  useEffect(() => {
+    
+    return () => {
+      console.log("unmount");
+    }
+  }, []);
   return (
     <div>
       <Card className="shadow my-5" style={{ width: "100%" }}>
