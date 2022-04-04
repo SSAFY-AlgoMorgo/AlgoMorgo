@@ -59,12 +59,22 @@ class DemoNavbar extends React.Component {
             id="navbar-main"
           >
             <Container>
-              <NavbarBrand className="mr-lg-2" to="/" tag={Link}>
+              { 
+                nickName == null ?
+                <NavbarBrand className="mr-lg-2" to="/" tag={Link}>
                 <img
                   alt="..."
                   src={require("assets/img/brand/algomorgo-title.png")}
                 />
-              </NavbarBrand>
+                </NavbarBrand>
+                :
+                <NavbarBrand className="mr-lg-2" to="/dailymission-page" tag={Link}>
+                <img
+                  alt="..."
+                  src={require("assets/img/brand/algomorgo-title.png")}
+                />
+                </NavbarBrand>
+              }
               <button className="navbar-toggler" id="navbar_global">
                 <span className="navbar-toggler-icon" />
               </button>
@@ -81,14 +91,26 @@ class DemoNavbar extends React.Component {
                       <i className="ni ni-collection d-lg-none mr-1" />
                       <span className="nav-link-inner--text">미션</span>
                     </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem to="/missionprofile-page" tag={Link}>
+                    {
+                      nickName == null ?
+                      <DropdownMenu>
+                        <DropdownItem to="/login-page" tag={Link}>
                         미션 프로필
-                      </DropdownItem>
-                      <DropdownItem to="/dailymission-page" tag={Link}>
+                        </DropdownItem>
+                        <DropdownItem to="/login-page" tag={Link}>
                         데일리 미션
-                      </DropdownItem>
-                    </DropdownMenu>
+                        </DropdownItem>
+                      </DropdownMenu>
+                      :
+                      <DropdownMenu>
+                        <DropdownItem to="/missionprofile-page" tag={Link}>
+                        미션 프로필
+                        </DropdownItem>
+                        <DropdownItem to="/dailymission-page" tag={Link}>
+                        데일리 미션
+                        </DropdownItem>
+                      </DropdownMenu>
+                    }
                   </UncontrolledDropdown>
                 </Nav>
                 <Nav className="navbar-nav-hover align-items-lg-center" navbar>
@@ -97,14 +119,26 @@ class DemoNavbar extends React.Component {
                       <i className="ni ni-collection d-lg-none mr-1" />
                       <span className="nav-link-inner--text">캘린더</span>
                     </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem to="/weeklycalendar-page" tag={Link}>
-                        주간 캘린더
-                      </DropdownItem>
-                      <DropdownItem to="/monthlycalendar-page" tag={Link}>
-                        월간 캘린더
-                      </DropdownItem>
-                    </DropdownMenu>
+                    {
+                      nickName == null ?
+                      <DropdownMenu>
+                        <DropdownItem to="/login-page" tag={Link}>
+                          주간 캘린더
+                        </DropdownItem>
+                        <DropdownItem to="/login-page" tag={Link}>
+                          월간 캘린더
+                        </DropdownItem>
+                      </DropdownMenu>
+                      :
+                      <DropdownMenu>
+                        <DropdownItem to="/weeklycalendar-page" tag={Link}>
+                          주간 캘린더
+                        </DropdownItem>
+                        <DropdownItem to="/monthlycalendar-page" tag={Link}>
+                          월간 캘린더
+                        </DropdownItem>
+                      </DropdownMenu>
+                    }
                   </UncontrolledDropdown>
                 </Nav>
                 <Nav className="ml-lg-left" navbar>
