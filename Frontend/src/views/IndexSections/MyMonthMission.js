@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Badge from 'reactstrap/lib/Badge';
+import axios from 'axios';
 import {
   Card,
   CardBody,
@@ -10,23 +11,85 @@ import {
 
 function MyMonthMission() {
   const [value, onChange] = useState(new Date());
+  const [participationRate, setParticipationRate] = useState(0.0);
+  const [participation, setParticipation] = useState(0);
+  const [solveRate, setSolveRate] = useState(0.0);
+  const [year, setYear] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [monthMissions, setMonthMissions] = useState([]);
+  const [todayMissions, setTodayMissions] = useState([]);
+  useEffect(() => {
 
+    let date = new Date();
+    let tmpYear = date.getFullYear();
+    let tmpMonth = date.getMonth()+1;
+    setYear(tmpYear);
+    setMonth(tmpMonth);
+    let total = new Set();
+    let participate = new Set();
+    let correct = 0;
+
+    let userId = localStorage.getItem("userId");
+    let userJWT = localStorage.getItem("Authorization");
+    let urlForToday = `http://j6c204.p.ssafy.io:8081/v1/redis/today/${userId}`;
+    let urlForMonth = `http://j6c204.p.ssafy.io:8081/v1/mission/${userId}/${tmpYear}/${tmpMonth}`;
+    console.log(userJWT);
+    axios.get(urlForToday, {
+      headers: {
+        "Accept":"application/json;charset=UTF-8",
+        "Content-Type": "application/json;charset=UTF-8",
+        "Authorization": "Bearer "+userJWT
+      },
+    }).then(res => {
+      setTodayMissions(res.data);
+      for (let m = 0; m < res.data.length; m++) {
+        let tmpDate = res.data[m].createDate.slice(0, 10);
+        total.add(tmpDate);
+        if (res.data[m].successDate != null) {
+          participate.add(tmpDate);
+          correct++;
+        }
+      }
+    }).then(res => {
+      console.log(userJWT);
+      axios.get(urlForMonth, {
+        headers: {
+          "Accept":"application/json;charset=UTF-8",
+          "Content-Type": "application/json;charset=UTF-8",
+          "Authorization": "Bearer "+userJWT
+        },
+      }).then(res => {
+        setMonthMissions(res.data);
+        for (let m = 0; m < res.data.length; m++) {
+          let tmpDate = res.data[m].createDate.slice(0, 10);
+          total.add(tmpDate);
+          if (res.data[m].successDate != null) {
+            participate.add(tmpDate);
+            correct++;
+          }
+        }
+        setParticipation(participate.size);
+        setParticipationRate((participate.size / total.size * 100).toFixed(2));
+        setSolveRate((correct / res.data.length * 100).toFixed(2));
+      })
+    })
+  }, []);
   return (
     <div>
       <Card className="shadow my-5" style={{ width: "100%" }}>
         <CardBody className="px-5" >
           {/* 미션 그래프 */}
-          <h4 className="h4 font-weight-bold">월간 미션 현황(2022.03)</h4>
+          <h4 className="h4 font-weight-bold">월간 미션 현황({year}년 {month}월)</h4>
           <div className="progress-wrapper">
             <div className="progress-info">
               <div className="progress-label">
                 <h6>참여율</h6>
               </div>
               <div className="progress-percentage">
-                <span>40%</span>
+                <span>{participationRate}%</span>
               </div>
             </div>
-            <Progress max="100" value="25" color="default" />
+            <Progress max="100" value={participationRate} color="default" />
           </div>
           <div className="progress-wrapper">
             <div className="progress-info">
@@ -34,16 +97,16 @@ function MyMonthMission() {
                 <h6>정답률</h6>
               </div>
               <div className="progress-percentage">
-                <span>60%</span>
+                <span>{solveRate}%</span>
               </div>
             </div>
-            <Progress max="100" value="60" />
+            <Progress max="100" value={solveRate} />
           </div>
           
           {/* 미션 도표 */}
           <Row className="py-3 align-items-center">
             <Col sm="6">
-              <h6 className='font-weight-bold'>참여일 수: 4일</h6>
+              <h6 className='font-weight-bold'>참여일 수: {participation}일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
               <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
@@ -55,48 +118,20 @@ function MyMonthMission() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td>59142</td>
-                    <td>26.584%</td>
-                  </tr>
+                  {todayMissions.map(mission =>
+                    <tr>
+                      <td>{mission.problemDto.problemNum}</td>
+                      <td>{mission.problemDto.problemName}</td>
+                      <td>{mission.problemDto.problemSubmit}</td>
+                      <td>{mission.problemDto.problemAnswer}</td>
+                    </tr>
+                  )}
                 </tbody>
                 </table>
             </Col>
             <Col sm="6">
-            <h6 className='font-weight-bold'>정답 비율: 60%</h6>
-              <h6 className='mt-3 font-weight-bold'>해결한 미션</h6>
+              <h6 className='font-weight-bold'>정답 비율: {solveRate}%</h6>
+              <h6 className='mt-3 font-weight-bold'> 미션</h6>
               <table className='table-bordered' style={{ width: "100%" }}>
                 <thead>
                   <tr>
@@ -107,60 +142,25 @@ function MyMonthMission() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="success" pill>
-                      O
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="danger" pill>
-                      X
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="success" pill>
-                      O
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="danger" pill>
-                      x
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="success" pill>
-                      O
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
-                  <tr>
-                    <td>13460</td>
-                    <td>구슬 탈출 2</td>
-                    <td><Badge className="text-uppercase ml-1" color="danger" pill>
-                      x
-                    </Badge>
-                    </td>
-                    <td>26.584%</td>
-                  </tr>
+                  {
+                    monthMissions.map(mission =>
+                      <tr>
+                        <td>{mission.problemDto.problemNum}</td>
+                        <td>{mission.problemDto.problemName}</td>
+                        <td>
+                          {
+                            mission.successDate !== null
+                              ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
+                              : <Badge className="text-uppercase ml-1" color="danger" pill>
+                              x
+                            </Badge>
+        
+                        }
+                        </td>
+                        <td>{mission.problemDto.problemAnswer}</td>
+                      </tr>
+                      )
+                  }
                 </tbody>
                 </table>
             </Col>
