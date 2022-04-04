@@ -1,5 +1,5 @@
 import React from 'react';
-
+import axios from 'axios';
 // reactstrap components
 import {
   Container,
@@ -13,12 +13,15 @@ import MyMonthMission from 'views/IndexSections/MyMonthMission';
 
 // index page sections
 
+const todayMissions = [];
 class MonthlyCalendar extends React.Component {
-  state = {};
+  state = {
+  }
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+   
   }
   render() {
     return (

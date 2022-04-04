@@ -19,18 +19,7 @@ class WeeklyCalendar extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
-    let userJWT = localStorage.getItem("Authorization");
-    console.log(userJWT);
-    let userId = localStorage.getItem("userId");
-    let url = `http://j6c204.p.ssafy.io:8081/v1/mission/week/${userId}`;
-    axios.get(url, {
-      headers: {
-        "Accept":"application/json;charset=UTF-8",
-        "Content-Type": "application/json;charset=UTF-8",
-        "Authorization": userJWT
-      },
-    }).then(res => res.json())
-    .then(data=> console.log(data))
+    
   }
   render() {
     return (
