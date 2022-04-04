@@ -49,7 +49,7 @@ class MissionProfile extends React.Component {
             </section>
 
             <MissionInfo />
-            <MissionBadge />
+            
  
           </div>
         </main>

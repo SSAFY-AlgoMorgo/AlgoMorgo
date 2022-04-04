@@ -23,10 +23,14 @@ function MissionCard() {
     problem3Num: localStorage.getItem("problem3Num"),
     problem1Answer: localStorage.getItem("problem1Answer"),
     problem2Answer: localStorage.getItem("problem2Answer"),
-    problem3Answer: localStorage.getItem("problem3Answer")
+    problem3Answer: localStorage.getItem("problem3Answer"),
+    problem1Success: localStorage.getItem("problem1Success"),
+    problem2Success: localStorage.getItem("problem2Success"),
+    problem3Success: localStorage.getItem("problem3Success")
 
   })
-  const { problem1Name, problem1Num,problem2Name,problem2Num,problem3Name,problem3Num, problem1Answer, problem2Answer, problem3Answer } = inputs   
+  const { problem1Name, problem1Num,problem2Name,problem2Num,problem3Name,problem3Num, problem1Answer, problem2Answer, problem3Answer,
+    problem1Success, problem2Success, problem3Success } = inputs   
 
   const onClick1 =function(){
     window.location.replace("https://www.acmicpc.net/problem/"+problem1Num)
@@ -39,6 +43,24 @@ function MissionCard() {
   const onClick3 =function(){
     window.location.replace("https://www.acmicpc.net/problem/"+problem3Num)
   }
+
+  const getClearMission = useCallback(async(e) =>{
+    try {
+      await axios({
+        method:"get",
+        url:"http://j6c204.p.ssafy.io:8083/batch/renewal/"+localStorage.getItem("userId"),
+        headers: {
+          "Accept":"application/json;charset=UTF-8",
+          "Content-Type":"application/json;charset=UTF-8",
+          "Authorization" : "Bearer "+localStorage.getItem("Authorization")
+        }
+      })
+      .then(getRefresh())
+    }
+    catch(error) {
+      alert("실패");
+    }
+  })
 
   const getRefresh = useCallback(async(e) =>{
     try{
@@ -63,7 +85,10 @@ function MissionCard() {
         "problem3Num": resonse[2]["problemDto"]["problemNum"],
         "problem1Answer":resonse[0]["problemDto"]["problemAnswer"],
         "problem2Answer":resonse[1]["problemDto"]["problemAnswer"],
-        "problem3Answer":resonse[2]["problemDto"]["problemAnswer"]
+        "problem3Answer":resonse[2]["problemDto"]["problemAnswer"],
+        "problem1Success":resonse[0]["successDate"],
+        "problem2Success":resonse[1]["successDate"],
+        "problem3Success":resonse[2]["successDate"]
       }
       // console.log(userInfo)
       localStorage.setItem("problem1Name",  resonse[0]["problemDto"]["problemName"])
@@ -75,6 +100,9 @@ function MissionCard() {
       localStorage.setItem("problem1Answer", resonse[0]["problemDto"]["problemAnswer"])
       localStorage.setItem("problem2Answer", resonse[1]["problemDto"]["problemAnswer"])
       localStorage.setItem("problem3Answer", resonse[2]["problemDto"]["problemAnswer"])
+      localStorage.setItem("problem1Success", resonse[0]["successDate"])
+      localStorage.setItem("problem2Success", resonse[1]["successDate"])
+      localStorage.setItem("problem3Success", resonse[2]["successDate"])
 
       setInputs(problemInfo)
 
@@ -106,7 +134,10 @@ function MissionCard() {
         "problem3Num": resonse[2]["problemDto"]["problemNum"],
         "problem1Answer":resonse[0]["problemDto"]["problemAnswer"],
         "problem2Answer":resonse[1]["problemDto"]["problemAnswer"],
-        "problem3Answer":resonse[2]["problemDto"]["problemAnswer"]
+        "problem3Answer":resonse[2]["problemDto"]["problemAnswer"],
+        "problem1Success":resonse[0]["successDate"],
+        "problem2Success":resonse[1]["successDate"],
+        "problem3Success":resonse[2]["successDate"]
       }
       // console.log(userInfo)
       localStorage.setItem("problem1Name",  resonse[0]["problemDto"]["problemName"])
@@ -118,6 +149,9 @@ function MissionCard() {
       localStorage.setItem("problem1Answer", resonse[0]["problemDto"]["problemAnswer"])
       localStorage.setItem("problem2Answer", resonse[1]["problemDto"]["problemAnswer"])
       localStorage.setItem("problem3Answer", resonse[2]["problemDto"]["problemAnswer"])
+      localStorage.setItem("problem1Success", resonse[0]["successDate"])
+      localStorage.setItem("problem2Success", resonse[1]["successDate"])
+      localStorage.setItem("problem3Success", resonse[2]["successDate"])
 
       
       setInputs(problemInfo)
@@ -147,18 +181,31 @@ function MissionCard() {
                 <div className="col px-0">
                     <center>
                       <p className="h3 text-white"><i class="ni ni-single-copy-04 mr-2"></i>데일리 미션</p>
-                      <Col className="ml-lg-auto" lg="2">
+                      <Row className="float-right" lg="12">
+                      <Col  lg="6">
                       <Button
                         block
-                        className="btn-white"
-                        color="default"
-                        href=""
+                        className=""
+                        color='warning'
                         size="lg"
                         onClick={getRefresh}
                       >
-                        미션 갱신하기
+                        미션 갱신
                       </Button>
                     </Col>
+                    
+                    <Col  lg="6">
+                      <Button
+                        block
+                        className="btn-green"
+                        color="success"
+                        size="lg"
+                        onClick={getClearMission}
+                      >
+                        미션 완료
+                      </Button>
+                    </Col>
+                    </Row>
                     </center>
                 </div>
               </Container>
@@ -172,7 +219,7 @@ function MissionCard() {
                     
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
-                        <CardBody className="py-5">
+                        <CardBody className="py-4">
                           {/* <div className="icon icon-shape icon-shape-primary rounded-circle mb-4">
                             <i className="ni ni-check-bold" />
                           </div> */}
@@ -186,21 +233,25 @@ function MissionCard() {
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="mt-2">
+                            <h5 className="mt-2">
                               정답률 : {problem1Answer}
-                            </p>
+                              
+                            </h5>
                             </Col>
                             <Col sm="4">
                             <Button
                             className="mt--2"
                             color="primary"
-                            href="#pablo"
                             onClick={onClick1}
                           >
                               <i className="ni ni-curved-next"></i>
                             </Button>
+                            
                             </Col>
                           </Row>
+                              {
+                                localStorage.getItem("problem1Success") == "null"? <h5 className="text-danger">실패</h5>:<h5 className="text-success">성공</h5>
+                              }
                           </div>
                         </CardBody>
                       </Card>
@@ -208,7 +259,7 @@ function MissionCard() {
 
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
-                        <CardBody className="py-5">
+                        <CardBody className="py-4">
                           {/* <div className="icon icon-shape icon-shape-primary rounded-circle mb-4">
                             <i className="ni ni-check-bold" />
                           </div> */}
@@ -222,21 +273,23 @@ function MissionCard() {
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="mt-2">
+                            <h5 className="mt-2">
                               정답률 : {problem2Answer}
-                            </p>
+                            </h5>
                             </Col>
                             <Col sm="4">
                             <Button
                             className="mt--2"
                             color="primary"
-                            href="#pablo"
                             onClick={onClick2}
                           >
                               <i className="ni ni-curved-next"></i>
                             </Button>
                             </Col>
                           </Row>
+                          {
+                                localStorage.getItem("problem2Success") == "null"? <h5 className="text-danger">실패</h5>:<h5 className="text-success">성공</h5>
+                              }
                           </div>
                         </CardBody>
                       </Card>
@@ -244,7 +297,7 @@ function MissionCard() {
 
                     <Col lg="4">
                       <Card className="card-lift--hover shadow border-0">
-                        <CardBody className="py-5">
+                        <CardBody className="py-4">
                           {/* <div className="icon icon-shape icon-shape-primary rounded-circle mb-4">
                             <i className="ni ni-check-bold" />
                           </div> */}
@@ -258,21 +311,23 @@ function MissionCard() {
                           <div>
                           <Row className="align-items-center">
                             <Col sm="8">
-                            <p className="mt-2">
+                            <h5 className="mt-2">
                               정답률 : {problem3Answer}
-                            </p>
+                            </h5>
                             </Col>
                             <Col sm="4">
                             <Button
                             className="mt--2"
                             color="primary"
-                            href="#pablo"
                             onClick={onClick3}
                           >
                               <i className="ni ni-curved-next"></i>
                             </Button>
                             </Col>
                           </Row>
+                          {
+                                localStorage.getItem("problem3Success") == "null"? <h5 className="text-danger">실패</h5>:<h5 className="text-success">성공</h5>
+                              }
                           </div>
                         </CardBody>
                       </Card>
