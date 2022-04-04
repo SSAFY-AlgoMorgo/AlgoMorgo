@@ -16,17 +16,12 @@ spring:
         show_sql: true
         format_sql: true
 
-  redis:
-    host: 127.0.0.1
-    port: 6379
 
-#  cache:
-#    type: redis
-#    redis:
-#      host: 127.0.0.1
-#      port: 6379
-#      host: "j6c204.p.ssafy.io"
-#      port: 8180
+  cache:
+    type: redis
+  redis:
+      host: "j6c204.p.ssafy.io"
+      port: 8180
 
 jwt:
   header: Authorization
