@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1/mission")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MissonController {
 
     @Autowired

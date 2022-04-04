@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/redis")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RedisController {
 
     private final RedisService redisService;

@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1/user")
+@CrossOrigin(origins = "*", allowedHeaders = "*",exposedHeaders = JwtFilter.AUTHORIZATION_HEADER)
 public class UserController {
 
     @Autowired
@@ -138,6 +138,15 @@ public class UserController {
             //true일 때 사용가능한 아이디
         else
             return new ResponseEntity((HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @GetMapping("/duplicateNickName/check/{nickName}")
+    public ResponseEntity duplicateNickName(@PathVariable("nickName") String nickName){
+        if(userService.duplicateNickName(nickName))
+            return new ResponseEntity(HttpStatus.OK);
+            //true일 때 사용가능한 아이디
+        else
+            return new ResponseEntity((HttpStatus.BAD_REQUEST));
     }
 
 

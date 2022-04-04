@@ -36,7 +36,7 @@ public class RedisServiceImpl implements RedisService{
         // userId 받아서 pk Id 가져오기
         Optional<User> user = userRepository.findByUserId(Id);
         String userId = user.get().getId() + "";
-        RedisDto redisDto = redisRepository.findById(Id).orElseThrow(() -> new IllegalArgumentException("뭐가 문제야!!!!!!!!!!!!!!!!!!!!!"));
+        RedisDto redisDto = redisRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("뭐가 문제야!!!!!!!!!!!!!!!!!!!!!"));
         List<MissionDto> missionDtoList = new ArrayList<>();
 
         missionList(redisDto, missionDtoList);
@@ -49,7 +49,8 @@ public class RedisServiceImpl implements RedisService{
 
         Optional<User> user = userRepository.findByUserId(Id);
         String userId = user.get().getId() + "";
-        RedisDto redisDto = redisRepository.findById(Id).orElseThrow(() -> new IllegalArgumentException("뭐가 문제야!!!!!!!!!!!!!!!!!!!!!"));
+
+        RedisDto redisDto = redisRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("뭐가 문제야!!!!!!!!!!!!!!!!!!!!!"));
         List<MissionDto> missionDtoList = new ArrayList<>();
         List<Integer> trueNum = new ArrayList<>();
         List<Integer> falseNum = new ArrayList<>();
