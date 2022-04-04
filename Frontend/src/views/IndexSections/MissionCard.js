@@ -40,6 +40,49 @@ function MissionCard() {
     window.location.replace("https://www.acmicpc.net/problem/"+problem3Num)
   }
 
+  const getRefresh = useCallback(async(e) =>{
+    try{
+      const {data: resonse} = await axios({
+        method:"get",
+        url:"http://j6c204.p.ssafy.io:8081/v1/redis/refresh/"+localStorage.getItem("userId"),
+        headers: {
+          "Accept":"application/json;charset=UTF-8",
+          "Content-Type":"application/json;charset=UTF-8",
+          "Authorization" : "Bearer "+localStorage.getItem("Authorization")
+        }
+        
+      })
+      // console.log(headers)
+      // console.log(resonse)
+      const problemInfo = {
+        "problem1Name": resonse[0]["problemDto"]["problemName"],
+        "problem1Num": resonse[0]["problemDto"]["problemNum"],
+        "problem2Name": resonse[1]["problemDto"]["problemName"],
+        "problem2Num": resonse[1]["problemDto"]["problemNum"],
+        "problem3Name": resonse[2]["problemDto"]["problemName"],
+        "problem3Num": resonse[2]["problemDto"]["problemNum"],
+        "problem1Answer":resonse[0]["problemDto"]["problemAnswer"],
+        "problem2Answer":resonse[1]["problemDto"]["problemAnswer"],
+        "problem3Answer":resonse[2]["problemDto"]["problemAnswer"]
+      }
+      // console.log(userInfo)
+      localStorage.setItem("problem1Name",  resonse[0]["problemDto"]["problemName"])
+      localStorage.setItem("problem1Num", resonse[0]["problemDto"]["problemNum"])
+      localStorage.setItem("problem2Name",  resonse[1]["problemDto"]["problemName"])
+      localStorage.setItem("problem2Num", resonse[1]["problemDto"]["problemNum"])
+      localStorage.setItem("problem3Name",  resonse[2]["problemDto"]["problemName"])
+      localStorage.setItem("problem3Num", resonse[2]["problemDto"]["problemNum"])
+      localStorage.setItem("problem1Answer", resonse[0]["problemDto"]["problemAnswer"])
+      localStorage.setItem("problem2Answer", resonse[1]["problemDto"]["problemAnswer"])
+      localStorage.setItem("problem3Answer", resonse[2]["problemDto"]["problemAnswer"])
+
+      setInputs(problemInfo)
+
+    }catch(error){
+      alert("문제 갱신에 실패했습니다.")
+    }
+  })
+
   const getMission = useCallback(async(e) =>{
     try{
       const {data: resonse,} = await axios({
@@ -79,7 +122,6 @@ function MissionCard() {
       
       setInputs(problemInfo)
     }catch(error){
-      alert("문제 로드에 실패했습니다.")
     }
   })
   getMission()
@@ -87,6 +129,41 @@ function MissionCard() {
 
     return (
       <>
+      <div className="position-relative">
+            {/* shape Hero */}
+            <section className="section section-lg section-shaped pb-250">
+              <div className="shape shape-style-1 shape-default">
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+              <Container className="py-lg-md d-flex">
+                <div className="col px-0">
+                    <center>
+                      <p className="h3 text-white"><i class="ni ni-single-copy-04 mr-2"></i>데일리 미션</p>
+                      <Col className="ml-lg-auto" lg="2">
+                      <Button
+                        block
+                        className="btn-white"
+                        color="default"
+                        href=""
+                        size="lg"
+                        onClick={getRefresh}
+                      >
+                        미션 갱신하기
+                      </Button>
+                    </Col>
+                    </center>
+                </div>
+              </Container>
+            </section>
+          </div>
         <section className="section section-lg pt-lg-0 mt--200">
             <Container>
               <Row className="justify-content-center">
