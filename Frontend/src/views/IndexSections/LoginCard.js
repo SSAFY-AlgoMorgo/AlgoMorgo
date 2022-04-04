@@ -80,7 +80,7 @@ function LoginCard(props) {
       localStorage.setItem("baekjoonId",resonse["baekjoonId"])
       localStorage.setItem("userInfo",JSON.stringify(userInfo))
       let jwt = headers["authorization"]
-      jwt = jwt.substr(8)
+      jwt = jwt.substr(7)
       // console.log(jwt)
       localStorage.setItem("Authorization",jwt);
       history.replace("/dailymission-page")
