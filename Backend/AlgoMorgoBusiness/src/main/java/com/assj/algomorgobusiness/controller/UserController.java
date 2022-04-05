@@ -2,10 +2,7 @@ package com.assj.algomorgobusiness.controller;
 
 import com.assj.algomorgobusiness.dto.UpdateRequestDto;
 import com.assj.algomorgobusiness.dto.UserDto;
-import com.assj.algomorgobusiness.exception.BadBaekJoonId;
-import com.assj.algomorgobusiness.exception.BadNickName;
-import com.assj.algomorgobusiness.exception.BadUserId;
-import com.assj.algomorgobusiness.exception.DeactivateUser;
+import com.assj.algomorgobusiness.exception.*;
 import com.assj.algomorgobusiness.filter.JwtFilter;
 import com.assj.algomorgobusiness.service.recommend.RecommendService;
 import com.assj.algomorgobusiness.service.user.UserService;
@@ -112,11 +109,13 @@ public class UserController {
         try {
 
             if(changePassword == null){
-                return userService.updateUser(requestDto) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return userService.updateUser(requestDto) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_MODIFIED);
             }else{
-                return userService.updateUser(requestDto, changePassword) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return userService.updateUser(requestDto, changePassword) ? new ResponseEntity(HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_MODIFIED);
             }
-        }catch (BadNickName e){
+        }catch (BadNickName e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }catch (BadValidation e){
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }

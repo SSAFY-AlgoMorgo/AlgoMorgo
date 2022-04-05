@@ -6,10 +6,7 @@ import com.assj.algomorgobusiness.dto.AlgorithmDto;
 import com.assj.algomorgobusiness.dto.UserDto;
 import com.assj.algomorgobusiness.entity.Status;
 import com.assj.algomorgobusiness.entity.User;
-import com.assj.algomorgobusiness.exception.BadBaekJoonId;
-import com.assj.algomorgobusiness.exception.BadNickName;
-import com.assj.algomorgobusiness.exception.BadUserId;
-import com.assj.algomorgobusiness.exception.DeactivateUser;
+import com.assj.algomorgobusiness.exception.*;
 import com.assj.algomorgobusiness.repository.BaekjoonUserRepository;
 import com.assj.algomorgobusiness.repository.UserRepository;
 import com.google.gson.*;
@@ -54,6 +51,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean registUser(UserDto userDto) {
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
+        }
         if(userRepository.findByUserId(userDto.getUserId()).orElse(null) !=  null){
             throw new BadUserId();
         }
@@ -108,6 +108,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean updateUser(UserDto userDto) {
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
+        }
         User user = userRepository.findByUserId(userDto.getUserId()).get();
         if(user == null)
             return false;
@@ -127,6 +130,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean updateUser(UserDto userDto, String password) {
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || password.length()<8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
+        }
         //바꾸려는 사용자 데이터+사용자+비밀번호, 바꾸려는 사용자 비밀번호
         User user = userRepository.findByUserId(userDto.getUserId()).get();
         if(user == null)
