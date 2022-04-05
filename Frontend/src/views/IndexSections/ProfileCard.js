@@ -44,8 +44,7 @@ function ProfileCard() {
                 </div>
               </Card>
             </Container>
-
-            
+ 
       </>
     );
   }
