@@ -148,37 +148,40 @@ function MyWeekMission() {
             <Col sm="6">
               <h6 className='font-weight-bold'>정답 비율: {solveRate}%</h6>
               <h6 className='mt-3 font-weight-bold'>지난 미션</h6>
-              <table className='table-bordered' style={{ width: "100%" }}>
-                <thead>
-                  <tr>
-                    <th>문제</th>
-                    <th>문제 제목</th>
-                    <th>정답</th>
-                    <th>정답 비율</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    weekMissions.map(mission =>
-                      <tr>
-                        <td>{mission.problemDto.problemNum}</td>
-                        <td>{mission.problemDto.problemName}</td>
-                        <td>
-                          {
-                            mission.successDate !== null
-                              ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
-                              : <Badge className="text-uppercase ml-1" color="danger" pill>
-                              x
-                            </Badge>
-        
-                        }
-                        </td>
-                        <td>{mission.problemDto.problemAnswer}</td>
-                      </tr>
-                      )
-                  }
-                </tbody>
+              
+              <div style={ {width:"100%",height:"150px",overflow:"auto"}}>
+                <table className='table-bordered' style={{ width: "100%" }}>
+                  <thead>
+                    <tr>
+                      <th>문제</th>
+                      <th>문제 제목</th>
+                      <th>정답</th>
+                      <th>정답 비율</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      weekMissions.map(mission =>
+                        <tr>
+                          <td>{mission.problemDto.problemNum}</td>
+                          <td>{mission.problemDto.problemName}</td>
+                          <td>
+                            {
+                              mission.successDate !== null
+                                ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
+                                : <Badge className="text-uppercase ml-1" color="danger" pill>
+                                x
+                              </Badge>
+          
+                          }
+                          </td>
+                          <td>{mission.problemDto.problemAnswer}</td>
+                        </tr>
+                        )
+                    }
+                  </tbody>
                 </table>
+              </div>
             </Col>
           </Row>
         </CardBody>
