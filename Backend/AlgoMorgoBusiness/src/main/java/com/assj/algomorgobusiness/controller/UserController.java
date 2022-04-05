@@ -102,8 +102,8 @@ public class UserController {
             @ApiResponse(code = 200, message = "회원정보가 변경됨. JWT삭제 후 로그아웃 시켜주세요."),
             @ApiResponse(code = 400, message = "아이디 혹은 비밀번호가 맞지 않거나, 닉네임 중복체크가 안 됨"),
     })
-    @PutMapping
-    public ResponseEntity updateUser(@RequestBody UpdateRequestDto updateRequestDto){
+    @PutMapping("/{userId}")
+    public ResponseEntity updateUser(@PathVariable("userId") String userId, @RequestBody UpdateRequestDto updateRequestDto){
         String changePassword = updateRequestDto.getChangePassword();
         UserDto requestDto = updateRequestDto.getUserDto();
         try {
