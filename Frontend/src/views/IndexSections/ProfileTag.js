@@ -52,21 +52,14 @@ function ProfileTag() {
                 <p className="h7 mt-3 ml-4 font-weight-bold"><i class="ni ni-tag"></i> 태그 분포</p>
               </div>
               <Row className="py-3 align-items-center">
-                <Col sm="5">
-                  {/* <img
-                    className="ml-5"
-                    alt="..."
-                    src={require("assets/img/algo/tag.jpg")}
-                  /> */}
-                </Col>
-                <Col sm="7">
+                <Col sm="12">
                 <div className="ml-5">
                   <Row>
                     <Col className="font-weight-bold ml-3">
                     <h7>태그</h7>
                     </Col>
                     <Col className="font-weight-bold text-right mr-6">
-                    <h7>문제</h7>
+                    <h7>빈도수</h7>
                     </Col>
                   </Row>
                 </div>
@@ -76,13 +69,13 @@ function ProfileTag() {
                   (tag, idx) => (
                     <div className="ml-5">
                       <Row>
+                        
                         <Col className="font-weight-bold ml-3">
-                        <h7>{tag.cnt}</h7>
-                        </Col>
-                        <Col className="font-weight-bold text-right mr-6">
                         <h7>{tag.algorithmKor}</h7>
                         </Col>
-                        
+                        <Col className="font-weight-bold text-right mr-6">
+                        <h7>{tag.cnt}</h7>
+                        </Col>
                       </Row>
                     </div>
                   )

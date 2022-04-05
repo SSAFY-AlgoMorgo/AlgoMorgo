@@ -2,10 +2,8 @@ import React from "react";
 
 // reactstrap components
 import {
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
+  Card,
+  CardBody,
   Container,
 } from "reactstrap";
 
@@ -54,30 +52,57 @@ class Algorithm extends React.Component {
 
             <section className="my-5">
               <Container>
-                <div class="dropdown">
-                  <UncontrolledDropdown>
-                    <DropdownToggle caret color="secondary">
-                      알고리즘을 선택하세요
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
-                        완전 검색
-                      </DropdownItem>
-                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
-                        탐욕 알고리즘
-                      </DropdownItem>
-                      <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
-                        분할 정복
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                  <img
-                    alt="..."
-                    className="img-fluid rounded shadow my-4"
-                    src={require("assets/img/theme/Heroimage.png")}
-                    style={{ width: "100%" }}
-                  />
-                </div>
+                <details className="mb-4">
+                  <summary className="display-4">
+                    순열
+                  </summary>
+                  <div className="my-4">
+                    <Card className="shadow ml-5" style={{ width: "100%" }}>
+                      <CardBody className="px-5" >
+                        <img
+                          alt="..."
+                          className="img-fluid rounded shadow my-4"
+                          src={require("assets/img/guide/permutation.png")}
+                          style={{ width: "100%" }}
+                        />
+                      </CardBody>
+                    </Card>
+                  </div>
+                </details>
+                <details className="mb-4">
+                  <summary className="display-4">
+                    조합
+                  </summary>
+                  <div className="my-4">
+                    <Card className="shadow ml-5" style={{ width: "100%" }}>
+                      <CardBody className="px-5" >
+                        <img
+                          alt="..."
+                          className="img-fluid rounded shadow my-4"
+                          src={require("assets/img/guide/combination.png")}
+                          style={{ width: "100%" }}
+                        />
+                      </CardBody>
+                    </Card>
+                  </div>
+                </details>
+                <details className="mb-4">
+                  <summary className="display-4">
+                    부분집합
+                  </summary>
+                  <div className="my-4">
+                    <Card className="shadow ml-5" style={{ width: "100%" }}>
+                      <CardBody className="px-5" >
+                        <img
+                          alt="..."
+                          className="img-fluid rounded shadow my-4"
+                          src={require("assets/img/guide/subset.png")}
+                          style={{ width: "100%" }}
+                        />
+                      </CardBody>
+                    </Card>
+                  </div>
+                </details>
               </Container>
             </section>
           </div>
