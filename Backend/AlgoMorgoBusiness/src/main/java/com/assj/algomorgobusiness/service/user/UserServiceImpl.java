@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean updateUser(UserDto userDto) {
-        User user = userRepository.findByUserIdAndPassword(userDto.getUserId(),userDto.getPassword()).get();
+        User user = userRepository.findByUserId(userDto.getUserId()).get();
         if(user == null)
             return false;
         if(!passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
@@ -243,7 +243,7 @@ public class UserServiceImpl implements UserService{
         if(!passwordEncoder.matches(password, user.getPassword()))
             return false;
         user.setStatus(Status.Deactivate);
-
+        userRepository.save(user);
         return true;
     }
 
