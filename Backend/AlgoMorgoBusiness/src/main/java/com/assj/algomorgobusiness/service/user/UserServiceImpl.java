@@ -9,6 +9,7 @@ import com.assj.algomorgobusiness.entity.User;
 import com.assj.algomorgobusiness.exception.BadBaekJoonId;
 import com.assj.algomorgobusiness.exception.BadNickName;
 import com.assj.algomorgobusiness.exception.BadUserId;
+import com.assj.algomorgobusiness.exception.DeactivateUser;
 import com.assj.algomorgobusiness.repository.BaekjoonUserRepository;
 import com.assj.algomorgobusiness.repository.UserRepository;
 import com.google.gson.*;
@@ -255,7 +256,7 @@ public class UserServiceImpl implements UserService{
         if(user.equals(null))
             return null;
         if(user.getStatus() != Status.Activate)
-            return null;
+            throw new DeactivateUser();
         if(!passwordEncoder.matches(password,user.getPassword()))
             return null;
         String nickName = user.getNickName();
