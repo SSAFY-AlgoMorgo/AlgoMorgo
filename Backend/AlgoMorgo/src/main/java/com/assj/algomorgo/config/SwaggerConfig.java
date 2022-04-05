@@ -1,6 +1,5 @@
 package com.assj.algomorgo.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,9 +17,8 @@ import java.util.Set;
 @EnableWebMvc
 public class SwaggerConfig {
 
-
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("AlgoMorgo - Batch")
+        return new ApiInfoBuilder().title("AlgoMorgo Batch")
                 .description("BeakJoon Problem Recommed API Docs").build();
     }
 
