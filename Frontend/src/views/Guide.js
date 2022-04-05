@@ -96,7 +96,7 @@ class Guide extends React.Component {
                             <img
                               alt="..."
                               className="img-fluid rounded shadow my-4"
-                              src={require("assets/img/guide/RegisterExample.jpg")}
+                              src={require("assets/img/guide/profileguide.png")}
                               style={{ width: "100%" }}
                             />
                           </CardBody>
@@ -117,10 +117,15 @@ class Guide extends React.Component {
                               풀었던 문제 난이도와 정답률을 근거로 실력 맞춤 문제들이
                               출제되니 기회를 놓치지 마세요!
                             </h6>
+                            <h6 className="h6 mt-3">
+                              미션 갱신 버튼을 통해 마음에 들지 않는 문제를 갱신할 수 있으며
+                              문제를 풀고 미션 완료 버튼을 통해 하루 최대 3문제를 성공하실 수
+                              있습니다.
+                            </h6>
                             <img
                               alt="..."
                               className="img-fluid rounded shadow my-4"
-                              src={require("assets/img/guide/RegisterExample.jpg")}
+                              src={require("assets/img/guide/dailymissionguide.png")}
                               style={{ width: "100%" }}
                             />
                           </CardBody>
@@ -143,9 +148,21 @@ class Guide extends React.Component {
                             <img
                               alt="..."
                               className="img-fluid rounded shadow my-4"
-                              src={require("assets/img/guide/RegisterExample.jpg")}
+                              src={require("assets/img/guide/mission_image.jpg")}
                               style={{ width: "100%" }}
                             />
+                            <center>
+                              <h6>미션 페이지</h6>
+                            </center>
+                            <img
+                              alt="..."
+                              className="img-fluid rounded shadow my-4"
+                              src={require("assets/img/guide/calendarguide.png")}
+                              style={{ width: "100%" }}
+                            />
+                            <center>
+                              <h6>캘린더 페이지</h6>
+                            </center>
                           </CardBody>
                         </Card>
                       </div>
