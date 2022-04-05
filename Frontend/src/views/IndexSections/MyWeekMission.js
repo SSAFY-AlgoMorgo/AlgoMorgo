@@ -45,6 +45,7 @@ function MyWeekMission() {
     let total = new Set();
     let participate = new Set();
     let correct = 0;
+    let totalLength = 0;
     axios.get(urlForWeek, {
       headers: {
         "Accept": "application/json;charset=UTF-8",
@@ -53,6 +54,7 @@ function MyWeekMission() {
       },
     }).then(res => {
       setWeekMissions(res.data);
+      totalLength += res.data.length;
       for (let m = 0; m < res.data.length; m++) {
         let tmpDate = res.data[m].createDate.slice(0, 10);
         total.add(tmpDate);
@@ -71,6 +73,7 @@ function MyWeekMission() {
         },
       }).then(res => {
         setTodayMissions(res.data);
+        totalLength += res.data.length;
         for (let m = 0; m < res.data.length; m++) {
           let tmpDate = res.data[m].createDate.slice(0, 10);
           total.add(tmpDate);
@@ -81,7 +84,7 @@ function MyWeekMission() {
         }
         setParticipation(participate.size);
         setParticipationRate((participate.size / total.size * 100).toFixed(2));
-        setSolveRate((correct / res.data.length * 100).toFixed(2));
+        setSolveRate((correct / totalLength * 100).toFixed(2));
       })
     })
     
@@ -126,7 +129,7 @@ function MyWeekMission() {
                     <th>문제</th>
                     <th>문제 제목</th>
                     <th>제출</th>
-                    <th>정답 비율</th>
+                    <th>미션 생성일</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,8 +138,16 @@ function MyWeekMission() {
                       <tr>
                         <td>{mission.problemDto.problemNum}</td>
                         <td>{mission.problemDto.problemName}</td>
-                        <td>{mission.problemDto.problemSubmit}</td>
-                        <td>{mission.problemDto.problemAnswer}</td>
+                        <td>
+                          {
+                            mission.successDate !== null
+                              ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
+                              : <Badge className="text-uppercase ml-1" color="danger" pill>
+                              x
+                            </Badge>
+                          }
+                        </td>
+                        <td>{String(mission.createDate).substring(0,10)}</td>
                       </tr>
                       )
                   }
@@ -154,7 +165,7 @@ function MyWeekMission() {
                       <th>문제</th>
                       <th>문제 제목</th>
                       <th>정답</th>
-                      <th>정답 비율</th>
+                      <th>미션 생성일</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -170,10 +181,9 @@ function MyWeekMission() {
                                 : <Badge className="text-uppercase ml-1" color="danger" pill>
                                 x
                               </Badge>
-          
-                          }
+                            }
                           </td>
-                          <td>{mission.problemDto.problemAnswer}</td>
+                          <td>{String(mission.createDate).substring(0,10)}</td>
                         </tr>
                         )
                     }

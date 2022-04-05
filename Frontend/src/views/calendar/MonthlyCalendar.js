@@ -8,12 +8,10 @@ import {
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
-import MyCalendar from 'views/IndexSections/MyCalendar';
 import MyMonthMission from 'views/IndexSections/MyMonthMission';
 
 // index page sections
 
-const todayMissions = [];
 class MonthlyCalendar extends React.Component {
   state = {
   }
@@ -56,7 +54,6 @@ class MonthlyCalendar extends React.Component {
             <section>
               <Container>
                 <MyMonthMission />
-                <MyCalendar />
               </Container>
             </section>
           </div>
