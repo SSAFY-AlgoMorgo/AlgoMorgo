@@ -21,8 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(
             TokenConfig tokenConfig,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler
-    ) {
+            JwtAccessDeniedHandler jwtAccessDeniedHandler) {
         this.tokenConfig = tokenConfig;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
@@ -43,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/v2/api-docs",
-                        "/webjars/**"
-                );
+                        "/webjars/**");
     }
 
     @Override
