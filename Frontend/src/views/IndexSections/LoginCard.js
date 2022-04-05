@@ -51,9 +51,7 @@ function LoginCard(props) {
     setInputs(resetInputs)      
   }
   const login = useCallback(async (e) =>{
-    try{
-      const {data: resonse,
-            headers : headers} = await axios({
+      await axios({
         method:"post",
         url:"http://j6c204.p.ssafy.io:8081/v1/user/login",
         headers: {
@@ -64,30 +62,35 @@ function LoginCard(props) {
           "userId" : userId,
           "password" : password
         }
-      })
+      }).then(res => {
       // console.log(headers)
       // console.log(resonse)
+      const response = res.data
+      const headers = res.headers
       const userInfo = {
         "userId" : userId,
-        "language": resonse["language"],
-        "nickName": resonse["nickName"],
-        "baekjoonId": resonse["baekjoonId"]
+        "language": response["language"],
+        "nickName": response["nickName"],
+        "baekjoonId": response["baekjoonId"]
       }
       // console.log(userInfo)
       localStorage.setItem("userId",userId)
-      localStorage.setItem("language",resonse["language"])
-      localStorage.setItem("nickName",resonse["nickName"])
-      localStorage.setItem("baekjoonId",resonse["baekjoonId"])
+      localStorage.setItem("language",response["language"])
+      localStorage.setItem("nickName",response["nickName"])
+      localStorage.setItem("baekjoonId",response["baekjoonId"])
       localStorage.setItem("userInfo",JSON.stringify(userInfo))
       let jwt = headers["authorization"]
       jwt = jwt.substr(7)
       // console.log(jwt)
       localStorage.setItem("Authorization",jwt);
       history.replace("/dailymission-page")
-    }catch(error){
-      alert("로그인에 실패했습니다.")
+    }).catch(error => {
+      if(error.response.status == 418)
+        alert("탈퇴한 사용자입니다.")
+      else
+        alert("로그인에 실패했습니다.")
       onReset()
-    }
+    })
   }) 
     return (
       <>
