@@ -76,7 +76,7 @@ function MyMonthMission() {
       <Row className="py-3 align-items-top">
         <Col sm="3">
           {dates.map((date) =>
-            <Button onClick={() => setMission(date)} className='font-weight-bold text-primary'>{date}</Button>
+            <Button onClick={() => setMission(date)} style={{ width: "100%" }} className='font-weight-bold text-primary mb-3'>{date}</Button>
           )}
         </Col>
         <Col sm="9">

@@ -104,7 +104,7 @@ function MyMonthMission() {
           </div>
           
           {/* 미션 도표 */}
-          <Row className="py-3 align-items-center">
+          <Row className="py-3">
             <Col sm="6">
               <h6 className='font-weight-bold'>참여일 수: {participation}일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
