@@ -164,6 +164,7 @@ function RegisterCard() {
     }
     if(password.length < 8){
       alert("비밀번호 길이는 8글자 이상 가능합니다.")
+      return;
     }
     
       await axios({
