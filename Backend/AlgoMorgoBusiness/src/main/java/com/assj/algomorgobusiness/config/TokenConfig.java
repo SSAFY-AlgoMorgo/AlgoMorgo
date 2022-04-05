@@ -56,7 +56,7 @@ public class TokenConfig implements InitializingBean {
                 .setIssuer("C204")// 발급자
                 // .setIssuedAt(new Date()) //발급 시간인데, setExpiration으로 종료시간을 알릴 때, 발급 시간을 알 수
                 // 있다.
-                .claim(AUTHORITIES_KEY+map.get("userId"), authrities)
+                .claim(AUTHORITIES_KEY, authrities)
                 .claim("language", map.get("language"))
                 .claim("nickName", map.get("nickName"))
                 .claim("baekjoonId", map.get("baekjoonId"))
@@ -67,7 +67,7 @@ public class TokenConfig implements InitializingBean {
 
     }
 
-    public Authentication getAuthentication(String token, String userId) {
+    public Authentication getAuthentication(String token) {
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -75,7 +75,7 @@ public class TokenConfig implements InitializingBean {
                 .parseClaimsJws(token)
                 .getBody();
         Collection<? extends GrantedAuthority> authorities = Arrays
-                .stream(claims.get(AUTHORITIES_KEY+userId).toString().split(","))
+                .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         User principal = new User(claims.getSubject(), "", authorities);

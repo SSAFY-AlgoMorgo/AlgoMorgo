@@ -23,7 +23,7 @@ public class MissonController {
     @Autowired
     private MissionService missionService;
 
-    @GetMapping("/{year}/{month}/{userId}")
+    @GetMapping("/{userId}/{year}/{month}")
     public ResponseEntity<List<MissionDto>> getMission(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month){
         List<MissionDto> result = missionService.getMission(userId,year,month);
         //하루 단위를 필요로 하면 이걸로 요청하고
