@@ -1,16 +1,14 @@
 package com.assj.algomorgobusiness.controller;
 
 import com.assj.algomorgobusiness.dto.MissionDto;
+import com.assj.algomorgobusiness.dto.MissionStatusDto;
 import com.assj.algomorgobusiness.service.mission.MissionService;
 import com.assj.algomorgobusiness.service.mission.MissionServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,12 +17,13 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/v1/mission")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MissonController {
 
     @Autowired
     private MissionService missionService;
 
-    @GetMapping("/{userId}/{year}/{month}")
+    @GetMapping("/{year}/{month}/{userId}")
     public ResponseEntity<List<MissionDto>> getMission(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month){
         List<MissionDto> result = missionService.getMission(userId,year,month);
         //하루 단위를 필요로 하면 이걸로 요청하고
@@ -40,8 +39,8 @@ public class MissonController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Map<String,Integer>> getMissionInfo(@PathVariable("userId") String userId){
-        Map<String, Integer> result = missionService.getMission(userId);
+    public ResponseEntity<MissionStatusDto> getMissionInfo(@PathVariable("userId") String userId){
+        MissionStatusDto result = missionService.getMission(userId);
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
 

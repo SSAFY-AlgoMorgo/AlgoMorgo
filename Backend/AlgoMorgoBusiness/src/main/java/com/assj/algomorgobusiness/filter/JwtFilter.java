@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.StringTokenizer;
 
 @Slf4j
 public class JwtFilter extends GenericFilterBean {
@@ -38,7 +39,7 @@ public class JwtFilter extends GenericFilterBean {
         }
         log.debug(userId);
         if (StringUtils.hasText(jwt) && tokenConfig.validateToken(jwt)) {
-            Authentication authentication = tokenConfig.getAuthentication(jwt);
+            Authentication authentication = tokenConfig.getAuthentication(jwt, userId);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             log.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
         } else {

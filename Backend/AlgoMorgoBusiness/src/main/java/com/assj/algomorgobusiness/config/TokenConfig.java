@@ -70,7 +70,7 @@ public class TokenConfig implements InitializingBean {
 
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token, String userId){
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
