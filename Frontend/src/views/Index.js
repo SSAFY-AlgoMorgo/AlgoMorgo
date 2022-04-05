@@ -57,7 +57,7 @@ class Index extends React.Component {
               <img
                 alt="..."
                 className="img-fluid rounded shadow my-4"
-                src={require("assets/img/guide/mission_profile_image.jpg")}
+                src={require("assets/img/guide/missionprofileguide.png")}
                 style={{ width: "100%" }}
               />
             </Container>
