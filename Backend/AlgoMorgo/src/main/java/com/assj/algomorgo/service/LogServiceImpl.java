@@ -1,18 +1,15 @@
-package com.assj.algomorgo.Service;
+package com.assj.algomorgo.service;
 
-import com.assj.algomorgo.Entity.BaekjoonUser;
-import com.assj.algomorgo.Entity.Log;
-import com.assj.algomorgo.Entity.Problem;
-import com.assj.algomorgo.Repository.BaekjoonUserRepository;
-import com.assj.algomorgo.Repository.LogRepository;
-import com.assj.algomorgo.Repository.ProblemRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.assj.algomorgo.entity.BaekjoonUser;
+import com.assj.algomorgo.entity.Log;
+import com.assj.algomorgo.entity.Problem;
+import com.assj.algomorgo.repository.BaekjoonUserRepository;
+import com.assj.algomorgo.repository.LogRepository;
+import com.assj.algomorgo.repository.ProblemRepository;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;

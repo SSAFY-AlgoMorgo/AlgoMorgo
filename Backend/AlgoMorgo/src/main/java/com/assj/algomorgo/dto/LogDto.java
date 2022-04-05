@@ -1,8 +1,6 @@
-package com.assj.algomorgo.Dto;
+package com.assj.algomorgo.dto;
 
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class LogDto {

@@ -1,4 +1,4 @@
-package com.assj.algomorgo.Dto;
+package com.assj.algomorgo.dto;
 
 import lombok.Data;
 

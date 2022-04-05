@@ -1,6 +1,6 @@
-package com.assj.algomorgo.Controller;
+package com.assj.algomorgo.controller;
 
-import com.assj.algomorgo.Service.LogService;
+import com.assj.algomorgo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/batch")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LogController {
 
     @Autowired

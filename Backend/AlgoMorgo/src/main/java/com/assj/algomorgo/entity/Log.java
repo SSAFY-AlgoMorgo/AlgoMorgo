@@ -1,4 +1,4 @@
-package com.assj.algomorgo.Entity;
+package com.assj.algomorgo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
