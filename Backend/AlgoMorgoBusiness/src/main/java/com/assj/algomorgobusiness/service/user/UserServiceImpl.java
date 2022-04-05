@@ -5,6 +5,7 @@ import com.assj.algomorgobusiness.dto.AlgorithmDto;
 import com.assj.algomorgobusiness.dto.UserDto;
 import com.assj.algomorgobusiness.entity.Status;
 import com.assj.algomorgobusiness.entity.User;
+import com.assj.algomorgobusiness.exception.*;
 import com.assj.algomorgobusiness.repository.BaekjoonUserRepository;
 import com.assj.algomorgobusiness.repository.UserRepository;
 import com.google.gson.*;
@@ -49,14 +50,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean registUser(UserDto userDto) {
-        if (userRepository.findByUserId(userDto.getUserId()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입한 유저입니다.");
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
         }
-        if (userRepository.findByNickName(userDto.getNickName()).orElse(null) != null) {
-            throw new RuntimeException("이미 사용 중인 닉네임입니다.");
+        if(userRepository.findByUserId(userDto.getUserId()).orElse(null) !=  null){
+            throw new BadUserId();
         }
-        if (baekjoonUserRepository.findByUserName(userDto.getBaekjoonId()).orElse(null) == null) {
-            throw new RuntimeException("서비스 제공이 불가능한 사용자입니다. solved.ac 연동을 확인해주시고, 다이아 1이상이거나 브론즈 1이하인지 확인해주세요.");
+        if(userRepository.findByNickName(userDto.getNickName()).orElse(null) != null){
+            throw new BadNickName();
+        }
+        if(!findBaekjoonUser(userDto.getBaekjoonId())){
+            throw new BadBaekJoonId();
         }
         User user = new User();
         user.setUserId(userDto.getUserId());
@@ -65,6 +69,26 @@ public class UserServiceImpl implements UserService {
         user.setLanguage(userDto.getLanguage());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         return userRepository.save(user) != null ? true : false;
+    }
+
+    private boolean findBaekjoonUser(String baekjoonId) {
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity entity = new HttpEntity("parameters",headers);
+        String url = "https://solved.ac/api/v3/search/user?query="+baekjoonId;
+        Gson gson = new Gson();
+
+        ResponseEntity<Map> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+
+        if(responseEntity.getStatusCode() != HttpStatus.OK)
+            return false;
+        if((int)responseEntity.getBody().get("count") != 1){
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -83,13 +107,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(UserDto userDto) {
-        User user = userRepository.findByUserIdAndPassword(userDto.getUserId(), userDto.getPassword()).get();
-        if (user == null)
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
+        }
+        User user = userRepository.findByUserId(userDto.getUserId()).get();
+        if(user == null)
             return false;
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
             // 바꾸고자 할 때 확인 받은 비밀번호와 원래 비밀번호가 일치하는지 확인
             return false;
-        // JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
+        //JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
+        User duplUser = userRepository.findByNickName(userDto.getNickName()).orElse(null);
+        if(duplUser!=null && user.getId() != duplUser.getId())
+            throw new BadNickName();
+
         user.setNickName(userDto.getNickName());
         user.setLanguage(userDto.getLanguage());
 
@@ -98,12 +129,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateUser(UserDto userDto, String password) {
+        if(userDto.getUserId().length() < 8 || userDto.getPassword().length() < 8 || password.length()<8 || userDto.getNickName().length() < 8){
+            throw new BadValidation();
+        }
+        //바꾸려는 사용자 데이터+사용자+비밀번호, 바꾸려는 사용자 비밀번호
         User user = userRepository.findByUserId(userDto.getUserId()).get();
         if (user == null)
             return false;
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
             return false;
-        // JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
+        //JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
+        User duplUser = userRepository.findByNickName(userDto.getNickName()).orElse(null);
+        if(duplUser!=null && user.getId() != duplUser.getId())
+            throw new BadNickName();
         user.setNickName(userDto.getNickName());
         user.setLanguage(userDto.getLanguage());
         user.setPassword(passwordEncoder.encode(password));
@@ -195,10 +233,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean duplicate(String userId) {
 
-        User user = userRepository.findByUserId(userId).get();
-        if (user != null)
-            return false;
-        return true;
+        return userRepository.findByUserId(userId).orElse(null) == null ? true : false;
+    }
+
+    @Override
+    public boolean duplicateNickName(String nickName) {
+        return userRepository.findByNickName(nickName).orElse(null) == null ? true : false;
     }
 
     @Override
@@ -209,7 +249,7 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(password, user.getPassword()))
             return false;
         user.setStatus(Status.Deactivate);
-
+        userRepository.save(user);
         return true;
     }
 
@@ -220,9 +260,9 @@ public class UserServiceImpl implements UserService {
 
         if (user.equals(null))
             return null;
-        if (user.getStatus() != Status.Activate)
-            return null;
-        if (!passwordEncoder.matches(password, user.getPassword()))
+        if(user.getStatus() != Status.Activate)
+            throw new DeactivateUser();
+        if(!passwordEncoder.matches(password,user.getPassword()))
             return null;
         String nickName = user.getNickName();
         String baekjoonId = user.getBaekjoonId();

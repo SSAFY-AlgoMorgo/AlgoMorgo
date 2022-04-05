@@ -514,20 +514,18 @@ def recommendProblemOne(request,userId):
                 lowIdx += 1
         insertRedis(id,missionId)
 
+
     return Response(status = status.HTTP_200_OK);
 
 @api_view(['GET'])
 def updateFiles(request):
-    s = time.time()
     print("update file")
-    # createProblemWithTag()
+    createProblemWithTag()
     createFromLog()
-    e = time.time()
-    print(e-s)
+
     return Response(status=status.HTTP_200_OK);
 
 def createFromLog():
-    print('createFromLog')
     with open('problemWithTag.pickle','rb') as fr:
         problemWithTag = pickle.load(fr)
 
@@ -553,22 +551,11 @@ def createFromLog():
             probNum = probs[log[1] - 1][0]
             tags = problemWithTag[probNum]
             probPerUser[log[2]][probNum] = tags[0]
-            tagLen = len(tags)
-            mathIdx = -1
-            implIdx = -1
-            for i in range(1,tagLen):
+            for i in range(1,len(tags)):
                 tag = tags[i]
-                if tag == 'math':
-                    mathIdx = i
-                if tag == 'implementation':
-                    implIdx = i
                 for i in range(0, len(algoList)):
-                    if tag == algoList[i]:
+                    if (tag == algoList[i]):
                         KNNTable[log[2]][i] += 1
-            if mathIdx != -1 and implIdx != -1:
-                if tagLen - 1 > 2:
-                    KNNTable[log[2]][mathIdx] -= 1
-                KNNTable[log[2]][implIdx] -= 1
         except:
             df = pd.DataFrame(KNNTable)
             df.to_csv('sample.csv', sep=',')
@@ -602,24 +589,44 @@ def createProblemWithTag():
         pickle.dump(problemWithTag,fw)
 
 
+# def insertRedis(userId, problems):
+#     data = []
+#     for i, problem in enumerate(problems):
+#         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
+#         creatDate = creatDate.strftime('%Y-%m-%d')
+#         flag = False
+#         if i < 3:
+#             flag = True
+#         problemData = {
+#             "create_date" : str(creatDate),
+#             "success_date" : None,
+#             "problem_id" : problem,
+#             "selected" : flag
+#         }
+#
+#         data.append(problemData)
+#
+#     jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
+#     rs = redis.StrictRedis(host="localhost", port=8180, db=0)
+#     rs.set(str(userId), jsonDataDict)
+
 def insertRedis(userId, problems):
-    data = []
+
+    rs = redis.StrictRedis(host="j6c204.p.ssafy.io", port=8180, db=0)
+    rs.hset("userId:" + str(userId), "_class", "com.assj.algomorgobusiness.dto.RedisDto")
+
     for i, problem in enumerate(problems):
         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
         creatDate = creatDate.strftime('%Y-%m-%d')
         flag = False
         if i < 3:
             flag = True
-        problemData = {
-            "create_date" : str(creatDate),
-            "success_date" : None,
-            "problem_id" : problem,
-            "selected" : flag
-        }
+        flagStr = 0
+        if flag:
+            flagStr = 1
 
-        data.append(problemData)
-
-    jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
-    rs = redis.StrictRedis(host="j6c204.p.ssafy.io", port=8180, db=0)
-    rs.set(str(userId), jsonDataDict)
-
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].createDate", str(creatDate))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].successDate", "null")
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].problemId", str(problem))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].selected", str(flagStr))
+    rs.hset("userId:" + str(userId), "userId", userId)
