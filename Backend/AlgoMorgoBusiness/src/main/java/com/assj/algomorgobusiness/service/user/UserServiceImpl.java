@@ -269,6 +269,7 @@ public class UserServiceImpl implements UserService {
         String language = user.getLanguage();
 
         Map<String, String> result = new HashMap<>();
+        result.put("userId", userId);
         result.put("nickName", nickName);
         result.put("baekjoonId", baekjoonId);
         result.put("language", language);
