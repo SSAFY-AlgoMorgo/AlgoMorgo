@@ -115,10 +115,10 @@ public class UserServiceImpl implements UserService{
             //바꾸고자 할 때 확인 받은 비밀번호와 원래 비밀번호가 일치하는지 확인
             return false;
         //JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
-
-        if(!user.equals(userRepository.findByNickName(userDto.getNickName()).orElse(null))){
+        User duplUser = userRepository.findByNickName(userDto.getNickName()).orElse(null);
+        if(duplUser!=null && user.getId() != duplUser.getId())
             throw new BadNickName();
-        }
+
         user.setNickName(userDto.getNickName());
         user.setLanguage(userDto.getLanguage());
 
@@ -134,9 +134,9 @@ public class UserServiceImpl implements UserService{
         if(!passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
             return false;
         //JWT로 사용자를 확인 하지만, 회원정보 수정 시에 패스워드를 잘못입력하면 회원 수정이 불가능
-        if(!user.equals(userRepository.findByNickName(userDto.getNickName()).orElse(null))){
+        User duplUser = userRepository.findByNickName(userDto.getNickName()).orElse(null);
+        if(duplUser!=null && user.getId() != duplUser.getId())
             throw new BadNickName();
-        }
         user.setNickName(userDto.getNickName());
         user.setLanguage(userDto.getLanguage());
         user.setPassword(passwordEncoder.encode(password));
