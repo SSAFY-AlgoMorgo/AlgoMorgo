@@ -1,7 +1,6 @@
 package com.assj.algomorgobusiness.service.mission;
 
 import com.assj.algomorgobusiness.dto.MissionDto;
-import com.assj.algomorgobusiness.dto.MissionStatusDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,5 +12,5 @@ public interface MissionService {
 
     List<MissionDto> getMissionByWeek(String userId);
 
-    MissionStatusDto getMission(String userId);
+    Map<String, Integer> getMission(String userId);
 }
