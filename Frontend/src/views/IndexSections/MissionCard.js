@@ -33,15 +33,15 @@ function MissionCard() {
     problem1Success, problem2Success, problem3Success } = inputs   
 
   const onClick1 =function(){
-    window.location.replace("https://www.acmicpc.net/problem/"+problem1Num)
+    window.open("https://www.acmicpc.net/problem/"+problem1Num)
   }
 
   const onClick2 =function(){
-    window.location.replace("https://www.acmicpc.net/problem/"+problem2Num)
+    window.open("https://www.acmicpc.net/problem/"+problem2Num)
   }
 
   const onClick3 =function(){
-    window.location.replace("https://www.acmicpc.net/problem/"+problem3Num)
+    window.open("https://www.acmicpc.net/problem/"+problem3Num)
   }
 
   const getClearMission = useCallback(async(e) =>{
@@ -55,7 +55,7 @@ function MissionCard() {
           "Authorization" : "Bearer "+localStorage.getItem("Authorization")
         }
       })
-      .then(getRefresh())
+      .then(window.location.reload())
     }
     catch(error) {
       alert("실패");
@@ -177,10 +177,10 @@ function MissionCard() {
                 <span />
                 <span />
               </div>
-              <Container className="py-lg-md d-flex">
+              <Container className="py-lg-md d-flex mt-5">
                 <div className="col px-0">
                     <center>
-                      <p className="h3 text-white"><i class="ni ni-single-copy-04 mr-2"></i>데일리 미션</p>
+                      <p className="h1 text-white"><i class="ni ni-single-copy-04 mr-2"></i>데일리 미션</p>
                       <Row className="float-right" lg="12">
                       <Col  lg="6">
                       <Button
