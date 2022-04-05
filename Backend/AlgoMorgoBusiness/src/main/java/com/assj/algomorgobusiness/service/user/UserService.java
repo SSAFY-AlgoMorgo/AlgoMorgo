@@ -13,7 +13,6 @@ public interface UserService {
     boolean updateUser(UserDto userDto, String password);//비밀번호도 변경할 때
     Map<String, Object> getUser(String userId);
     boolean duplicate(String userId);
-    boolean duplicateNickName(String nickName);
     boolean deleteUser(String userId, String password);
     Map<String, String> login(String userId, String password);
 

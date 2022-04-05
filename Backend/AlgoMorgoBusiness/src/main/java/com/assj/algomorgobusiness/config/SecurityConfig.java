@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsUtils;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -22,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(
             TokenConfig tokenConfig,
             JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-            JwtAccessDeniedHandler jwtAccessDeniedHandler) {
+            JwtAccessDeniedHandler jwtAccessDeniedHandler
+    ) {
         this.tokenConfig = tokenConfig;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
@@ -40,12 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "v1/user/login",
                         "v1/user/signup",
-                        "/v1/user/duplicate/check/{userId}",
-                        "/v1/user/duplicateNickName/check/{nickName}",
                         "/swagger-resources/**",
                         "/swagger-ui.html",
                         "/v2/api-docs",
-                        "/webjars/**");
+                        "/webjars/**"
+                );
     }
 
     @Override
@@ -68,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v1/user/signup").permitAll()
                 .antMatchers("/swagger-ui/*").permitAll()
                 .antMatchers("/v1/user/duplicate/check/{userId}").permitAll()
-                .antMatchers("/v1/user/duplicateNickName/check/{nickName}").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
