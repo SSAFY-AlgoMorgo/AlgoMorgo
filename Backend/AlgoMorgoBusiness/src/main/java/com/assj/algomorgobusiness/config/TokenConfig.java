@@ -4,7 +4,7 @@ import com.assj.algomorgobusiness.exception.BadRequest;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-// import jdk.nashorn.internal.runtime.Debug;
+import jdk.nashorn.internal.runtime.Debug;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenConfig implements InitializingBean {
 
+
     private static final String AUTHORITIES_KEY = "auth";
 
     private final String secret;
@@ -32,9 +33,9 @@ public class TokenConfig implements InitializingBean {
     private Key key;
 
     public TokenConfig(@Value("${jwt.secret}") String secret,
-            @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
+                       @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.secret = secret;
-        this.tokenValidityInSeconds = tokenValidityInSeconds * 1000;
+        this.tokenValidityInSeconds = tokenValidityInSeconds*1000;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class TokenConfig implements InitializingBean {
 
     }
 
-    public String tokenMaking(Authentication authentication, Map<String, String> map) {
+    public String tokenMaking(Authentication authentication, Map<String, String> map){
         String authrities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -69,7 +70,7 @@ public class TokenConfig implements InitializingBean {
 
     }
 
-    public Authentication getAuthentication(String token, String userId) {
+    public Authentication getAuthentication(String token){
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
