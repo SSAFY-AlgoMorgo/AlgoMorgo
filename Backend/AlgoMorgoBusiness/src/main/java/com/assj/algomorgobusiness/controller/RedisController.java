@@ -26,16 +26,16 @@ public class RedisController {
         return redisService.save(redisDto);
     }
 
-    @GetMapping("/today/{Id}")
-    public List<MissionDto> getUserMission(@PathVariable("Id") String Id) {
+    @GetMapping("/today/{userId}")
+    public List<MissionDto> getUserMission(@PathVariable("userId") String userId) {
 
-        return redisService.getUserMission(Id);
+        return redisService.getUserMission(userId);
     }
 
-    @GetMapping("/refresh/{Id}")
-    public List<MissionDto> getRefreshMission(@PathVariable("Id") String Id) {
+    @GetMapping("/refresh/{userId}")
+    public List<MissionDto> getRefreshMission(@PathVariable("userId") String userId) {
 
-        return redisService.getRefreshMission(Id);
+        return redisService.getRefreshMission(userId);
     }
 
 }
