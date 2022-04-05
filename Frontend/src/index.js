@@ -23,6 +23,8 @@ import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss?v1.1.0";
 
+import PrivateRoute from "views/helper/PrivateRoute";
+import PublicRoute from "views/helper/PublicRoute";
 import Index from "views/Index.js";
 import Guide from "views/Guide.js";
 import Algorithm from "views/Algorithm.js";
@@ -41,46 +43,41 @@ ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/" exact render={props => <Index {...props} />} />
-      <Route
-        path="/landing-page"
-        exact
-        render={props => <Landing {...props} />}
-      />
-      <Route path="/login-page" exact render={props => <Login {...props} />} />
-      <Route
+      <PublicRoute path="/login-page" exact component={Login} />
+      <PrivateRoute
         path="/profile-page"
         exact
-        render={props => <Profile {...props} />}
+        component={Profile}
       />
-      <Route
+      <PrivateRoute
         path="/profileedit-page"
         exact
-        render={props => <ProfileEdit {...props} />}
+        component={ProfileEdit}
       />
-      <Route
+      <PublicRoute
         path="/register-page"
         exact
-        render={props => <Register {...props} />}
+        component={Register}
       />
-      <Route
+      <PrivateRoute
         path="/dailymission-page"
         exact
-        render={props => <DailyMission {...props} />}
+        component={DailyMission}
       />
-      <Route
+      <PrivateRoute
         path="/missionprofile-page"
         exact
-        render={props => <MissionProfile {...props} />}
+        component={MissionProfile}
       />
-      <Route
+      <PrivateRoute
         path="/weeklycalendar-page"
         exact
-        render={props => <WeeklyCalendar {...props} />}
+        component={WeeklyCalendar}
       />
-      <Route
+      <PrivateRoute
         path="/monthlycalendar-page"
         exact
-        render={props => <MonthlyCalendar {...props} />}
+        component={MonthlyCalendar}
       />
       <Route
         path="/guide-page"
