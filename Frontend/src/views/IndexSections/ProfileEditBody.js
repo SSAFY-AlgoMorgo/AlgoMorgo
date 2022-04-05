@@ -21,8 +21,8 @@ function ProfileEditBody() {
     userId : localStorage.getItem("userId"),
     nickName: localStorage.getItem("nickName"),
     language: localStorage.getItem("language"),
-    password: '',
-    changePassword: ''
+    password: null,
+    changePassword: null
   })
 
   const { userId, nickName, language, password, changePassword } = inputs
@@ -31,9 +31,10 @@ function ProfileEditBody() {
     const { name, value } = e.target   
 
     const nextInputs = {            
-      ...inputs,  
+      ...inputs,
       [name]: value,
     }
+    
     setInputs(nextInputs)
   }
 
@@ -42,7 +43,16 @@ function ProfileEditBody() {
       alert("닉네임 길이는 8글자 이상 20자 이하로 가능합니다.")
       return
     }
-    if(changePassword.length < 8){
+    if(changePassword === '') {
+      setInputs({
+        "userId" : userId,
+        "nickName" : nickName,
+        "language" : language,
+        "password" : password,
+        "changePassword" : null
+      })
+    }
+    if(changePassword !== null && changePassword.length < 8){
       alert("비밀번호 길이는 8글자 이상 가능합니다.")
       return;
     }
