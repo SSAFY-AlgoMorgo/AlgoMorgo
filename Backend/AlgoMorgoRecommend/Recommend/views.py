@@ -220,7 +220,6 @@ def recommendProblemAll(request):
     # {문제 번호 : 문제 id(sql pk 값)}
     with open('probById.pickle','rb') as fr:
         probById = pickle.load(fr)
-
     df = pd.read_csv('sample.csv')
     # [0] : 0번 유저 값 = 모두 다 0 , [num][0] : 해당 row의 userId 값 = num , [num][1] ~ [num][끝] : num인 유저의 각 태그 별 푼 갯수
     dfToArray = df.values
@@ -233,10 +232,8 @@ def recommendProblemAll(request):
     result = []
     for user in users:
         baekjoonId = user[4]
-        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
-        cur.execute(sql,baekjoonId)
-        userTier = cur.fetchone()[0]
-        print(userTier)
+        if(baekjoonId != "lmw0122"):
+            continue
         id = user[0]
         url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
         response = requests.get(url)
@@ -270,6 +267,23 @@ def recommendProblemAll(request):
                                 for i in range(0, len(algoList)):
                                     if (tag == algoList[i]):
                                         userSolvedTagNums[i] += 1
+        # 유저 티어 구하기
+        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
+        cur.execute(sql, baekjoonId)
+        tmpUserTier = cur.fetchone()
+        userTier = 0
+        if tmpUserTier == None:
+            print(tmpUserTier)
+            tierSum = 0
+            for i in range(len(userSolvedNums)):
+                tierSum = tierSum + problemWithTag[userSolvedNums[i]][0]
+                print(tierSum)
+            userTier = tierSum/len(userSolvedNums)
+        else:
+            userTier = tmpUserTier[0]
+        if userTier < 6:
+            userTier = 6
+        print("userTier : "+str(userTier))
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
@@ -294,6 +308,14 @@ def recommendProblemAll(request):
         highNums = []
         lowCnt = 0
         highCnt = 0
+        # 최근 3일동안 미션으로 제시 되었으면 제외하고 추천
+        sql = "select problem_id from mission where id = %s and success_date is null limit 9"
+        cur.execute(sql,id)
+        tmpRecentMissions = cur.fetchall()
+        recentMissions = []
+        for tmp in tmpRecentMissions:
+            recentMissions.append(tmp[0])
+        print(recentMissions)
         for i in range(0, len(sortedCs)):
             if i > len(sortedCs) / 2:
                 break
@@ -307,7 +329,8 @@ def recommendProblemAll(request):
                     logs = probPerUser[lowId]
                     for key in logs.keys():
                         if not (key in userSolvedNums):
-                            candidate.append(key)
+                            if not (probById[key] in recentMissions):
+                                candidate.append(key)
                     for prob in candidate:
                         if lowCnt == 7:
                             break
@@ -325,7 +348,8 @@ def recommendProblemAll(request):
                     logs = probPerUser[highId]
                     for key in logs.keys():
                         if not (key in userSolvedNums):
-                            candidate.append(key)
+                            if not (probById[key] in recentMissions):
+                                candidate.append(key)
                     for prob in candidate:
                         if highCnt == 3:
                             break
