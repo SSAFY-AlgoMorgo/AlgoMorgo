@@ -1,5 +1,5 @@
-
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
+import axios from "axios";
 
 
 // reactstrap components
@@ -11,6 +11,39 @@ import {
 } from "reactstrap";
 
 function ProfileTag() {
+  const HEADER = {
+    headers: {
+      Authorization: "Bearer "+localStorage.getItem("Authorization"),
+    },
+  };
+
+  const [tagList, setTagList] = useState([]);
+
+  const getTag = async() => {
+    await axios
+      .get("http://j6c204.p.ssafy.io:8081/v1/user/"+localStorage.getItem("userId"), HEADER)
+      .then((response) => {
+        setTagList(response.data.userSolvedInfo);
+      })
+      .catch((err) => {
+        // alert("게시물이 아예 없습니다");
+      });
+  };
+
+  useEffect(() => {
+    getTag();
+  }, []);
+
+  let index = [];
+  let myTagList = [];
+  for (let x in tagList) { 
+    index.push(x); 
+  }
+  for(let i = 0; i<Object.keys(tagList).length; i++){
+    myTagList.push(tagList[index[i]]);
+  }
+
+  
     return (
       <>
           <Container>
@@ -20,11 +53,11 @@ function ProfileTag() {
               </div>
               <Row className="py-3 align-items-center">
                 <Col sm="5">
-                  <img
+                  {/* <img
                     className="ml-5"
                     alt="..."
                     src={require("assets/img/algo/tag.jpg")}
-                  />
+                  /> */}
                 </Col>
                 <Col sm="7">
                 <div className="ml-5">
@@ -39,130 +72,26 @@ function ProfileTag() {
                 </div>
                 <hr width="90%" />
 
-                <div className="ml-5">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>그래프 이론</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>12</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>그래프 탐색</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>11</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>브루트포스 알고리즘</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>9</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>구현</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>8</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>너비 우선 탐색</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>7</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>깊이 우선 탐색</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>7</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>시물레이션</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>6</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>그리디 알고리즘</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>4</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>백트래킹</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>3</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>수학</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>3</h7>
-                    </Col>
-                  </Row>
-                </div>
-
-                <div className="ml-5 mt-3">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
-                    <h7>재귀</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
-                    <h7>2</h7>
-                    </Col>
-                  </Row>
-                </div>
+                {myTagList.map(
+                  (tag, idx) => (
+                    <div className="ml-5">
+                      <Row>
+                        <Col className="font-weight-bold ml-3">
+                        <h7>{tag.cnt}</h7>
+                        </Col>
+                        <Col className="font-weight-bold text-right mr-6">
+                        <h7>{tag.algorithmKor}</h7>
+                        </Col>
+                        
+                      </Row>
+                    </div>
+                  )
+                )}
                   
-                <div className="mt-3">
+                {/* 해볼 예정 */}
+                {/* <div className="mt-3">
                   <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 더보기</p>
-                </div>
+                </div> */}
 
                 
 

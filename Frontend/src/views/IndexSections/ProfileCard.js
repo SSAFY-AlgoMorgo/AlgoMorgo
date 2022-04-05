@@ -1,12 +1,19 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 // reactstrap components
 import { Button, Container, Row, Col, Card } from "reactstrap";
 
+
 function ProfileCard() {
+  
+  const [inputs] = useState({  
+    userId: localStorage.getItem("userId")
+  })
+  const { userId } = inputs
+
     return (
       <>
         <Container>
@@ -17,14 +24,14 @@ function ProfileCard() {
                       <img
                         alt="..."
                         className="img-fluid rounded-circle"
-                        src={require("assets/img/theme/team-2-800x800.jpg")}
+                        src={require("assets/img/theme/user_icon.png")}
                         style={{ width: "75px" }}
                                   />
                                 
                     </Col>
                     <Col lg="10">
                       <h3 className="text-white">
-                        김싸피님의 프로필입니다.
+                        {userId} 님의 프로필입니다.
                       </h3>  
                     </Col>  
                     <Col className="ml-lg-auto" lg="1">
