@@ -5,6 +5,7 @@ import com.assj.algomorgobusiness.dto.UserDto;
 import com.assj.algomorgobusiness.exception.BadBaekJoonId;
 import com.assj.algomorgobusiness.exception.BadNickName;
 import com.assj.algomorgobusiness.exception.BadUserId;
+import com.assj.algomorgobusiness.exception.DeactivateUser;
 import com.assj.algomorgobusiness.filter.JwtFilter;
 import com.assj.algomorgobusiness.service.recommend.RecommendService;
 import com.assj.algomorgobusiness.service.user.UserService;
@@ -81,7 +82,12 @@ public class UserController {
         String password = requestUserDto.getPassword();
         log.info(userId);
         log.info(password);
-        Map<String, String> result = userService.login(userId, password);
+        Map<String, String> result = null;
+        try {
+          result = userService.login(userId, password);
+        }catch (DeactivateUser e){
+            return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
+        }
         if(result.size() == 0)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         HttpHeaders headers = new HttpHeaders();
