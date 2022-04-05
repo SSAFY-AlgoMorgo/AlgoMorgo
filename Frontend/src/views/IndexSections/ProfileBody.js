@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 
 
 // reactstrap components
@@ -12,6 +11,15 @@ import {
 } from "reactstrap";
 
 function ProfileBody() {
+  
+  const [inputs] = useState({
+    nickName: localStorage.getItem("nickName"),
+    baekjoonId: localStorage.getItem("baekjoonId"),
+    language: localStorage.getItem("language")
+
+  })
+  const { nickName, baekjoonId, language } = inputs
+  
     return (
       <>
         
@@ -39,7 +47,7 @@ function ProfileBody() {
                       color="neutral"
                       disabled
                       type="button">
-                    <h7>김싸피</h7>   
+                    <h7 style={{'text-transform':'lowercase'}}>{nickName}</h7>   
                   </Button>
                 </Col>
               </Row>
@@ -61,7 +69,7 @@ function ProfileBody() {
                       color="neutral"
                       disabled
                       type="button">
-                    <h7>ssafykim</h7>   
+                    <h7 style={{'text-transform':'lowercase'}}>{baekjoonId}</h7>   
                   </Button>
                 </Col>
               </Row>
@@ -83,7 +91,7 @@ function ProfileBody() {
                       color="neutral"
                       disabled
                       type="button">
-                    <h7>&nbsp;</h7>   
+                    <h7>{language}</h7>   
                   </Button>
                 </Col>
               </Row>
