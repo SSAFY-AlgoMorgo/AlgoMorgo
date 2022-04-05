@@ -84,9 +84,7 @@ function MyWeekMission() {
         setSolveRate((correct / res.data.length * 100).toFixed(2));
       })
     })
-    return () => {
-      console.log("unmount");
-    }
+    
   }, []);
   return (
     <div>

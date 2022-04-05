@@ -21,8 +21,6 @@ function makeDate(y, m, d) {
 let count = false;
 let countForModal = false;
 function MyCalendar() {
-  console.log(count);
-  console.log(countForModal);
   const [value, onChange] = useState(new Date());
   const [selectedMission, setSelectedMission] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -31,8 +29,6 @@ function MyCalendar() {
   let curMonth = curTime.getMonth() + 1;
   let curDate = curTime.getDate();
   useEffect(() => {
-    console.log("test1");
-    console.log(count);
     if (!count) {
       count = true;
       return;
@@ -73,19 +69,21 @@ function MyCalendar() {
         setSelectedMission(tmpMissions);
       }
     })
-    return () => {
-      count = false;
-      countForModal = false;
-    }
+    
   }, [value]);
   useEffect(() => {
-    console.log(countForModal);
     if (!countForModal) {
       countForModal = true;
       return;
     }
     setVisible(true);
   }, [selectedMission]);
+  useEffect(() => {
+    return () => {
+      count = false;
+      countForModal = false;
+    }
+  }, []);
   
   return (
     <div className='my-5'>

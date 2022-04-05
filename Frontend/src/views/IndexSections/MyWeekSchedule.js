@@ -26,16 +26,16 @@ function MyMonthMission() {
       if (date === tmpDate)
         tmpM.push(weekMissions[m]);
     }
+    setCurDate(date);
     setCurMissions(tmpM);
   }
   useEffect(() => {
     let date = new Date();
-    setCurDate(date.getFullYear()+"년 "+(date.getMonth()+1)+"월 "+date.getDate()+"일" + "(" + yoil[date.getDay()] + ")");
-
     let userId = localStorage.getItem("userId");
     let userJWT = localStorage.getItem("Authorization");
     let urlForToday = `http://j6c204.p.ssafy.io:8081/v1/redis/today/${userId}`;
     let urlForWeek = `http://j6c204.p.ssafy.io:8081/v1/mission/week/${userId}`;
+
     let tmpM = [];
     axios.get(urlForWeek, {
       headers: {
@@ -58,7 +58,6 @@ function MyMonthMission() {
           "Authorization": "Bearer " + userJWT
         },
       }).then(res => {
-        console.log(res.data);
         for (let m = 0; m < res.data.length; m++) {
           let tmpDate = res.data[m].createDate.slice(0, 10);
           days.add(tmpDate);
@@ -80,7 +79,10 @@ function MyMonthMission() {
           )}
         </Col>
         <Col sm="9">
-          <h6 className='font-weight-bold'>오늘의 미션</h6>
+          {curDate === ""
+            ? <h6 className='font-weight-bold'>날짜를 선택해주세요.</h6>
+            : <h6 className='font-weight-bold'>{curDate}일의 미션</h6>
+          }
           {curMissions.map(mission => 
             <Card className="shadow my-4" style={{ width: "100%" }}>
               <CardBody className="px-5" >
