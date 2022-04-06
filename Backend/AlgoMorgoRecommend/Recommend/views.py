@@ -482,6 +482,8 @@ def recommendProblemOne(request,userId):
             userTier = tmpUserTier[0]
         if userTier < 6:
             userTier = 6
+        if userTier > 20:
+            userTier = 20
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
