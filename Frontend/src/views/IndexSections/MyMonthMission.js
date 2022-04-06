@@ -258,7 +258,7 @@ function MyMonthMission() {
           </Row>
         </CardBody>
       </Card>
-      <Calendar onChange={onChange} value={value} calendarType="US" />
+      <Calendar onChange={onChange} value={value} calendarType="US" className="mb-5"/>
       <Modal
         className="modal-dialog-centered"
         isOpen={visible}
