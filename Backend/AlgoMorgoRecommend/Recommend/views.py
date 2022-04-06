@@ -6,7 +6,8 @@ from django.shortcuts import get_object_or_404
 from django_redis import cache
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework_swagger import renderers
 import requests
 import pymysql
 import time
@@ -19,7 +20,6 @@ import pickle
 import datetime
 import pytz
 import redis
-
 algoList = ['lis',
         'math',
         'knuth',
@@ -208,7 +208,7 @@ def cos_sim(a, b):
     return dot(a, b)/(norm(a)*norm(b))
 
 @api_view(['GET'])
-def recommendProblem(request,userId):
+def recommendProblemAll(request):
     # mysql 연결
     conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',charset='utf8')
     # 유저별로 [{푼 문제의 번호: 그 문제의 티어 값}]
@@ -220,7 +220,6 @@ def recommendProblem(request,userId):
     # {문제 번호 : 문제 id(sql pk 값)}
     with open('probById.pickle','rb') as fr:
         probById = pickle.load(fr)
-
     df = pd.read_csv('sample.csv')
     # [0] : 0번 유저 값 = 모두 다 0 , [num][0] : 해당 row의 userId 값 = num , [num][1] ~ [num][끝] : num인 유저의 각 태그 별 푼 갯수
     dfToArray = df.values
@@ -233,10 +232,6 @@ def recommendProblem(request,userId):
     result = []
     for user in users:
         baekjoonId = user[4]
-        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
-        cur.execute(sql,baekjoonId)
-        userTier = cur.fetchone()[0]
-        print(userTier)
         id = user[0]
         url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
         response = requests.get(url)
@@ -270,6 +265,172 @@ def recommendProblem(request,userId):
                                 for i in range(0, len(algoList)):
                                     if (tag == algoList[i]):
                                         userSolvedTagNums[i] += 1
+        # 유저 티어 구하기
+        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
+        cur.execute(sql, baekjoonId)
+        tmpUserTier = cur.fetchone()
+        userTier = 0
+        if tmpUserTier == None:
+            tierSum = 0
+            for i in range(len(userSolvedNums)):
+                tierSum = tierSum + problemWithTag[userSolvedNums[i]][0]
+            userTier = tierSum/len(userSolvedNums)
+        else:
+            userTier = tmpUserTier[0]
+        if userTier < 6:
+            userTier = 6
+        # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
+        csWithAllUser = []
+        for i in range(38383):
+            if(i == 0):
+                continue;
+            oppUserId = int(dfToArray[i][0])
+            oppTagNums = dfToArray[i][1:]
+            item = {
+                'userId': 0,
+                'cs': 0.0
+            }
+            tmp = cos_sim(userSolvedTagNums,oppTagNums)
+            if math.isnan(tmp):
+                continue
+            item['userId'] = oppUserId
+            item['cs'] = cos_sim(userSolvedTagNums,oppTagNums)
+
+            csWithAllUser.append(item)
+        # 코사인 유사도 기준으로 sorting
+        sortedCs = sorted(csWithAllUser, key=(lambda x: x['cs']))
+        lowNums = []
+        highNums = []
+        lowCnt = 0
+        highCnt = 0
+        # 최근 3일동안 미션으로 제시 되었으면 제외하고 추천
+        sql = "select problem_id from mission where id = %s and success_date is null order by mission_id desc limit 9"
+        cur.execute(sql,id)
+        tmpRecentMissions = cur.fetchall()
+        recentMissions = []
+        for tmp in tmpRecentMissions:
+            recentMissions.append(tmp[0])
+        for i in range(0, len(sortedCs)):
+            if i > len(sortedCs) / 2:
+                break
+            if lowCnt < 7:
+                candidate = []
+                lowId = int(sortedCs[i]['userId'])
+                sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
+                cur.execute(sql, str(lowId))
+                oppTier = cur.fetchone()[0]
+                if oppTier <= userTier + 1 and oppTier >= userTier - 1:
+                    logs = probPerUser[lowId]
+                    for key in logs.keys():
+                        if key not in userSolvedNums:
+                            if probById[key] not in recentMissions:
+                                candidate.append(key)
+                    for prob in candidate:
+                        if lowCnt == 7:
+                            break
+                        probTier = problemWithTag[prob][0]
+                        if probTier >= userTier - 2 and probTier <= userTier + 1:
+                            lowNums.append(prob)
+                            lowCnt += 1
+            if highCnt < 3:
+                candidate = []
+                highId = int(sortedCs[len(sortedCs) - 1 - i]['userId'])
+                sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
+                cur.execute(sql, str(highId))
+                oppTier = cur.fetchone()[0]
+                if oppTier <= userTier + 1 and oppTier >= userTier - 1:
+                    logs = probPerUser[highId]
+                    for key in logs.keys():
+                        if key not in userSolvedNums:
+                            if probById[key] not in recentMissions:
+                                candidate.append(key)
+                    for prob in candidate:
+                        if highCnt == 3:
+                            break
+                        probTier = problemWithTag[prob][0]
+                        if probTier >= userTier - 2 and probTier <= userTier + 1:
+                            highNums.append(prob)
+                            highCnt += 1
+            if lowCnt + highCnt == 10:
+                break
+        missionId = []
+        lowIdx = 0
+        highIdx = 0
+        for i in range(len(lowNums) + len(highNums)):
+            if (i + 1) % 3 == 0:
+                missionId.append(probById[highNums[highIdx]])
+                highIdx += 1
+            else:
+                missionId.append(probById[lowNums[lowIdx]])
+                lowIdx += 1
+        insertRedis(id, missionId)
+
+
+    return Response(result,status = status.HTTP_200_OK);
+
+@api_view(['GET'])
+def recommendProblemOne(request,userId):
+    print("recommendProblemOne")
+    # mysql 연결
+    conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',charset='utf8')
+    # 유저별로 [{푼 문제의 번호: 그 문제의 티어 값}]
+    with open('probPerUser.pickle','rb') as fr:
+        probPerUser = pickle.load(fr)
+    # 문제 별로 { 문제 번호 : [티어, (있다면) 태그 1, 태그 2 ...]}
+    with open('problemWithTag.pickle','rb') as fr:
+        problemWithTag = pickle.load(fr)
+    # {문제 번호 : 문제 id(sql pk 값)}
+    with open('probById.pickle','rb') as fr:
+        probById = pickle.load(fr)
+
+    df = pd.read_csv('sample.csv')
+    # [0] : 0번 유저 값 = 모두 다 0 , [num][0] : 해당 row의 userId 값 = num , [num][1] ~ [num][끝] : num인 유저의 각 태그 별 푼 갯수
+    dfToArray = df.values
+
+    cur = conn.cursor()
+    sql = 'SELECT * FROM user WHERE user_id = %s'
+    cur.execute(sql,userId)
+    # 가져온 유저들 : users[num] = 가져온 유저 중 num번째 유저 정보들, users[num][0] : id(pk), users[num][1] : language, users[num][2] : nickname, users[num][3] : password, users[num][4] : baekjoonId, users[num][5] : userId
+    user = cur.fetchone()
+    print(user)
+    baekjoonId = user[4]
+    sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
+    cur.execute(sql,baekjoonId)
+    userTier = cur.fetchone()[0]
+    id = user[0]
+    print("id : "+str(id)+" baekjoonId : "+str(baekjoonId)+" userId : "+userId)
+    url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
+    response = requests.get(url)
+    userSolvedNums = []
+    userSolvedTagNums = np.zeros(len(algoList))
+    if response.status_code == 200:
+        # 우리 유저가 푼 문제가 100문제가 넘어서 api를 더 불러야되는지 체크
+        count = int(int(response.json()['count'])/100)
+        curUserLogs = response.json()['items']
+        for log in curUserLogs:
+            probNum = int(log['problemId'])
+            userSolvedNums.append(probNum)
+            tags = problemWithTag[probNum]
+            for i in range(1, len(tags)):
+                tag = tags[i]
+                for i in range(0, len(algoList)):
+                    if (tag == algoList[i]):
+                        userSolvedTagNums[i] += 1
+        if(count >= 1):
+            for i in range(count):
+                url2 = url + "&page="+str(i+2)
+                response2 = requests.get(url2)
+                if response2.status_code == 200:
+                    curUserLogs = response2.json()['items']
+                    for log in curUserLogs:
+                        probNum = int(log['problemId'])
+                        userSolvedNums.append(probNum)
+                        tags = problemWithTag[probNum]
+                        for i in range(1, len(tags)):
+                            tag = tags[i]
+                            for i in range(0, len(algoList)):
+                                if (tag == algoList[i]):
+                                    userSolvedTagNums[i] += 1
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
@@ -290,7 +451,8 @@ def recommendProblem(request,userId):
             csWithAllUser.append(item)
         # 코사인 유사도 기준으로 sorting
         sortedCs = sorted(csWithAllUser, key=(lambda x:x['cs']))
-        missionNum = []
+        lowNums= []
+        highNums =[]
         lowCnt = 0
         highCnt = 0
         for i in range(0,len(sortedCs)):
@@ -312,7 +474,7 @@ def recommendProblem(request,userId):
                             break
                         probTier = problemWithTag[prob][0]
                         if probTier >= userTier-2 and probTier <= userTier+1:
-                            missionNum.append(prob)
+                            lowNums.append(prob)
                             lowCnt += 1
             if(highCnt <3):
                 candidate = []
@@ -330,24 +492,37 @@ def recommendProblem(request,userId):
                             break
                         probTier = problemWithTag[prob][0]
                         if probTier >= userTier - 2 and probTier <= userTier + 1:
-                            missionNum.append(prob)
+                            highNums.append(prob)
                             highCnt += 1
-            if(len(missionNum) == 10):
+            if lowCnt+highCnt == 10:
                 break
         missionId = []
-        for m in missionNum:
-            missionId.append(probById[m])
-        missionPerUser = {
-            'user_id' : id,
-            'missions' : missionId
-        }
+        lowIdx = 0
+        highIdx =0
+        for i in range(len(lowNums)+len(highNums)):
+            if (i+1)%3 ==0 :
+                missionId.append(probById[highNums[highIdx]])
+                highIdx += 1
+            else:
+                missionId.append(probById[lowNums[lowIdx]])
+                lowIdx += 1
         insertRedis(id,missionId)
-        result.append(missionPerUser)
 
 
-    return Response(result,status = status.HTTP_200_OK);
+    return Response(status = status.HTTP_200_OK);
 
-def createFromLog(problemWithTag):
+@api_view(['GET'])
+def updateFiles(request):
+    print("update file")
+    createProblemWithTag()
+    createFromLog()
+
+    return Response(status=status.HTTP_200_OK);
+
+def createFromLog():
+    with open('problemWithTag.pickle','rb') as fr:
+        problemWithTag = pickle.load(fr)
+
     KNNTable = np.zeros((38383, len(algoList)))
     probPerUser = [{} for i in range(38383)]
     conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',
@@ -407,25 +582,23 @@ def createProblemWithTag():
     with open('problemWithTag.pickle', 'wb') as fw:
         pickle.dump(problemWithTag,fw)
 
-
 def insertRedis(userId, problems):
-    data = []
+
+    rs = redis.StrictRedis(host="j6c204.p.ssafy.io", port=8180, db=0)
+    rs.hset("userId:" + str(userId), "_class", "com.assj.algomorgobusiness.dto.RedisDto")
+
     for i, problem in enumerate(problems):
         creatDate = datetime.datetime.now(pytz.timezone('Asia/Seoul'))
         creatDate = creatDate.strftime('%Y-%m-%d')
         flag = False
         if i < 3:
             flag = True
-        problemData = {
-            "create_date" : str(creatDate),
-            "success_date" : None,
-            "problem_id" : problem,
-            "selected" : flag
-        }
+        flagStr = 0
+        if flag:
+            flagStr = 1
 
-        data.append(problemData)
-
-    jsonDataDict = json.dumps(data, ensure_ascii=False).encode('utf-8')
-    rs = redis.StrictRedis(host="localhost", port=6379, db=0)
-    rs.set(str(userId), jsonDataDict)
-
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].createDate", str(creatDate))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].successDate", "null")
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].problemId", str(problem))
+        rs.hset("userId:" + str(userId), "infoList.["+str(i)+"].selected", str(flagStr))
+    rs.hset("userId:" + str(userId), "userId", userId)
