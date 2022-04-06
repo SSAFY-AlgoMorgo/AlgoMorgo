@@ -55,7 +55,7 @@ function MyMonthMission() {
     let userId = localStorage.getItem("userId");
     let userJWT = localStorage.getItem("Authorization");
     let urlForToday = `http://j6c204.p.ssafy.io:8081/v1/redis/today/${userId}`;
-    let urlForMonth = `http://j6c204.p.ssafy.io:8081/v1/mission/${userId}/${year}/${month}`;
+    let urlForMonth = `http://j6c204.p.ssafy.io:8081/v1/mission/${year}/${month}/${userId}`;
     axios.get(urlForToday, {
       headers: {
         "Accept":"application/json;charset=UTF-8",
@@ -128,7 +128,7 @@ function MyMonthMission() {
       url = `http://j6c204.p.ssafy.io:8081/v1/redis/today/${userId}`;
     }
     else {
-      url = `http://j6c204.p.ssafy.io:8081/v1/mission/${userId}/${tmpYear}/${tmpMonth}`;
+      url = `http://j6c204.p.ssafy.io:8081/v1/mission/${tmpYear}/${tmpMonth}/${userId}`;
       myDate = makeDate(tmpYear, tmpMonth, tmpDate);
     }
     axios.get(url, {

@@ -59,7 +59,7 @@ function ProfileEditBody() {
     
       await axios({
         method:"put",
-        url:"http://j6c204.p.ssafy.io:8081/v1/user/",
+        url:"http://j6c204.p.ssafy.io:8081/v1/user/"+userId,
         headers: {
           "Accept":"application/json;charset=UTF-8",
           "Content-Type":"application/json;charset=UTF-8",
