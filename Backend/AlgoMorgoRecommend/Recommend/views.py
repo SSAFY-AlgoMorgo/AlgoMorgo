@@ -20,6 +20,8 @@ import pickle
 import datetime
 import pytz
 import redis
+
+# 알고리즘 종류
 algoList = ['lis',
         'math',
         'knuth',
@@ -204,14 +206,17 @@ algoList = ['lis',
         'recursion',
         'aho_corasick'
     ]
+
+# 두 row의 코사인 유사도를 계산하는 함수
 def cos_sim(a, b):
     return dot(a, b)/(norm(a)*norm(b))
 
+# 하루에 한번 모든 유저들에 대해 추천할 문제를 만드는 함수
 @api_view(['GET'])
 def recommendProblemAll(request):
     # mysql 연결
     conn = pymysql.connect(host='j6c204.p.ssafy.io', port=3306, user='C204', password='ssafyC204', db='logTest',charset='utf8')
-    # 유저별로 [{푼 문제의 번호: 그 문제의 티어 값}]
+    # 유저별로 [{푼 문제의 번호: 그 문제의 티어 값, 1002: 11}]
     with open('probPerUser.pickle','rb') as fr:
         probPerUser = pickle.load(fr)
     # 문제 별로 { 문제 번호 : [티어, (있다면) 태그 1, 태그 2 ...]}
@@ -238,6 +243,7 @@ def recommendProblemAll(request):
         response = requests.get(url)
         userSolvedNums = []
         userSolvedTagNums = np.zeros(len(algoList))
+        # sovled.ac api를 이용하여 현재 유저가 푼 문제 번호들을 userSolvedNums에 담고 어떤 알고리즘을 몇개씩 풀었는지 userSolvedTagNums에 담는다.
         if response.status_code == 200:
             # 우리 유저가 푼 문제가 100문제가 넘어서 api를 더 불러야되는지 체크
             count = int(int(response.json()['count'])/100)
@@ -251,6 +257,7 @@ def recommendProblemAll(request):
                     for i in range(0, len(algoList)):
                         if (tag == algoList[i]):
                             userSolvedTagNums[i] += 1
+            # 만약 유저가 푼 문제가 100문제가 넘으면 끝날때까지 api 호출과 userSolvedNums, userSolvedTagNums에 담기를 반복
             if(count >= 1):
                 for i in range(count):
                     url2 = url + "&page="+str(i+2)
@@ -271,16 +278,24 @@ def recommendProblemAll(request):
         cur.execute(sql, baekjoonId)
         tmpUserTier = cur.fetchone()
         userTier = 0
+        # 유저가 solved.ac 기준 플래티넘 1~실버 5까지 범위에 없다면 tmpUserTier 가 None
         if tmpUserTier == None:
+            # 유저 티어를 모르는 경우 지금까지 푼 문제들의 티어의 평균을 그 유저의 티어로 지정
             tierSum = 0
             for i in range(len(userSolvedNums)):
                 tierSum = tierSum + problemWithTag[userSolvedNums[i]][0]
             userTier = tierSum/len(userSolvedNums)
         else:
+            # 유저 티어를 아는 경우 그 값을 유저 티어로 지정
             userTier = tmpUserTier[0]
+        # 만약 유저 티어가 6(실버 5)보다 작으면 추천을 받기 어렵기 때문에 6으로 고정
         if userTier < 6:
             userTier = 6
-        # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
+        # 만약 유저 티어가 20(플래티넘 1)보다 크면 추천을 받기 어렵기 때문에 20으로 고정
+        if userTier > 20:
+            userTier = 20
+
+        # userSolvedTagNums와 dfToArray(sample.csv)에 있는 row들의 코사인 유사도를 구해서 userId와 그 유저와의 코사인 유사도 값을 csWithAllUser 배열에 저장
         csWithAllUser = []
         for i in range(38383):
             if(i == 0):
@@ -298,65 +313,88 @@ def recommendProblemAll(request):
             item['cs'] = cos_sim(userSolvedTagNums,oppTagNums)
 
             csWithAllUser.append(item)
-        # 코사인 유사도 기준으로 sorting
+        # csWithAllUser 배열을 코사인 유사도 기준으로 sorting
         sortedCs = sorted(csWithAllUser, key=(lambda x: x['cs']))
         lowNums = []
         highNums = []
         lowCnt = 0
         highCnt = 0
-        # 최근 3일동안 미션으로 제시 되었으면 제외하고 추천
+        # 최근 3일동안 미션으로 제시된 문제를 추천하지 않기 위해 recentMissions에 담는다
         sql = "select problem_id from mission where id = %s and success_date is null order by mission_id desc limit 9"
         cur.execute(sql,id)
         tmpRecentMissions = cur.fetchall()
         recentMissions = []
         for tmp in tmpRecentMissions:
             recentMissions.append(tmp[0])
+
+        # 코사인 유사도가 가장 먼 유저가 푼 문제 중에 우리 유저가 안 푼 문제 중 userTier와 비슷한 티어의 문제를 최대 7문제, 코사인 유사도가 가장 가까운 유저의 푼 문제 중 우리 유저가 안풀고 티어가 비슷한 문제 최대 3문제를 배열에 담음
         for i in range(0, len(sortedCs)):
             if i > len(sortedCs) / 2:
                 break
+            # 코사인 유사도가 가장 먼 유저가 푼 문제를 탐색하면서 조건에 맞는 문제를 최대 7개 배열에 담는다
             if lowCnt < 7:
                 candidate = []
                 lowId = int(sortedCs[i]['userId'])
                 sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
                 cur.execute(sql, str(lowId))
                 oppTier = cur.fetchone()[0]
+                # 우리 유저와 현재 가장 먼 유저의 티어가 비슷한지(-1~+1) 확인
                 if oppTier <= userTier + 1 and oppTier >= userTier - 1:
                     logs = probPerUser[lowId]
                     for key in logs.keys():
+                        # 그 유저가 푼 문제 중 우리 유저가 아직 안푼 문제인지 확인
                         if key not in userSolvedNums:
+                            # 최근 3일동안 추천된 문제인지 확인
                             if probById[key] not in recentMissions:
+                                # 조건에 만족하는 문제를 candidate 배열에 담는다
                                 candidate.append(key)
+                    # candidate에 담은 문제들 중에
                     for prob in candidate:
                         if lowCnt == 7:
                             break
+                        # 해당 문제의 티어를 가져옴
                         probTier = problemWithTag[prob][0]
+                        # 해당 문제의 티어가 우리 유저의 티어와 비슷한지(-2~+1)확인
                         if probTier >= userTier - 2 and probTier <= userTier + 1:
+                            # 조건을 만족하면 lowNums(추천 문제 배열)에 담는다
                             lowNums.append(prob)
                             lowCnt += 1
+            # 코사인 유사도가 가장 가까운 유저가 푼 문제를 탐색하면서 조건에 맞는 문제를 최대 3개 배열에 담는다
             if highCnt < 3:
                 candidate = []
+                # 상대 유저의 티어를 지정
                 highId = int(sortedCs[len(sortedCs) - 1 - i]['userId'])
                 sql = "SELECT user_tier FROM baekjoon_user WHERE user_id = %s"
                 cur.execute(sql, str(highId))
                 oppTier = cur.fetchone()[0]
+                # 우리 유저와 현재 가장 먼 유저의 티어가 비슷한지(-1~+1) 확인
                 if oppTier <= userTier + 1 and oppTier >= userTier - 1:
                     logs = probPerUser[highId]
                     for key in logs.keys():
+                        # 그 유저가 푼 문제 중 우리 유저가 아직 안푼 문제인지 확인
                         if key not in userSolvedNums:
+                            # 최근 3일동안 추천된 문제인지 확인
                             if probById[key] not in recentMissions:
+                                # 조건에 만족하는 문제를 candidate 배열에 담는다
                                 candidate.append(key)
+                    # candidate에 담은 문제들 중에
                     for prob in candidate:
                         if highCnt == 3:
                             break
+                        # 해당 문제의 티어를 가져옴
                         probTier = problemWithTag[prob][0]
+                        # 해당 문제의 티어가 우리 유저의 티어와 비슷한지(-2~+1)확인
                         if probTier >= userTier - 2 and probTier <= userTier + 1:
+                            # 조건을 만족하면 highNums(추천 문제 배열)에 담는다
                             highNums.append(prob)
                             highCnt += 1
+            # 추천 문제가 총 10문제가 되면 빠져나간다
             if lowCnt + highCnt == 10:
                 break
         missionId = []
         lowIdx = 0
         highIdx = 0
+        # 추천된 lowNums와 highNums에서 low,low,high,low,low,high ''' 순으로 최종 추천 배열 missionId에 담는다
         for i in range(len(lowNums) + len(highNums)):
             if (i + 1) % 3 == 0:
                 missionId.append(probById[highNums[highIdx]])
@@ -364,11 +402,13 @@ def recommendProblemAll(request):
             else:
                 missionId.append(probById[lowNums[lowIdx]])
                 lowIdx += 1
+        # 현재 유저의 id를 key로 추천 문제 배열(missionId)을 value로 redis에 저장
         insertRedis(id, missionId)
 
 
     return Response(result,status = status.HTTP_200_OK);
 
+# 처음 가입한 유저를 위해 한명에 대해 문제를 추천해주는 함수
 @api_view(['GET'])
 def recommendProblemOne(request,userId):
     print("recommendProblemOne")
@@ -522,6 +562,7 @@ def recommendProblemOne(request,userId):
 
     return Response(status = status.HTTP_200_OK);
 
+# 추천에 사용할 파일들을 만드는 함수
 @api_view(['GET'])
 def updateFiles(request):
     print("update file")
@@ -530,6 +571,7 @@ def updateFiles(request):
 
     return Response(status=status.HTTP_200_OK);
 
+# db의 log테이블과 problemWithTag 배열을 이용해 problemPerUser, sample, probById 배열을 만들고 파일로 저장하는 함수
 def createFromLog():
     with open('problemWithTag.pickle','rb') as fr:
         problemWithTag = pickle.load(fr)
@@ -572,6 +614,7 @@ def createFromLog():
     with open('probById.pickle', 'wb') as fw:
         pickle.dump(probById,fw)
 
+# solved.ac api를 통해 문제들을 가져와서 각 문제당 어떤 태그들이 달려있는지 dict형태로 만들어 파일에 저장하는 함수
 def createProblemWithTag():
     problemWithTag = {}
     for i in range(1, 230):
@@ -593,6 +636,7 @@ def createProblemWithTag():
     with open('problemWithTag.pickle', 'wb') as fw:
         pickle.dump(problemWithTag,fw)
 
+# 선정 된 추천 문제를 redis에 담는 함수
 def insertRedis(userId, problems):
 
     rs = redis.StrictRedis(host="j6c204.p.ssafy.io", port=8180, db=0)
