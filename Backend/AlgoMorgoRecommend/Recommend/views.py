@@ -231,6 +231,7 @@ def recommendProblemAll(request):
     users = cur.fetchall()
     result = []
     for user in users:
+
         baekjoonId = user[4]
         id = user[0]
         url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
@@ -394,10 +395,6 @@ def recommendProblemOne(request,userId):
     user = cur.fetchone()
     print(user)
     baekjoonId = user[4]
-    sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
-    cur.execute(sql,baekjoonId)
-    userTier = cur.fetchone()[0]
-    id = user[0]
     print("id : "+str(id)+" baekjoonId : "+str(baekjoonId)+" userId : "+userId)
     url = "https://solved.ac/api/v3/search/problem?query=solved_by%3A" + str(baekjoonId)
     response = requests.get(url)
@@ -431,6 +428,20 @@ def recommendProblemOne(request,userId):
                             for i in range(0, len(algoList)):
                                 if (tag == algoList[i]):
                                     userSolvedTagNums[i] += 1
+        # 유저 티어 구하기
+        sql = "SELECT user_tier FROM baekjoon_user WHERE user_name = %s"
+        cur.execute(sql, baekjoonId)
+        tmpUserTier = cur.fetchone()
+        userTier = 0
+        if tmpUserTier == None:
+            tierSum = 0
+            for i in range(len(userSolvedNums)):
+                tierSum = tierSum + problemWithTag[userSolvedNums[i]][0]
+            userTier = tierSum / len(userSolvedNums)
+        else:
+            userTier = tmpUserTier[0]
+        if userTier < 6:
+            userTier = 6
         # sample에 있는 값들과 코사인 유사도를 구해서 배열에 저장
         csWithAllUser = []
         for i in range(38383):
