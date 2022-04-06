@@ -1,34 +1,25 @@
-import React from "react";
-
+import React from 'react';
+import axios from 'axios';
 // reactstrap components
 import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
-  Row,
-  Col
+  
 } from "reactstrap";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
+import MyMonthMission from 'views/IndexSections/MyMonthMission';
 
 // index page sections
-import Download from "../IndexSections/Download.js";
 
 class MonthlyCalendar extends React.Component {
-  state = {};
+  state = {
+  }
   componentDidMount() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+   
   }
   render() {
     return (
@@ -52,11 +43,17 @@ class MonthlyCalendar extends React.Component {
               <Container className="py-lg-md d-flex">
                 <div className="col px-0">
                     <center className="text-white">
-                      <h3 className="mb-4 text-white">월간 캘린더 미션</h3>
+                      <h3 className="mb-4 text-white">월간 미션 캘린더</h3>
                       <p>월 별 문제 풀이 현황을 캘린더 형태로 제공합니다.</p>
                       <p>날짜를 클릭하면 해당 날짜의 미션을 확인할 수 있습니다.</p>
                     </center>
                 </div>
+              </Container>
+            </section>
+
+            <section>
+              <Container>
+                <MyMonthMission />
               </Container>
             </section>
           </div>

@@ -23,15 +23,18 @@ import "assets/vendor/nucleo/css/nucleo.css";
 import "assets/vendor/font-awesome/css/font-awesome.min.css";
 import "assets/scss/argon-design-system-react.scss?v1.1.0";
 
+import PrivateRoute from "views/helper/PrivateRoute";
+import PublicRoute from "views/helper/PublicRoute";
 import Index from "views/Index.js";
 import Guide from "views/Guide.js";
 import Algorithm from "views/Algorithm.js";
 import Landing from "views/examples/Landing.js";
-import Login from "views/examples/Login.js";
-import Profile from "views/examples/Profile.js";
-import Register from "views/examples/Register.js";
-import Mission from "views/mission/daily.js";
-import Mission2 from "views/mission/m-profile.js";
+import Login from "views/user/Login.js";
+import Profile from "views/user/Profile.js";
+import ProfileEdit from 'views/user/ProfileEdit';
+import Register from "views/user/Register.js";
+import DailyMission from "views/mission/DailyMission.js";
+import MissionProfile from "views/mission/MissionProfile.js";
 import WeeklyCalendar from "views/calendar/WeeklyCalendar.js";
 import MonthlyCalendar from "views/calendar/MonthlyCalendar.js";
 
@@ -40,41 +43,41 @@ ReactDOM.render(
   <BrowserRouter>
     <Switch>
       <Route path="/" exact render={props => <Index {...props} />} />
-      <Route
-        path="/landing-page"
-        exact
-        render={props => <Landing {...props} />}
-      />
-      <Route path="/login-page" exact render={props => <Login {...props} />} />
-      <Route
+      <PublicRoute path="/login-page" exact component={Login} />
+      <PrivateRoute
         path="/profile-page"
         exact
-        render={props => <Profile {...props} />}
+        component={Profile}
       />
-      <Route
+      <PrivateRoute
+        path="/profileedit-page"
+        exact
+        component={ProfileEdit}
+      />
+      <PublicRoute
         path="/register-page"
         exact
-        render={props => <Register {...props} />}
+        component={Register}
       />
-      <Route
-        path="/daily-mission-page"
+      <PrivateRoute
+        path="/dailymission-page"
         exact
-        render={props => <Mission {...props} />}
+        component={DailyMission}
       />
-      <Route
-        path="/mission-profile-page"
+      <PrivateRoute
+        path="/missionprofile-page"
         exact
-        render={props => <Mission2 {...props} />}
+        component={MissionProfile}
       />
-      <Route
+      <PrivateRoute
         path="/weeklycalendar-page"
         exact
-        render={props => <WeeklyCalendar {...props} />}
+        component={WeeklyCalendar}
       />
-      <Route
+      <PrivateRoute
         path="/monthlycalendar-page"
         exact
-        render={props => <MonthlyCalendar {...props} />}
+        component={MonthlyCalendar}
       />
       <Route
         path="/guide-page"

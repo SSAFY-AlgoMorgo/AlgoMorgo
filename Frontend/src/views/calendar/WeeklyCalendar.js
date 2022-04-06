@@ -1,27 +1,17 @@
 import React from "react";
-
+import axios from 'axios';
 // reactstrap components
 import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  FormGroup,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   Container,
-  Row,
-  Col
 } from "reactstrap";
 
 // core components
 import DemoNavbar from "components/Navbars/DemoNavbar.js";
 
 // index page sections
-import Download from "../IndexSections/Download.js";
+
+import MyWeekMission from "views/IndexSections/MyWeekMission.js";
+import MyWeekSchedule from "views/IndexSections/MyWeekSchedule.js";
 
 class WeeklyCalendar extends React.Component {
   state = {};
@@ -29,6 +19,7 @@ class WeeklyCalendar extends React.Component {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.main.scrollTop = 0;
+    
   }
   render() {
     return (
@@ -59,13 +50,18 @@ class WeeklyCalendar extends React.Component {
                 </div>
               </Container>
             </section>
-            {/* 1st Hero Variation */}
+            <section>
+              <Container>
+                <MyWeekMission />
+                <MyWeekSchedule />
+              </Container>
+            </section>
           </div>
           
 
 
         </main>
-        {/* <SimpleFooter /> */}
+        
       </>
     );
   }
