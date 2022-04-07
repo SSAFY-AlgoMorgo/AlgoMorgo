@@ -6,7 +6,8 @@ import {
   CardBody,
   Row,
   Col,
-  Button
+  Button,
+  Container
 } from "reactstrap";
 
 
@@ -88,23 +89,28 @@ function MyMonthMission() {
             <Card className="shadow my-4" style={{ width: "100%" }}>
               <CardBody className="px-5" >
                 <Row className="py-3 align-items-center">
-                  <Col sm="3">
-                    <h6 h6 className='font-weight-bold'>{ mission.problemDto.problemNum}</h6>
+                  <Col sm="2">
+                    <h5 h6 className='font-weight-bold'>{ mission.problemDto.problemNum}</h5>
                   </Col>
-                  <Col sm="3">
-                    <h6 className='font-weight-bold'>{mission.problemDto.problemName}</h6>
+                  <Col sm="4">
+                    <h5 className='font-weight-bold'>{mission.problemDto.problemName}</h5>
                   </Col>
-                  <Col sm="3">
-                    { 
-                      mission.successDate !== null
-                        ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
-                        : <Badge className="text-uppercase ml-1" color="danger" pill>
-                        x
-                      </Badge>
-                    }
+                  <Col sm="2">
+                    <Container>
+                      <h3>
+                        { 
+                        mission.successDate !== null
+                          ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
+                          : <Badge className="text-uppercase ml-1" color="danger" pill>
+                          x
+                        </Badge>
+                        }
+                      </h3>
+                    </Container>
+
                   </Col>
-                  <Col sm="3">
-                    <h6 className='font-weight-bold'>정답률: {mission.problemDto.problemAnswer}</h6>
+                  <Col sm="4">
+                    <h5 className='font-weight-bold'>정답률: {mission.problemDto.problemAnswer}</h5>
                   </Col>
                 </Row>
               </CardBody>
