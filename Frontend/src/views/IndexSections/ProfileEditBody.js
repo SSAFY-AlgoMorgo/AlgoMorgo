@@ -78,11 +78,11 @@ function ProfileEditBody() {
         window.location.replace("/login-page")
       }).catch(error =>{
         if(error.response.status == 400){
-          alert("400 error")
+          alert("닉네임이 잘못되었습니다.")
           return
         }
-        if(error.response.status == 403){
-          alert("403 error")
+        if(error.response.status == 304){
+          alert("회원 수정에 실패했습니다.")
           return
         }
       })
