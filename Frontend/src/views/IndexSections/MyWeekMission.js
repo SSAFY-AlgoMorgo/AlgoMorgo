@@ -123,12 +123,12 @@ function MyWeekMission() {
             <Col sm="6">
               <h6 className='font-weight-bold'>참여일 수: {participation}일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
-              <table className='table-bordered' style={{ width: "100%" }}>
+              <table className='table-bordered' style={{ width: "100%" ,textAlign:"center"}}>
                 <thead>
                   <tr>
                     <th>문제</th>
                     <th>문제 제목</th>
-                    <th>제출</th>
+                    <th>정답</th>
                     <th>미션 생성일</th>
                   </tr>
                 </thead>
@@ -159,7 +159,7 @@ function MyWeekMission() {
               <h6 className='mt-3 font-weight-bold'>지난 미션</h6>
               
               <div style={ {width:"100%",height:"150px",overflow:"auto"}}>
-                <table className='table-bordered' style={{ width: "100%" }}>
+                <table className='table-bordered' style={{ width: "100%" ,textAlign:"center"}}>
                   <thead>
                     <tr>
                       <th>문제</th>
