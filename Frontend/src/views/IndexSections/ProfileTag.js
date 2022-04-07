@@ -85,15 +85,20 @@ function ProfileTag() {
                   ))}
                 </div>
               )}
-              <Button
-                style={{
-                }}
+              <center>
+                <a 
+                className="mt-3"
+                style={{ cursor: "pointer" }}
                 onClick={() => {
-                  setVisible(!visible);
-                }}
-              >
-                {visible ? "접기" : "더보기"}
-              </Button>
+                    setVisible(!visible);
+                  }}
+                >
+                  <h6 className="font-weight-bold">
+                   {visible ? "접기" : "더보기"}
+                  </h6>
+                </a>
+                
+              </center>
 
               {/* 해볼 예정 */}
               {/* <div className="mt-3">
