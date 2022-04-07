@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Badge from 'reactstrap/lib/Badge';
 import {
   Card,
   CardBody,
@@ -75,7 +76,7 @@ function MyMonthMission() {
       <Row className="py-3 align-items-top">
         <Col sm="3">
           {dates.map((date) =>
-            <Button onClick={() => setMission(date)} style={{ width: "100%" }} className='font-weight-bold text-primary mb-3'>{date}</Button>
+            <Button onClick={() => setMission(date)} className='font-weight-bold text-primary mb-3'>{date}</Button>
           )}
         </Col>
         <Col sm="9">
@@ -94,7 +95,13 @@ function MyMonthMission() {
                     <h6 className='font-weight-bold'>{mission.problemDto.problemName}</h6>
                   </Col>
                   <Col sm="3">
-                    <h6 className='font-weight-bold'>제출: {mission.problemDto.problemSubmit}번</h6>
+                    { 
+                      mission.successDate !== null
+                        ? <Badge className="text-uppercase ml-1" color="success" pill>O</Badge>
+                        : <Badge className="text-uppercase ml-1" color="danger" pill>
+                        x
+                      </Badge>
+                    }
                   </Col>
                   <Col sm="3">
                     <h6 className='font-weight-bold'>정답률: {mission.problemDto.problemAnswer}</h6>
