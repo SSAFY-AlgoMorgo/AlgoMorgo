@@ -20,7 +20,7 @@ public class Mission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long missionId;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
 
     @Column(name = "success_date")

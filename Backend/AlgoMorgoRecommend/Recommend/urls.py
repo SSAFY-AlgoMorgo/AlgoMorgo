@@ -3,5 +3,7 @@ from . import views
 
 app_name = 'Recommend'
 urlpatterns = [
-    path('<str:userId>', views.recommendProblem),
+    path('one/<str:userId>', views.recommendProblemOne, name='recommend_problem_one'),
+    path('all',views.recommendProblemAll),
+    path('updatefiles',views.updateFiles)
 ]

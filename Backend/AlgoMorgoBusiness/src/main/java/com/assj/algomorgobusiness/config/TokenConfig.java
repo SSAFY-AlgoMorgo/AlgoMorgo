@@ -1,6 +1,6 @@
 package com.assj.algomorgobusiness.config;
 
-
+import com.assj.algomorgobusiness.exception.BadRequest;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -55,12 +55,14 @@ public class TokenConfig implements InitializingBean {
         String JWT = Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setSubject(authentication.getName())
-                .setIssuer("C204")//발급자
-//                .setIssuedAt(new Date()) //발급 시간인데, setExpiration으로 종료시간을 알릴 때, 발급 시간을 알 수 있다.
-                .claim(AUTHORITIES_KEY, authrities)
-                .claim("language",map.get("language"))
-                .claim("nickName",map.get("nickName"))
-                .claim("baekjoonId",map.get("baekjoonId"))
+                .setIssuer("C204")// 발급자
+                // .setIssuedAt(new Date()) //발급 시간인데, setExpiration으로 종료시간을 알릴 때, 발급 시간을 알 수
+                // 있다.
+                .claim(AUTHORITIES_KEY+map.get("userId"), authrities)
+                .claim("userId",map.get("userId"))
+                .claim("language", map.get("language"))
+                .claim("nickName", map.get("nickName"))
+                .claim("baekjoonId", map.get("baekjoonId"))
                 .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(validity)
                 .compact();
@@ -68,17 +70,19 @@ public class TokenConfig implements InitializingBean {
 
     }
 
-    public Authentication getAuthentication(String token){
+    public Authentication getAuthentication(String token, String userId){
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+        if(!claims.get("userId").equals(userId))
+            throw new BadRequest();
+        Collection<? extends GrantedAuthority> authorities = Arrays
+                .stream(claims.get(AUTHORITIES_KEY+userId).toString().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
         User principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

@@ -28,13 +28,13 @@ public class User {
     @Column(name = "language", length = 10)
     private String language;
 
-    @Column(name = "nickname", nullable = false, length = 50)
+    @Column(name = "nickname", nullable = false, unique = true, length = 50)
     private String nickName;
 
-    @Column(name = "baekjoon_id", length = 50)
+    @Column(name = "baekjoon_id", nullable = false, length = 50)
     private String baekjoonId;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
