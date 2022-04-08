@@ -1,27 +1,27 @@
 import React, { useCallback, useState, useEffect } from "react";
 import axios from "axios";
 
-
 // reactstrap components
-import {
-  Card,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
+import { Button, Card, Container, Row, Col } from "reactstrap";
 
 function ProfileTag() {
   const HEADER = {
     headers: {
-      Authorization: "Bearer "+localStorage.getItem("Authorization"),
+      Authorization: "Bearer " + localStorage.getItem("Authorization"),
     },
   };
 
   const [tagList, setTagList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
-  const getTag = async() => {
+  const getTag = async () => {
     await axios
-      .get("http://j6c204.p.ssafy.io:8081/v1/user/"+localStorage.getItem("userId"), HEADER)
+      .get(
+        "http://j6c204.p.ssafy.io:8081/v1/user/" +
+          localStorage.getItem("userId"),
+        HEADER
+      )
       .then((response) => {
         setTagList(response.data.userSolvedInfo);
       })
@@ -32,63 +32,80 @@ function ProfileTag() {
 
   useEffect(() => {
     getTag();
+    setLoading(false);
   }, []);
 
   let index = [];
   let myTagList = [];
-  for (let x in tagList) { 
-    index.push(x); 
+  for (let x in tagList) {
+    index.push(x);
   }
-  for(let i = 0; i<Object.keys(tagList).length; i++){
+  for (let i = 0; i < Object.keys(tagList).length; i++) {
     myTagList.push(tagList[index[i]]);
   }
 
-  
-    return (
-      <>
-          <Container>
-            <Card className="card-profile bg-secondary mt-0">
-              <div>
-                <p className="h7 mt-3 ml-4 font-weight-bold"><i class="ni ni-tag"></i> 태그 분포</p>
-              </div>
-              <Row className="py-3 align-items-center">
-                <Col sm="12">
-                <div className="ml-5">
-                  <Row>
-                    <Col className="font-weight-bold ml-3">
+  return (
+    <>
+      <Container>
+        <Card className="card-profile bg-secondary mt-0">
+          <div>
+            <p className="h7 mt-3 ml-4 font-weight-bold">
+              <i class="ni ni-tag"></i> 태그 분포
+            </p>
+          </div>
+          <Row className="py-3 align-items-center">
+            <Col sm="12">
+              <div className="ml-5">
+                <Row>
+                  <Col className="font-weight-bold ml-3">
                     <h7>태그</h7>
-                    </Col>
-                    <Col className="font-weight-bold text-right mr-6">
+                  </Col>
+                  <Col className="font-weight-bold text-right mr-6">
                     <h7>빈도수</h7>
-                    </Col>
-                  </Row>
+                  </Col>
+                </Row>
+              </div>
+              <hr width="90%" />
+              {loading ? (
+                <div>
+                  .............. 로딩중 ..............
                 </div>
-                <hr width="90%" />
-
-                {myTagList.map(
-                  (tag, idx) => (
-                    <div className="ml-5">
-                      <Row>
-                        
-                        <Col className="font-weight-bold ml-3">
+              ) : (
+                <div className="ml-5">
+                  {myTagList.map((tag, idx) => 
+                  (visible ? idx < idx+1 : idx < 10) && (
+                    <Row>
+                      <Col className="font-weight-bold ml-3">
                         <h7>{tag.algorithmKor}</h7>
-                        </Col>
-                        <Col className="font-weight-bold text-right mr-6">
+                      </Col>
+                      <Col className="font-weight-bold text-right mr-6">
                         <h7>{tag.cnt}</h7>
-                        </Col>
-                      </Row>
-                    </div>
-                  )
-                )}
-                  
-                {/* 해볼 예정 */}
-                {/* <div className="mt-3">
+                      </Col>
+                    </Row>
+                  ))}
+                </div>
+              )}
+              <center>
+                <a 
+                className="mt-3"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                    setVisible(!visible);
+                  }}
+                >
+                  <h6 className="font-weight-bold">
+                   {visible ? "접기" : "더보기"}
+                  </h6>
+                </a>
+                
+              </center>
+
+              {/* 해볼 예정 */}
+              {/* <div className="mt-3">
                   <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 더보기</p>
                 </div> */}
 
-                
-
-                {/* <details className="my-4">
+              {/* <details className="my-4">
                   <summary>
                     <p className="h7 text-center font-weight-bold"><i class="ni ni-bold-down"></i> 더보기</p>
                   </summary>
@@ -108,22 +125,14 @@ function ProfileTag() {
 
                   </div>
                 </details> */}
+            </Col>
+          </Row>
 
-                
-
-
-
-                </Col>
-              </Row>
-            
-            <br />
-
-
-            </Card>
-          </Container>
-
-      </>
-    );
-  }
+          <br />
+        </Card>
+      </Container>
+    </>
+  );
+}
 
 export default ProfileTag;

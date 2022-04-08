@@ -53,7 +53,7 @@ class Index extends React.Component {
           <section className="section my-5">
             <Container>
               <h3 className="font-weight-bold">확실한 목표 수립으로 코딩 열정 충전!</h3>
-              <h3 className="font-weight-bold">일일 미션 문제 풀고 실력 Up! 명예 보상까지</h3>
+              <h3 className="font-weight-bold">일일 미션 문제 풀고 실력 Up!</h3>
               <img
                 alt="..."
                 className="img-fluid rounded shadow my-4"

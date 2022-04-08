@@ -41,13 +41,16 @@ function MyMonthMission() {
   let curMonth = curTime.getMonth() + 1;
   let curDate = curTime.getDate();
   function setValues(year, month) {
+    let date = new Date();
     if (year === 0 && month === 0) {
-      let date = new Date();
       year = date.getFullYear();
       month = date.getMonth()+1;
     }
     setYear(year);
     setMonth(month);
+    let isSame = false;
+    if (year === date.getFullYear() && month === date.getMonth() + 1)
+      isSame = true;
     let total = new Set();
     let participate = new Set();
     let correct = 0;
@@ -63,15 +66,17 @@ function MyMonthMission() {
         "Authorization": "Bearer "+userJWT
       },
     }).then(res => {
-      totalCount += res.data.length;
       setTodayMissions(res.data);
-      for (let m = 0; m < res.data.length; m++) {
-        let tmpDate = res.data[m].createDate.slice(0, 10);
-        total.add(tmpDate);
-        if (res.data[m].successDate != null) {
-          participate.add(tmpDate);
-          correct++;
-        }
+      if (isSame) {
+        totalCount += res.data.length;
+        for (let m = 0; m < res.data.length; m++) {
+          let tmpDate = res.data[m].createDate.slice(0, 10);
+          total.add(tmpDate);
+          if (res.data[m].successDate != null) {
+            participate.add(tmpDate);
+            correct++;
+          }
+        }  
       }
     }).then(res => {
       axios.get(urlForMonth, {
@@ -189,12 +194,12 @@ function MyMonthMission() {
             <Col sm="6">
               <h6 className='font-weight-bold'>참여일 수: {participation}일</h6>
               <h6 className='mt-3 font-weight-bold'>오늘의 미션</h6>
-              <table className='table-bordered' style={{ width: "100%" }}>
+              <table className='table-bordered' style={{ width: "100%" , textAlign:"center"}}>
                 <thead>
                   <tr>
                     <th>문제</th>
                     <th>문제 제목</th>
-                    <th>제출</th>
+                    <th>정답</th>
                     <th>미션 생성일</th>
                   </tr>
                 </thead>
@@ -222,7 +227,7 @@ function MyMonthMission() {
               <h6 className='font-weight-bold'>정답 비율: {solveRate}%</h6>
               <h6 className='mt-3 font-weight-bold'> 미션</h6>
               <div style={ {width:"100%",height:"150px",overflow:"auto"}}>
-                <table className='table-bordered' style={{ width: "100%"}} >
+                <table className='table-bordered' style={{ width: "100%", textAlign:"center"}} >
                   <thead>
                     <tr>
                       <th>문제</th>
@@ -258,7 +263,7 @@ function MyMonthMission() {
           </Row>
         </CardBody>
       </Card>
-      <Calendar onChange={onChange} value={value} calendarType="US" className="mb-5"/>
+      <Calendar onChange={onChange} value={value} calendarType="US" className="mb-5" />
       <Modal
         className="modal-dialog-centered"
         isOpen={visible}
@@ -282,7 +287,7 @@ function MyMonthMission() {
           {selectedMission.length === 0
             ? "해당 날짜에 미션이 없습니다."
             :
-            <table className='table-bordered' style={{ width: "100%" }}>
+            <table className='table-bordered' style={{ width: "100%", textAlign:"center"}}>
               <thead>
                 <tr>
                   <th>문제</th>
