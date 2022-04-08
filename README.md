@@ -41,6 +41,7 @@
 
 
 ### 알고리즘 소개
+
 | 저희 문제 추천 알고리즘은 크게 다섯 단계로 구분됩니다.
 
 ![](https://lab.ssafy.com/s06-bigdata-rec-sub2/S06P22C204/-/raw/dev/image/RecommendAlgorithm1.png)
